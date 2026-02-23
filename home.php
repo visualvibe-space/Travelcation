@@ -3316,7 +3316,7 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
               <div class="collapse navbar-collapse" id="navbarNav">
                   <ul class="navbar-nav ms-auto">
                       <li class="nav-item">
-                          <a class="nav-link active" href="#home">Home</a>
+                          <a class="nav-link active" href="home.php">Home</a>
                       </li>
                       <li class="nav-item">
                           <a class="nav-link" href="aboutus.php">About</a>
@@ -3334,7 +3334,7 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
                     </li>
                       
                       <li class="nav-item">
-                          <a class="nav-link" href="#contact-section">Contact</a>
+                          <a class="nav-link" href="home.php#contact-section">Contact</a>
                       </li>
                       <li class="nav-item">
                         <a class="nav-link" href="submit_feedback.php">Submit Feedback</a>
@@ -3790,14 +3790,7 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
                   <i class="fas fa-check-circle text-success me-2"></i>
                   <span><strong>Business Visa Services</strong> - Corporate travel visas</span>
                 </div>
-                <div class="service-item">
-                  <i class="fas fa-check-circle text-success me-2"></i>
-                  <span><strong>Student Visa Assistance</strong> - Study abroad visas</span>
-                </div>
-                <div class="service-item">
-                  <i class="fas fa-check-circle text-success me-2"></i>
-                  <span><strong>Family / Visit Visa</strong> - Visiting friends/family</span>
-                </div>
+              
                 <div class="service-item">
                   <i class="fas fa-check-circle text-success me-2"></i>
                   <span><strong>Visa Documentation & Processing</strong> - Complete paperwork help</span>
@@ -3806,14 +3799,7 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
                   <i class="fas fa-check-circle text-success me-2"></i>
                   <span><strong>Urgent / Express Visa Services</strong> - Fast-track processing</span>
                 </div>
-                <div class="service-item">
-                  <i class="fas fa-check-circle text-success me-2"></i>
-                  <span><strong>Visa Renewal & Extension</strong> - Extend your stay</span>
-                </div>
-                <div class="service-item">
-                  <i class="fas fa-check-circle text-success me-2"></i>
-                  <span><strong>Visa Rejection Handling</strong> - Re-application assistance</span>
-                </div>
+                
               </div>
 
               <!-- Action Buttons -->
@@ -3836,12 +3822,10 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
                       <option value="">Choose a service...</option>
                       <option value="Tourist Visa">Tourist Visa Assistance</option>
                       <option value="Business Visa">Business Visa Services</option>
-                      <option value="Student Visa">Student Visa Assistance</option>
-                      <option value="Family Visa">Family / Visit Visa</option>
+                    
                       <option value="Visa Documentation">Visa Documentation & Processing</option>
                       <option value="Urgent Visa">Urgent / Express Visa Services</option>
-                      <option value="Visa Renewal">Visa Renewal & Extension</option>
-                      <option value="Visa Rejection">Visa Rejection Handling</option>
+                     
                     </select>
                   </div>
                   <div class="mb-3">
@@ -4434,8 +4418,8 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
                     <ul class="contact-info">
                         <li><i class="fas fa-map-marker-alt"></i> 214, Oberon, Opp. Mercedes-Benz Showroom, New City Light Road, Surat – 395017</li>
                         <li><i class="fas fa-phone"></i> +91-90331 86905</li>
-                        <li><i class="fas fa-envelope"></i> travelcation.co.in</li>
-                        <li><i class="fas fa-clock"></i> Mon-Sun: 9:00 AM - 8:00 PM</li>
+                        <li><i class="fas fa-envelope"></i>info@travelcation.co.in</li>
+                        <li><i class="fas fa-clock"></i> Mon-Sat: 11:00 AM - 8:00 PM</li>
                     </ul>
                 </div>
                 

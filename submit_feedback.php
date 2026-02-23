@@ -967,7 +967,7 @@ $avg_rating = $rating_stats['avg_rating'] ? number_format($rating_stats['avg_rat
               <div class="collapse navbar-collapse" id="navbarNav">
                   <ul class="navbar-nav ms-auto">
                       <li class="nav-item">
-                          <a class="nav-link active" href="#home">Home</a>
+                          <a class="nav-link " href="home.php">Home</a>
                       </li>
                       <li class="nav-item">
                           <a class="nav-link" href="aboutus.php">About</a>
@@ -977,18 +977,18 @@ $avg_rating = $rating_stats['avg_rating'] ? number_format($rating_stats['avg_rat
                         Explore
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink123">
-                        <a class="dropdown-item" href="#packages">Packages</a>
-                        <a class="dropdown-item" href="#hotels">Hotels</a>
+                        <a class="dropdown-item" href="home.php#packages">Packages</a>
+                        <a class="dropdown-item" href="home.php#hotels">Hotels</a>
                         <a class="dropdown-item" href="offers.php">Exclusive Offers</a>
                         <a class="dropdown-item" href="alldestinations.php">Destinations</a>
                         </div>
                     </li>
                       
                       <li class="nav-item">
-                          <a class="nav-link" href="#contact-section">Contact</a>
+                          <a class="nav-link" href="home.php#contact-section">Contact</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" href="submit_feedback.php">Submit Feedback</a>
+                        <a class="nav-link active" href="submit_feedback.php">Submit Feedback</a>
                     </li>
                   </ul>
                   <button class="btn btn-primary ms-lg-3 mt-3 mt-lg-0" data-bs-toggle="modal" data-bs-target="#enquiryModal">
@@ -1394,8 +1394,8 @@ $avg_rating = $rating_stats['avg_rating'] ? number_format($rating_stats['avg_rat
                     <ul class="contact-info">
                         <li><i class="fas fa-map-marker-alt"></i> 214, Oberon, Opp. Mercedes-Benz Showroom, New City Light Road, Surat – 395017</li>
                         <li><i class="fas fa-phone"></i> +91-90331 86905</li>
-                        <li><i class="fas fa-envelope"></i> travelcation.co.in</li>
-                        <li><i class="fas fa-clock"></i> Mon-Sun: 9:00 AM - 8:00 PM</li>
+                        <li><i class="fas fa-envelope"></i>info@travelcation.co.in</li>
+                        <li><i class="fas fa-clock"></i> Mon-Sat: 11:00 AM - 8:00 PM</li>
                     </ul>
                 </div>
                 

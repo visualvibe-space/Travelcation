@@ -1148,7 +1148,7 @@ $carousel_images = $pdo->query("SELECT * FROM hero_carousel WHERE is_active = 1 
 <!-- Video Section -->
 <section class="video-section">
     <video autoplay muted loop playsinline class="bg-video">
-        <source src="uploads/beach.mp4" type="video/mp4">
+        <source src="uploads/329674_small.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
 

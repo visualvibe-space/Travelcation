@@ -603,9 +603,182 @@
                 margin: 0.5rem 0;
             }
         }
+        /* ================= PRELOADER STYLES ================= */
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--primary-color), var(--dark-color));
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+}
+
+#preloader.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.preloader-content {
+    text-align: center;
+    max-width: 500px;
+    padding: 2rem;
+}
+
+.preloader-gif {
+    width: 200px;
+    height: auto;
+    margin-bottom: 2rem;
+    animation: float 3s ease-in-out infinite;
+}
+
+.preloader-text {
+    color: var(--white);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, var(--secondary-color), var(--accent-color), var(--white));
+    background-size: 200% auto;
+    background-clip: text;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+    animation: gradient 3s linear infinite;
+}
+
+.preloader-progress {
+    width: 300px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 0 auto 1.5rem;
+}
+
+.preloader-progress-bar {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+    border-radius: 10px;
+    animation: progress 2.5s ease-in-out forwards;
+}
+
+.preloader-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.preloader-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--white);
+    border-radius: 50%;
+    opacity: 0.5;
+    animation: dotPulse 1.5s ease-in-out infinite;
+}
+
+.preloader-dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.preloader-dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes float {
+    0%, 100% { 
+        transform: translateY(0) scale(1); 
+    }
+    50% { 
+        transform: translateY(-15px) scale(1.05); 
+    }
+}
+
+@keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes progress {
+    0% { width: 0%; }
+    20% { width: 20%; }
+    40% { width: 40%; }
+    60% { width: 60%; }
+    80% { width: 80%; }
+    100% { width: 100%; }
+}
+
+@keyframes dotPulse {
+    0%, 100% { 
+        transform: scale(1); 
+        opacity: 0.5; 
+    }
+    50% { 
+        transform: scale(1.5); 
+        opacity: 1; 
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .preloader-gif {
+        width: 150px;
+    }
+    
+    .preloader-text {
+        font-size: 1.2rem;
+    }
+    
+    .preloader-progress {
+        width: 250px;
+    }
+}
+
+@media (max-width: 576px) {
+    .preloader-gif {
+        width: 120px;
+    }
+    
+    .preloader-progress {
+        width: 200px;
+    }
+    
+    .preloader-text {
+        font-size: 1rem;
+    }
+}
     </style>
 </head>
 <body>
+    <!-- Preloader with Logo Animation GIF -->
+<div id="preloader">
+    <div class="preloader-content">
+        <!-- Your Animated Logo GIF -->
+        <img src="uploads/your-logo-animation.gif" alt="Travelcation" class="preloader-gif">
+        
+        <!-- Loading Text -->
+        <div class="preloader-text">Loading Amazing Journeys...</div>
+        
+        <!-- Progress Bar -->
+        <div class="preloader-progress">
+            <div class="preloader-progress-bar"></div>
+        </div>
+        
+        <!-- Animated Dots -->
+        <div class="preloader-dots">
+            <div class="preloader-dot"></div>
+            <div class="preloader-dot"></div>
+            <div class="preloader-dot"></div>
+        </div>
+    </div>
+</div>
     <!-- Top CTA Header -->
     <div class="top-cta" id="topCta">
         <div class="container d-flex justify-content-between align-items-center">
@@ -810,6 +983,28 @@
                 }
             });
         });
+        // Preloader functionality
+window.addEventListener('load', function() {
+    // Wait for everything to load
+    setTimeout(function() {
+        const preloader = document.getElementById('preloader');
+        if (preloader) {
+            preloader.classList.add('hidden');
+            
+            // Optional: Remove preloader from DOM after animation
+            setTimeout(function() {
+                preloader.style.display = 'none';
+            }, 800);
+        }
+    }, 2500); // Adjust time as needed (2500ms = 2.5 seconds)
+});
+
+// Alternative: Hide preloader when page is fully loaded
+// This will hide immediately when everything is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // You can use this if you don't want a minimum display time
+    // But better to use the load event above
+});
     </script>
     
     <!-- Optional Bootstrap JS for dropdowns -->

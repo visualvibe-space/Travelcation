@@ -1,8 +1,10 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 $host = "localhost";
 $dbname = "u677332555_travelcation";
 $username = "u677332555_travel_user701";
-$password = "Visualvibe@7906546";
+$password = "Travelcation@7906546";
 
 try {
     $pdo = new PDO(

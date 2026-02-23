@@ -3258,7 +3258,7 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
 <div id="preloader">
     <div class="preloader-content">
         <!-- Your Animated Logo GIF -->
-        <img src="uploads/your-logo-animation.gif" alt="Travelcation" class="preloader-gif">
+        <img src="uploads/logogi.gif" alt="Travelcation" class="preloader-gif">
         
         <!-- Loading Text -->
         <div class="preloader-text">Loading Amazing Journeys...</div>

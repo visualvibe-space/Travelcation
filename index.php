@@ -728,11 +728,11 @@
                 <div class="col-lg-2 col-md-6">
                     <h3 class="footer-title">Quick Links</h3>
                     <ul class="footer-links">
-                        <li><a href="#home"><i class="fas fa-chevron-right"></i> Home</a></li>
-                        <li><a href="#about"><i class="fas fa-chevron-right"></i> About Us</a></li>
-                        <li><a href="#packages"><i class="fas fa-chevron-right"></i> Packages</a></li>
-                        <li><a href="#hotels"><i class="fas fa-chevron-right"></i> Hotels</a></li>
-                        <li><a href="#contact"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                        <li><a href="home.php"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="aboutus.php"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                        <li><a href="home.php#packages"><i class="fas fa-chevron-right"></i> Packages</a></li>
+                        <li><a href="home.php#hotels"><i class="fas fa-chevron-right"></i> Hotels</a></li>
+                        <li><a href="home.php#contact"><i class="fas fa-chevron-right"></i> Contact</a></li>
                     </ul>
                 </div>
                 
@@ -759,7 +759,7 @@
             </div>
             
             <div class="copyright">
-                <p>&copy; 2024 ExploreWorld Travel Agency. All rights reserved.</p>
+                <p>&copy; 2026 Travelcation. All rights reserved.</p>
             </div>
         </div>
     </footer>

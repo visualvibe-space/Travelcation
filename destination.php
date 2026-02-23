@@ -104,12 +104,13 @@ $otherDestinations = $otherDestStmt->fetchAll();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= htmlspecialchars($destination['title']) ?> Tours & Hotels | ExploreWorld Travel</title>
+    <title><?= htmlspecialchars($destination['title']) ?> Travelcation</title>
     
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="uploads/lg-tra (1).png">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
     
@@ -912,17 +913,17 @@ body.page-exit {
 </script>
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="index.php">
-                <img src="uploads/lg-tra (1).png" alt="ExploreWorld Travel" class="img-fluid" style="width: 120px; height: 120px;">
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
+          <div class="container">
+              <a class="navbar-brand" href="index.php">
+                  <img src="uploads/lg-tra (1).png" alt="ExploreWorld Travel" class="img-fluid" style="width: 120px; height: 120px;">
+              </a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                  <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNav">
+                  <ul class="navbar-nav ms-auto">
                       <li class="nav-item">
-                          <a class="nav-link" href="home.php">Home</a>
+                          <a class="nav-link active" href="#home">Home</a>
                       </li>
                       <li class="nav-item">
                           <a class="nav-link" href="aboutus.php">About</a>
@@ -932,26 +933,26 @@ body.page-exit {
                         Explore
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink123">
-                        <a class="dropdown-item" href="packages.php">Packages</a>
-                        <a class="dropdown-item" href="hotels.php">Hotels</a>
+                        <a class="dropdown-item" href="#packages">Packages</a>
+                        <a class="dropdown-item" href="#hotels">Hotels</a>
                         <a class="dropdown-item" href="offers.php">Exclusive Offers</a>
-                        <a class="dropdown-item active" href="alldestinations.php">Destinations</a>
+                        <a class="dropdown-item" href="alldestinations.php">Destinations</a>
                         </div>
                     </li>
                       
                       <li class="nav-item">
-                          <a class="nav-link" href="home.php#contact-section">Contact</a>
+                          <a class="nav-link" href="#contact-section">Contact</a>
                       </li>
                       <li class="nav-item">
                         <a class="nav-link" href="submit_feedback.php">Submit Feedback</a>
                     </li>
                   </ul>
-                <button class="btn btn-primary ms-lg-3 mt-3 mt-lg-0" data-bs-toggle="modal" data-bs-target="#enquiryModal">
-                    <i class="fas fa-paper-plane me-2"></i>Quick Enquiry
-                </button>
-            </div>
-        </div>
-    </nav>
+                  <button class="btn btn-primary ms-lg-3 mt-3 mt-lg-0" data-bs-toggle="modal" data-bs-target="#enquiryModal">
+                      <i class="fas fa-paper-plane me-2"></i>Quick Enquiry
+                  </button>
+              </div>
+          </div>
+      </nav>
 
     <!-- =========================
          HERO SECTION

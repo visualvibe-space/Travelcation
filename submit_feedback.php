@@ -178,7 +178,7 @@ $avg_rating = $rating_stats['avg_rating'] ? number_format($rating_stats['avg_rat
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Submit Feedback | ExploreWorld Travel</title>
+    <title>Travelcation</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Share your travel experience with us - your feedback helps us serve you better">
     
@@ -186,6 +186,7 @@ $avg_rating = $rating_stats['avg_rating'] ? number_format($rating_stats['avg_rat
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="uploads/lg-tra (1).png">
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -954,44 +955,48 @@ $avg_rating = $rating_stats['avg_rating'] ? number_format($rating_stats['avg_rat
     </div>
 </div>
 
-<!-- Navigation Bar -->
-<nav class="navbar navbar-expand-lg navbar-light fixed-top">
-    <div class="container">
-        <a class="navbar-brand" href="index.php">
-            <img src="uploads/lg-tra (1).png" alt="ExploreWorld Travel" class="img-fluid" style="width: 120px; height: 120px;">
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="home.php">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="aboutus.php">About</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink123" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+ <!-- Navigation Bar -->
+ <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+          <div class="container">
+              <a class="navbar-brand" href="index.php">
+                  <img src="uploads/lg-tra (1).png" alt="ExploreWorld Travel" class="img-fluid" style="width: 120px; height: 120px;">
+              </a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                  <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNav">
+                  <ul class="navbar-nav ms-auto">
+                      <li class="nav-item">
+                          <a class="nav-link active" href="#home">Home</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="aboutus.php">About</a>
+                      </li>
+                      <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink123" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Explore
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink123">
-                        <a class="dropdown-item" href="packages.php">Packages</a>
-                        <a class="dropdown-item" href="hotels.php">Hotels</a>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink123">
+                        <a class="dropdown-item" href="#packages">Packages</a>
+                        <a class="dropdown-item" href="#hotels">Hotels</a>
                         <a class="dropdown-item" href="offers.php">Exclusive Offers</a>
                         <a class="dropdown-item" href="alldestinations.php">Destinations</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="home.php#contact-section">Contact</a>
-                </li>
-            </ul>
-            <button class="btn btn-primary ms-lg-3 mt-3 mt-lg-0" data-bs-toggle="modal" data-bs-target="#enquiryModal">
-                <i class="fas fa-paper-plane me-2"></i>Quick Enquiry
-            </button>
-        </div>
-    </div>
-</nav>
+                        </div>
+                    </li>
+                      
+                      <li class="nav-item">
+                          <a class="nav-link" href="#contact-section">Contact</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="submit_feedback.php">Submit Feedback</a>
+                    </li>
+                  </ul>
+                  <button class="btn btn-primary ms-lg-3 mt-3 mt-lg-0" data-bs-toggle="modal" data-bs-target="#enquiryModal">
+                      <i class="fas fa-paper-plane me-2"></i>Quick Enquiry
+                  </button>
+              </div>
+          </div>
+      </nav>
 
 <!-- Page Header -->
 <section class="page-header">
@@ -1569,6 +1574,10 @@ $avg_rating = $rating_stats['avg_rating'] ? number_format($rating_stats['avg_rat
         document.body.classList.add("page-loaded");
     });
 </script>
-
+<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>

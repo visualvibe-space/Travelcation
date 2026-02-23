@@ -284,7 +284,7 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
   <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>ExploreWorld Travel Agency | Professional Travel Services</title>
+      <title>Travelcation</title>
       <!-- Bootstrap 5 CSS -->
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
@@ -293,6 +293,7 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
       <!-- Font Awesome -->
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+      <link rel="icon" type="image/png" sizes="32x32" href="uploads/lg-tra (1).png">
       <!-- Google Fonts - Professional Selection -->
       <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
       <style>

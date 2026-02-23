@@ -146,7 +146,7 @@ $carousel_images = $pdo->query("SELECT * FROM hero_carousel WHERE is_active = 1 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title><?= htmlspecialchars($pkg['title']) ?> | ExploreWorld Travel</title>
+    <title><?= htmlspecialchars($pkg['title']) ?> | Travelcation</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="<?= htmlspecialchars(substr($pkg['description'], 0, 150)) ?>">
     
@@ -154,6 +154,7 @@ $carousel_images = $pdo->query("SELECT * FROM hero_carousel WHERE is_active = 1 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="uploads/lg-tra (1).png">
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -1328,19 +1329,19 @@ $carousel_images = $pdo->query("SELECT * FROM hero_carousel WHERE is_active = 1 
     </div>
 </div>
 
-<!-- Navigation Bar -->
-<nav class="navbar navbar-expand-lg navbar-light fixed-top">
-    <div class="container">
-        <a class="navbar-brand" href="index.php">
-            <img src="uploads/lg-tra (1).png" alt="ExploreWorld Travel" class="img-fluid"style="width: 120px; height: 120px;">
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
+ <!-- Navigation Bar -->
+ <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+          <div class="container">
+              <a class="navbar-brand" href="index.php">
+                  <img src="uploads/lg-tra (1).png" alt="ExploreWorld Travel" class="img-fluid" style="width: 120px; height: 120px;">
+              </a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                  <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNav">
+                  <ul class="navbar-nav ms-auto">
                       <li class="nav-item">
-                          <a class="nav-link" href="home.php">Home</a>
+                          <a class="nav-link active" href="#home">Home</a>
                       </li>
                       <li class="nav-item">
                           <a class="nav-link" href="aboutus.php">About</a>
@@ -1350,26 +1351,26 @@ $carousel_images = $pdo->query("SELECT * FROM hero_carousel WHERE is_active = 1 
                         Explore
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink123">
-                        <a class="dropdown-item active" href="packages.php">Packages</a>
-                        <a class="dropdown-item" href="hotels.php">Hotels</a>
+                        <a class="dropdown-item" href="#packages">Packages</a>
+                        <a class="dropdown-item" href="#hotels">Hotels</a>
                         <a class="dropdown-item" href="offers.php">Exclusive Offers</a>
                         <a class="dropdown-item" href="alldestinations.php">Destinations</a>
                         </div>
                     </li>
                       
                       <li class="nav-item">
-                          <a class="nav-link" href="home.php#contact-section">Contact</a>
+                          <a class="nav-link" href="#contact-section">Contact</a>
                       </li>
                       <li class="nav-item">
                         <a class="nav-link" href="submit_feedback.php">Submit Feedback</a>
                     </li>
                   </ul>
-            <button class="btn btn-primary ms-lg-3 mt-3 mt-lg-0" data-bs-toggle="modal" data-bs-target="#enquiryModal">
-                <i class="fas fa-paper-plane me-2"></i>Quick Enquiry
-            </button>
-        </div>
-    </div>
-</nav>
+                  <button class="btn btn-primary ms-lg-3 mt-3 mt-lg-0" data-bs-toggle="modal" data-bs-target="#enquiryModal">
+                      <i class="fas fa-paper-plane me-2"></i>Quick Enquiry
+                  </button>
+              </div>
+          </div>
+      </nav>
 
 <!-- Package Hero Banner -->
 <section class="package-hero-banner">

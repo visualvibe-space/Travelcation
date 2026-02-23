@@ -710,12 +710,13 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer id="contact">
+    
+      <!-- Footer -->
+      <footer id="contact">
         <div class="container">
             <div class="row g-4">
                 <div class="col-lg-4 col-md-6">
-                    <h3 class="footer-title">ExploreWorld Travel</h3>
+                    <h3 class="footer-title">Travelcation</h3>
                     <p class="mb-3 text-white-50">Your trusted partner for creating unforgettable travel experiences with personalized service and expert guidance.</p>
                     <div class="social-links">
                         <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>

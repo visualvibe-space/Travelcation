@@ -1357,60 +1357,60 @@ $avg_rating = $rating_stats['avg_rating'] ? number_format($rating_stats['avg_rat
     </div>
 </div>
 
-<!-- Footer -->
-<footer>
-    <div class="container">
-        <div class="row g-4">
-            <div class="col-lg-4 col-md-6">
-                <h3 class="footer-title">ExploreWorld Travel</h3>
-                <p>Your trusted partner for creating unforgettable travel experiences with personalized service and expert guidance.</p>
-                <div class="social-links">
-                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
-                </div>
-            </div>
-            
-            <div class="col-lg-2 col-md-6">
-                <h3 class="footer-title">Quick Links</h3>
-                <ul class="footer-links">
-                    <li><a href="index.php">Home</a></li>
-                    <li><a href="packages.php">Tour Packages</a></li>
-                    <li><a href="hotels.php">Hotel Booking</a></li>
-                    <li><a href="aboutus.php">About Us</a></li>
-                    <li><a href="home.php#contact-section">Contact</a></li>
-                </ul>
-            </div>
-            
-            <div class="col-lg-3 col-md-6">
-                <h3 class="footer-title">Contact Info</h3>
-                <ul class="contact-info">
-                    <li><i class="fas fa-map-marker-alt"></i> 123 Travel Street, City, Country</li>
-                    <li><i class="fas fa-phone"></i> +1 234 567 8900</li>
-                    <li><i class="fas fa-envelope"></i> info@exploreworld.com</li>
-                    <li><i class="fas fa-clock"></i> Mon-Sun: 9:00 AM - 8:00 PM</li>
-                </ul>
-            </div>
-            
-            <div class="col-lg-3 col-md-6">
-                <h3 class="footer-title">Newsletter</h3>
-                <p>Subscribe to receive exclusive travel deals and updates.</p>
-                <div class="input-group">
-                    <input type="email" class="form-control" placeholder="Your email address">
-                    <button class="btn btn-primary" type="button">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-        
-        <div class="copyright">
-            <p>&copy; <?= date('Y') ?> ExploreWorld Travel Agency. All rights reserved.</p>
-        </div>
-    </div>
-</footer>
 
+      <!-- Footer -->
+      <footer id="contact">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <h3 class="footer-title">Travelcation</h3>
+                    <p class="mb-3 text-white-50">Your trusted partner for creating unforgettable travel experiences with personalized service and expert guidance.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-6">
+                    <h3 class="footer-title">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="home.php"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="aboutus.php"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                        <li><a href="home.php#packages"><i class="fas fa-chevron-right"></i> Packages</a></li>
+                        <li><a href="home.php#hotels"><i class="fas fa-chevron-right"></i> Hotels</a></li>
+                        <li><a href="home.php#contact"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-6">
+                    <h3 class="footer-title">Contact Info</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> 214, Oberon, Opp. Mercedes-Benz Showroom, New City Light Road, Surat – 395017</li>
+                        <li><i class="fas fa-phone"></i> +91-90331 86905</li>
+                        <li><i class="fas fa-envelope"></i> travelcation.co.in</li>
+                        <li><i class="fas fa-clock"></i> Mon-Sun: 9:00 AM - 8:00 PM</li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-6">
+                    <h3 class="footer-title">Newsletter</h3>
+                    <p class="mb-3 text-white-50">Subscribe to receive exclusive travel deals and updates.</p>
+                    <div class="input-group">
+                        <input type="email" class="form-control bg-dark text-white border-secondary" placeholder="Your email address">
+                        <button class="btn btn-primary" type="button">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2026 Travelcation. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 <!-- Back to Top Button -->
 <button class="btn-back-to-top" id="backToTop">
     <i class="fas fa-chevron-up"></i>

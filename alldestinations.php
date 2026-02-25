@@ -28,12 +28,12 @@ foreach ($destinations as $dest) {
     $pkgStmt = $pdo->prepare("SELECT COUNT(*) FROM tour_packages WHERE destination_id = ? AND status = 'Active'");
     $pkgStmt->execute([$dest['id']]);
     $packageCount = $pkgStmt->fetchColumn();
-    
+
     // Count hotels for this destination
     $hotelStmt = $pdo->prepare("SELECT COUNT(*) FROM hotels WHERE destination_id = ? AND status = 'Active'");
     $hotelStmt->execute([$dest['id']]);
     $hotelCount = $hotelStmt->fetchColumn();
-    
+
     $destinationStats[$dest['id']] = [
         'packages' => $packageCount,
         'hotels' => $hotelCount
@@ -52,7 +52,7 @@ if (isset($_SESSION['modal_enquiry_success'])) {
     $modal_enquiry_success = $_SESSION['modal_enquiry_success'];
     $modal_enquiry_message = $_SESSION['modal_enquiry_message'] ?? '';
     $modal_enquiry_error = $_SESSION['modal_enquiry_error'] ?? '';
-    
+
     unset($_SESSION['modal_enquiry_success']);
     unset($_SESSION['modal_enquiry_message']);
     unset($_SESSION['modal_enquiry_error']);
@@ -60,7 +60,7 @@ if (isset($_SESSION['modal_enquiry_success'])) {
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_modal_enquiry'])) {
-    
+
     $full_name = trim($_POST['modal_full_name'] ?? '');
     $email = trim($_POST['modal_email'] ?? '');
     $phone = trim($_POST['modal_phone'] ?? '');
@@ -69,23 +69,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_modal_enquiry'
     $travelers = trim($_POST['modal_travelers'] ?? '');
     $message = trim($_POST['modal_message'] ?? '');
     $source = trim($_POST['source'] ?? 'alldestinations');
-    
+
     // Validation
     $errors = [];
-    if (empty($full_name)) $errors[] = 'Full name is required';
-    if (empty($email)) $errors[] = 'Email is required';
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = 'Valid email is required';
-    if (empty($phone)) $errors[] = 'Phone number is required';
-    if (empty($travel_date)) $errors[] = 'Travel date is required';
-    if (empty($travelers)) $errors[] = 'Number of travelers is required';
-    
+    if (empty($full_name)) {
+        $errors[] = 'Full name is required';
+    }
+    if (empty($email)) {
+        $errors[] = 'Email is required';
+    }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = 'Valid email is required';
+    }
+    if (empty($phone)) {
+        $errors[] = 'Phone number is required';
+    }
+    if (empty($travel_date)) {
+        $errors[] = 'Travel date is required';
+    }
+    if (empty($travelers)) {
+        $errors[] = 'Number of travelers is required';
+    }
+
     if (empty($errors)) {
         try {
             $insertStmt = $pdo->prepare("
                 INSERT INTO enquiries (full_name, email, phone, package_name, travel_date, travelers, message, source, status) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'New')
             ");
-            
+
             $insertStmt->execute([
                 $full_name,
                 $email,
@@ -96,10 +108,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_modal_enquiry'
                 !empty($message) ? $message : null,
                 $source
             ]);
-            
+
             $_SESSION['modal_enquiry_success'] = true;
             $_SESSION['modal_enquiry_message'] = 'Thank you for your enquiry! We will contact you within 24 hours.';
-            
+
         } catch (PDOException $e) {
             $_SESSION['modal_enquiry_success'] = false;
             $_SESSION['modal_enquiry_error'] = 'Failed to submit enquiry. Please try again.';
@@ -108,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_modal_enquiry'
         $_SESSION['modal_enquiry_success'] = false;
         $_SESSION['modal_enquiry_error'] = implode('<br>', $errors);
     }
-    
+
     header('Location: ' . $_SERVER['PHP_SELF']);
     exit;
 }
@@ -118,7 +130,7 @@ if (isset($_SESSION['modal_enquiry_success'])) {
     $modal_enquiry_success = $_SESSION['modal_enquiry_success'];
     $modal_enquiry_message = $_SESSION['modal_enquiry_message'] ?? '';
     $modal_enquiry_error = $_SESSION['modal_enquiry_error'] ?? '';
-    
+
     unset($_SESSION['modal_enquiry_success']);
     unset($_SESSION['modal_enquiry_message']);
     unset($_SESSION['modal_enquiry_error']);
@@ -264,7 +276,7 @@ $page_title = "All Destinations - ExploreWorld Travel";
         }
 
         .page-header h1 {
-            font-family: 'Playfair Display', serif;
+            font-family: Inter, sans-serif;
             font-size: 3.5rem;
             font-weight: 700;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
@@ -419,7 +431,6 @@ $page_title = "All Destinations - ExploreWorld Travel";
 
         .stat-badge i {
             margin-right: 5px;
-            color: var(--secondary-color);
         }
 
         /* Empty State */
@@ -762,7 +773,7 @@ $page_title = "All Destinations - ExploreWorld Travel";
                     <?php foreach ($destinations as $dest):
                         $stats = $destinationStats[$dest['id']] ?? ['packages' => 0, 'hotels' => 0];
                         $citySlug = strtolower(trim($dest['title']));
-                    ?>
+                        ?>
                         <a href="destination.php?slug=<?= urlencode($citySlug) ?>" class="destination-card">
                             <div class="destination-img" style="background-image:url('uploads/<?= htmlspecialchars($dest['image']) ?>');">
                                 <div class="destination-overlay">

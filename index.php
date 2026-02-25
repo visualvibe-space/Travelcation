@@ -727,8 +727,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, var(--primary-color), var(--dark-color));
     z-index: 99999;
+          background-color: white;
     display: flex;
     align-items: center;
     justify-content: center;

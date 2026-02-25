@@ -253,7 +253,7 @@ $carousel_images = $pdo->query("SELECT * FROM hero_carousel WHERE is_active = 1 
         .page-header {
             background: linear-gradient(135deg, var(--primary-color), var(--dark-color));
             padding: 120px 0 60px;
-            margin-top: 40px;
+            padding-top: 60px;
             position: relative;
             overflow: hidden;
         }
@@ -271,12 +271,16 @@ $carousel_images = $pdo->query("SELECT * FROM hero_carousel WHERE is_active = 1 
         }
 
         .page-header .container {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 50vh;
             position: relative;
             z-index: 1;
         }
 
         .page-title {
-            font-family: 'Playfair Display', serif;
+          font-family: Inter, sans-serif;
             font-size: 3rem;
             font-weight: 700;
             color: var(--white);
@@ -472,7 +476,7 @@ $carousel_images = $pdo->query("SELECT * FROM hero_carousel WHERE is_active = 1 
         }
 
         .card-title {
-            font-family: 'Playfair Display', serif;
+          font-family: Inter, sans-serif;
             font-size: 1.4rem;
             font-weight: 700;
             color: var(--primary-color);
@@ -567,7 +571,7 @@ $carousel_images = $pdo->query("SELECT * FROM hero_carousel WHERE is_active = 1 
         }
 
         .empty-state h3 {
-            font-family: 'Playfair Display', serif;
+          font-size: Inter, sans-serif;
             color: var(--primary-color);
             margin-bottom: 1rem;
         }
@@ -713,8 +717,8 @@ $carousel_images = $pdo->query("SELECT * FROM hero_carousel WHERE is_active = 1 
         }
 
         .modal-title {
-            font-family: 'Playfair Display', serif;
-            font-weight: 600;
+          font-family: Inter, sans-serif;
+          font-weight: 600;
         }
 
         .modal-body {
@@ -1053,7 +1057,7 @@ $carousel_images = $pdo->query("SELECT * FROM hero_carousel WHERE is_active = 1 
         <?php else: ?>
             <!-- Hotel Cards -->
             <div class="row g-4" id="hotelsContainer">
-                <?php foreach ($hotels as $hotel): 
+                <?php foreach ($hotels as $hotel):
                     // Handle features
                     $features = [];
                     if (isset($hotel['features']) && !empty($hotel['features'])) {
@@ -1065,11 +1069,11 @@ $carousel_images = $pdo->query("SELECT * FROM hero_carousel WHERE is_active = 1 
                         }
                     }
                     $features = array_slice($features, 0, 3); // Show only first 3 features
-                    
+
                     // Random rating for demo (you can add rating field to database if needed)
                     $rating = mt_rand(40, 50) / 10;
                     $reviews = mt_rand(50, 500);
-                ?>
+                    ?>
                     <div class="col-lg-4 col-md-6 hotel-item" 
                          data-category="<?= htmlspecialchars($hotel['category'] ?? '') ?>"
                          data-price="<?= $hotel['price_per_night'] ?>"

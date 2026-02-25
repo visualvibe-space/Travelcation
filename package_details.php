@@ -89,7 +89,7 @@ $enquiry_success = false;
 $enquiry_error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_enquiry'])) {
-    
+
     $full_name = trim($_POST['full_name'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $phone = trim($_POST['phone'] ?? '');
@@ -98,16 +98,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_enquiry'])) {
     $travelers = trim($_POST['travelers'] ?? '');
     $message = trim($_POST['message'] ?? '');
     $source = 'package_details';
-    
+
     // Validation
     $errors = [];
-    if (empty($full_name)) $errors[] = 'Full name is required';
-    if (empty($email)) $errors[] = 'Email is required';
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = 'Valid email is required';
-    if (empty($phone)) $errors[] = 'Phone number is required';
-    if (empty($travel_date)) $errors[] = 'Travel date is required';
-    if (empty($travelers)) $errors[] = 'Number of travelers is required';
-    
+    if (empty($full_name)) {
+        $errors[] = 'Full name is required';
+    }
+    if (empty($email)) {
+        $errors[] = 'Email is required';
+    }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = 'Valid email is required';
+    }
+    if (empty($phone)) {
+        $errors[] = 'Phone number is required';
+    }
+    if (empty($travel_date)) {
+        $errors[] = 'Travel date is required';
+    }
+    if (empty($travelers)) {
+        $errors[] = 'Number of travelers is required';
+    }
+
     if (empty($errors)) {
         try {
             // Insert enquiry into enquiries table
@@ -115,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_enquiry'])) {
                 INSERT INTO enquiries (full_name, email, phone, package_name, travel_date, travelers, message, source, status) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'New')
             ");
-            
+
             $insertStmt->execute([
                 $full_name,
                 $email,
@@ -126,10 +138,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_enquiry'])) {
                 !empty($message) ? $message : null,
                 $source
             ]);
-            
+
             // Set success flag
             $enquiry_success = true;
-            
+
         } catch (PDOException $e) {
             $enquiry_error = 'Failed to submit enquiry. Please try again.';
         }
@@ -382,8 +394,8 @@ $carousel_images = $pdo->query("SELECT * FROM hero_carousel WHERE is_active = 1 
             min-height: 70vh;
             background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7));
             overflow: hidden;
-            margin-top: 40px;
-            padding-top: 72px;
+            margin-top: 150px;
+            padding-top: 20px;
             display: flex;
             align-items: center;
         }
@@ -447,7 +459,7 @@ $carousel_images = $pdo->query("SELECT * FROM hero_carousel WHERE is_active = 1 
         }
 
         .package-title {
-            font-family: 'Playfair Display', serif;
+            font-family: Inter, sans-serif;
             font-size: 3.5rem;
             font-weight: 700;
             margin-bottom: 1rem;
@@ -536,7 +548,7 @@ $carousel_images = $pdo->query("SELECT * FROM hero_carousel WHERE is_active = 1 
 
         /* Section Titles */
         .section-title {
-            font-family: 'Playfair Display', serif;
+            font-family: Inter, sans-serif;
             font-size: 1.75rem;
             font-weight: 700;
             color: var(--primary-color);
@@ -921,7 +933,7 @@ $carousel_images = $pdo->query("SELECT * FROM hero_carousel WHERE is_active = 1 
         }
 
         .card-title {
-            font-family: 'Playfair Display', serif;
+ font-family: Inter, sans-serif;
             font-size: 1.2rem;
             font-weight: 600;
             color: var(--primary-color);
@@ -1072,7 +1084,7 @@ $carousel_images = $pdo->query("SELECT * FROM hero_carousel WHERE is_active = 1 
         @media (max-width: 768px) {
             .package-hero-banner {
                 min-height: 60vh;
-                padding-top: 64px;
+                margin-top: 100px;
             }
             .top-cta{
                 display:none;
@@ -1132,8 +1144,8 @@ $carousel_images = $pdo->query("SELECT * FROM hero_carousel WHERE is_active = 1 
             border-bottom: none;
         }
 
-        .modal-title {
-            font-family: 'Playfair Display', serif;
+        .modal-title ;{
+        font-family: Inter, sans-serif;
             font-weight: 600;
         }
 
@@ -1418,7 +1430,7 @@ $carousel_images = $pdo->query("SELECT * FROM hero_carousel WHERE is_active = 1 
 </section>
 
 <!-- Package Details -->
-<section id="details" class="package-container">
+<section id="details" class="package-container" style="margin-top: 2rem;">
     <div class="container">
         <div class="row">
             <!-- Main Content -->
@@ -1596,7 +1608,7 @@ $carousel_images = $pdo->query("SELECT * FROM hero_carousel WHERE is_active = 1 
         </div>
 
         <div class="row g-4">
-            <?php foreach ($otherPackages as $op): 
+            <?php foreach ($otherPackages as $op):
                 $otherFeatures = [];
                 if (isset($op['features']) && !empty($op['features'])) {
                     $otherFeaturesRaw = $op['features'];
@@ -1607,7 +1619,7 @@ $carousel_images = $pdo->query("SELECT * FROM hero_carousel WHERE is_active = 1 
                     }
                 }
                 $otherFeatures = array_slice($otherFeatures, 0, 3);
-            ?>
+                ?>
                 <div class="col-md-6 col-lg-3">
                     <div class="package-card">
                         <div class="card-img-container">
@@ -1714,11 +1726,11 @@ $carousel_images = $pdo->query("SELECT * FROM hero_carousel WHERE is_active = 1 
                             <label class="form-label">Travelers *</label>
                             <select class="form-select" name="travelers" required>
                                 <option value="">Select</option>
-                                <?php 
-                                $traveler_options = ['1', '2', '3', '4', '5+'];
-                                $selected_travelers = $_POST['travelers'] ?? '';
-                                foreach ($traveler_options as $option): 
-                                ?>
+                                <?php
+                                    $traveler_options = ['1', '2', '3', '4', '5+'];
+$selected_travelers = $_POST['travelers'] ?? '';
+foreach ($traveler_options as $option):
+    ?>
                                     <option value="<?= $option ?>" <?= $selected_travelers == $option ? 'selected' : '' ?>>
                                         <?= $option ?> <?= $option == '1' ? 'Traveler' : 'Travelers' ?>
                                     </option>

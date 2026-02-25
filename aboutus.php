@@ -1,54 +1,66 @@
 <?php
-  require_once __DIR__ . '/config/config.php';
-  if (session_status() === PHP_SESSION_NONE) {
+require_once __DIR__ . '/config/config.php';
+if (session_status() === PHP_SESSION_NONE) {
     session_start();
-  }
+}
 
-  /* ========================
-    HANDLE MODAL ENQUIRY SUBMISSION
-  ======================== */
-  $modal_enquiry_success = false;
-  $modal_enquiry_error = '';
-  $modal_enquiry_message = '';
+/* ========================
+  HANDLE MODAL ENQUIRY SUBMISSION
+======================== */
+$modal_enquiry_success = false;
+$modal_enquiry_error = '';
+$modal_enquiry_message = '';
 
-  // Check for flash messages from session
-  if (isset($_SESSION['modal_enquiry_success'])) {
-      $modal_enquiry_success = $_SESSION['modal_enquiry_success'];
-      $modal_enquiry_message = $_SESSION['modal_enquiry_message'] ?? '';
-      $modal_enquiry_error = $_SESSION['modal_enquiry_error'] ?? '';
-      
-      // Clear session variables
-      unset($_SESSION['modal_enquiry_success']);
-      unset($_SESSION['modal_enquiry_message']);
-      unset($_SESSION['modal_enquiry_error']);
-  }
+// Check for flash messages from session
+if (isset($_SESSION['modal_enquiry_success'])) {
+    $modal_enquiry_success = $_SESSION['modal_enquiry_success'];
+    $modal_enquiry_message = $_SESSION['modal_enquiry_message'] ?? '';
+    $modal_enquiry_error = $_SESSION['modal_enquiry_error'] ?? '';
 
-  // Handle form submission
-  if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_modal_enquiry'])) {
-      
-      // Get and sanitize form data
-      $full_name = trim($_POST['modal_full_name'] ?? '');
-      $email = trim($_POST['modal_email'] ?? '');
-      $phone = trim($_POST['modal_phone'] ?? '');
-      $package_name = trim($_POST['modal_package'] ?? '');
-      $travel_date = trim($_POST['modal_travel_date'] ?? '');
-      $travelers = trim($_POST['modal_travelers'] ?? '');
-      $message = trim($_POST['modal_message'] ?? '');
-      $source = trim($_POST['source'] ?? 'aboutus');
-      
-      // Validation
-      $errors = [];
-      if (empty($full_name)) $errors[] = 'Full name is required';
-      if (empty($email)) $errors[] = 'Email is required';
-      if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = 'Valid email is required';
-      if (empty($phone)) $errors[] = 'Phone number is required';
-      if (empty($travel_date)) $errors[] = 'Travel date is required';
-      if (empty($travelers)) $errors[] = 'Number of travelers is required';
-      
-      if (empty($errors)) {
-          try {
-              // Insert enquiry into enquiries table
-              $insertStmt = $pdo->prepare("
+    // Clear session variables
+    unset($_SESSION['modal_enquiry_success']);
+    unset($_SESSION['modal_enquiry_message']);
+    unset($_SESSION['modal_enquiry_error']);
+}
+
+// Handle form submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_modal_enquiry'])) {
+
+    // Get and sanitize form data
+    $full_name = trim($_POST['modal_full_name'] ?? '');
+    $email = trim($_POST['modal_email'] ?? '');
+    $phone = trim($_POST['modal_phone'] ?? '');
+    $package_name = trim($_POST['modal_package'] ?? '');
+    $travel_date = trim($_POST['modal_travel_date'] ?? '');
+    $travelers = trim($_POST['modal_travelers'] ?? '');
+    $message = trim($_POST['modal_message'] ?? '');
+    $source = trim($_POST['source'] ?? 'aboutus');
+
+    // Validation
+    $errors = [];
+    if (empty($full_name)) {
+        $errors[] = 'Full name is required';
+    }
+    if (empty($email)) {
+        $errors[] = 'Email is required';
+    }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = 'Valid email is required';
+    }
+    if (empty($phone)) {
+        $errors[] = 'Phone number is required';
+    }
+    if (empty($travel_date)) {
+        $errors[] = 'Travel date is required';
+    }
+    if (empty($travelers)) {
+        $errors[] = 'Number of travelers is required';
+    }
+
+    if (empty($errors)) {
+        try {
+            // Insert enquiry into enquiries table
+            $insertStmt = $pdo->prepare("
                   INSERT INTO enquiries (
                       full_name, 
                       email, 
@@ -71,43 +83,43 @@
                       'New'
                   )
               ");
-              
-              $insertStmt->execute([
-                  ':full_name' => $full_name,
-                  ':email' => $email,
-                  ':phone' => $phone,
-                  ':package_name' => !empty($package_name) ? $package_name : null,
-                  ':travel_date' => $travel_date,
-                  ':travelers' => $travelers,
-                  ':message' => !empty($message) ? $message : null,
-                  ':source' => $source
-              ]);
-              
-              // Set success message in session
-              $_SESSION['modal_enquiry_success'] = true;
-              $_SESSION['modal_enquiry_message'] = 'Thank you for your enquiry! We will contact you within 24 hours.';
-              
-          } catch (PDOException $e) {
-              // Log error (you can add error logging here)
-              error_log("Enquiry submission error: " . $e->getMessage());
-              
-              $_SESSION['modal_enquiry_success'] = false;
-              $_SESSION['modal_enquiry_error'] = 'Failed to submit enquiry. Please try again.';
-          }
-      } else {
-          $_SESSION['modal_enquiry_success'] = false;
-          $_SESSION['modal_enquiry_error'] = implode('<br>', $errors);
-      }
-      
-      // Redirect to prevent form resubmission
-      header('Location: ' . $_SERVER['PHP_SELF'] . '?success=' . ($_SESSION['modal_enquiry_success'] ? '1' : '0'));
-      exit;
-  }
 
-  /* ========================
-    FETCH ANY NEEDED DATA
-  ======================== */
-  $page_title = "About Us - ExploreWorld Travel";
+            $insertStmt->execute([
+                ':full_name' => $full_name,
+                ':email' => $email,
+                ':phone' => $phone,
+                ':package_name' => !empty($package_name) ? $package_name : null,
+                ':travel_date' => $travel_date,
+                ':travelers' => $travelers,
+                ':message' => !empty($message) ? $message : null,
+                ':source' => $source
+            ]);
+
+            // Set success message in session
+            $_SESSION['modal_enquiry_success'] = true;
+            $_SESSION['modal_enquiry_message'] = 'Thank you for your enquiry! We will contact you within 24 hours.';
+
+        } catch (PDOException $e) {
+            // Log error (you can add error logging here)
+            error_log("Enquiry submission error: " . $e->getMessage());
+
+            $_SESSION['modal_enquiry_success'] = false;
+            $_SESSION['modal_enquiry_error'] = 'Failed to submit enquiry. Please try again.';
+        }
+    } else {
+        $_SESSION['modal_enquiry_success'] = false;
+        $_SESSION['modal_enquiry_error'] = implode('<br>', $errors);
+    }
+
+    // Redirect to prevent form resubmission
+    header('Location: ' . $_SERVER['PHP_SELF'] . '?success=' . ($_SESSION['modal_enquiry_success'] ? '1' : '0'));
+    exit;
+}
+
+/* ========================
+  FETCH ANY NEEDED DATA
+======================== */
+$page_title = "About Us - ExploreWorld Travel";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -272,7 +284,7 @@
         }
 
         .page-header h1 {
-            font-family: 'Playfair Display', serif;
+            font-family: Inter, sans-serif;
             font-size: 3.5rem;
             font-weight: 700;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
@@ -574,7 +586,7 @@
         }
 
         .modal-title {
-            font-family: 'Playfair Display', serif;
+            font-family: Inter, sans-serif;
             font-weight: 600;
         }
 
@@ -900,8 +912,8 @@
     <section style="background: var(--accent-color); color: white; padding: 3rem 0; text-align: center;">
         <div class="container">
             <i class="fas fa-quote-left fa-3x mb-3" style="opacity: 0.5;"></i>
-            <h3 style="font-family: 'Playfair Display', serif; font-size: 2rem;">We don't just plan trips — we manage your entire travel journey from start to finish.</h3>
-            <p class="mt-3 fs-4">Let us turn your travel dreams into reality ✈️🌍</p>
+            <h3 style="font-family: Inter, sans-serif; font-size: 2rem; font-weight: bold">We don't just plan trips — we manage your entire travel journey from start to finish.</h3>
+            <p class="mt-3 fs-5">Let us turn your travel dreams into reality ✈️🌍</p>
         </div>
     </section>
 
@@ -930,7 +942,7 @@
                 </div>
             </div>
 
-            <div class="row g-4 mt-4">
+            <div class="row mt-4">
                 <div class="col-md-4">
                     <div class="text-center p-3 h-100" style="background: white; border-radius: 15px; box-shadow: var(--shadow-md);">
                         <div class="icon-circle mx-auto mb-3" style="width: 60px; height: 60px; background: rgba(242,140,40,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">

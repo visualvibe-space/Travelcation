@@ -363,7 +363,7 @@ body.page-exit {
         /* ================= HERO SECTION ================= */
         .destination-hero {
             position: relative;
-            min-height: 60vh;
+            min-height: 90vh;
             padding-top: var(--navbar-height);
             display: flex;
             align-items: center;
@@ -404,7 +404,7 @@ body.page-exit {
         }
 
         .destination-hero-title {
-            font-family: 'Playfair Display', serif;
+          font-family: Inter, sans-serif;
             font-size: 3.5rem;
             font-weight: 700;
             margin-bottom: 1rem;
@@ -534,7 +534,7 @@ body.page-exit {
         }
         
         .card-title {
-            font-family: 'Playfair Display', serif;
+          font-family: Inter, sans-serif;
             font-size: 1.5rem;
             font-weight: 600;
             color: var(--primary-color);
@@ -648,7 +648,7 @@ body.page-exit {
 
         /* ================= SECTIONS ================= */
         .section-title {
-            font-family: 'Playfair Display', serif;
+          font-family: Inter, sans-serif;
             font-size: 2.5rem;
             font-weight: 700;
             color: var(--primary-color);
@@ -659,7 +659,7 @@ body.page-exit {
         .section-title::after {
             content: '';
             position: absolute;
-            left: 0;
+            left: 50%;
             bottom: -10px;
             width: 60px;
             height: 3px;
@@ -766,7 +766,7 @@ body.page-exit {
         }
         
         .modal-title {
-            font-family: 'Playfair Display', serif;
+          font-family: inter, sans-serif;
             font-weight: 600;
         }
         
@@ -966,7 +966,7 @@ body.page-exit {
             <div class="destination-hero-content fade-in">
                 <h1 class="destination-hero-title"><?= htmlspecialchars($destination['title']) ?></h1>
                 <p class="destination-hero-subtitle">Discover amazing tour packages and luxurious hotels in this beautiful destination</p>
-                <div class="d-flex flex-column flex-md-row gap-3">
+                <div class="d-flex flex-column flex-md-row gap-3 align-items-center justify-content-center">
                     <a href="#packages" class="btn btn-primary btn-lg">
                         <i class="fas fa-suitcase-rolling me-2"></i>View Packages
                     </a>
@@ -1003,10 +1003,10 @@ body.page-exit {
                         <label class="form-label">Duration</label>
                         <select name="duration" class="form-control">
                             <option value="">Any Duration</option>
-                            <option value="3" <?= $duration=='3'?'selected':'' ?>>3 Days</option>
-                            <option value="5" <?= $duration=='5'?'selected':'' ?>>5 Days</option>
-                            <option value="7" <?= $duration=='7'?'selected':'' ?>>7 Days</option>
-                            <option value="10" <?= $duration=='10'?'selected':'' ?>>10+ Days</option>
+                            <option value="3" <?= $duration == '3' ? 'selected' : '' ?>>3 Days</option>
+                            <option value="5" <?= $duration == '5' ? 'selected' : '' ?>>5 Days</option>
+                            <option value="7" <?= $duration == '7' ? 'selected' : '' ?>>7 Days</option>
+                            <option value="10" <?= $duration == '10' ? 'selected' : '' ?>>10+ Days</option>
                         </select>
                     </div>
 
@@ -1038,11 +1038,11 @@ body.page-exit {
                 </div>
             <?php else: ?>
                 <div class="row g-4">
-                    <?php foreach ($packages as $p): 
+                    <?php foreach ($packages as $p):
                         $features = !empty($p['features'])
                             ? array_map('trim', explode(',', $p['features']))
                             : [];
-                    ?>
+                        ?>
                     <div class="col-lg-3 col-md-6">
                         <div class="package-card slide-up">
                             <div class="card-img-container">
@@ -1117,11 +1117,11 @@ body.page-exit {
                 </div>
             <?php else: ?>
                 <div class="row g-4">
-                    <?php foreach ($hotels as $h): 
+                    <?php foreach ($hotels as $h):
                         $features = !empty($h['features'])
                             ? array_map('trim', explode(',', $h['features']))
                             : [];
-                    ?>
+                        ?>
                     <div class="col-lg-3 col-md-6">
                         <div class="hotel-card slide-up">
                             <div class="card-img-container">

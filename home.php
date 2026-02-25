@@ -1,232 +1,264 @@
 <?php
-  require_once __DIR__ . '/config/config.php';
-  // Start session if not already started
-  if (session_status() === PHP_SESSION_NONE) {
+require_once __DIR__ . '/config/config.php';
+// Start session if not already started
+if (session_status() === PHP_SESSION_NONE) {
     session_start();
-  }
+}
 
-  /* ========================
-    FETCH TOUR PACKAGES
-  ======================== */
-  $packageStmt = $pdo->query("
+/* ========================
+  FETCH TOUR PACKAGES
+======================== */
+$packageStmt = $pdo->query("
       SELECT * FROM tour_packages
       WHERE status='Active'
       ORDER BY id DESC 
       LIMIT 12
   ");
 
-  /* ========================
-    FETCH HOTELS
-  ======================== */
-  $hotelStmt = $pdo->query("
+/* ========================
+  FETCH HOTELS
+======================== */
+$hotelStmt = $pdo->query("
       SELECT * FROM hotels
       ORDER BY id DESC
       LIMIT 12
   ");
 
-  /* ========================
-    HANDLE SERVICE ENQUIRY SUBMISSION TO other_service TABLE
-  ======================== */
-  $enquiry_success = false;
-  $enquiry_error = '';
-  $submitted_service_type = '';
+/* ========================
+  HANDLE SERVICE ENQUIRY SUBMISSION TO other_service TABLE
+======================== */
+$enquiry_success = false;
+$enquiry_error = '';
+$submitted_service_type = '';
 
-  // Check if there's a flash message in session
-  if (isset($_SESSION['enquiry_success'])) {
-      $enquiry_success = $_SESSION['enquiry_success'];
-      $enquiry_error = $_SESSION['enquiry_error'] ?? '';
-      $submitted_service_type = $_SESSION['submitted_service_type'] ?? '';
-      
-      // Clear the session variables
-      unset($_SESSION['enquiry_success']);
-      unset($_SESSION['enquiry_error']);
-      unset($_SESSION['submitted_service_type']);
-  }
+// Check if there's a flash message in session
+if (isset($_SESSION['enquiry_success'])) {
+    $enquiry_success = $_SESSION['enquiry_success'];
+    $enquiry_error = $_SESSION['enquiry_error'] ?? '';
+    $submitted_service_type = $_SESSION['submitted_service_type'] ?? '';
 
-  if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_service_enquiry'])) {
-      
-      $service_type = trim($_POST['service_type'] ?? '');
-      $package_name = trim($_POST['package_name'] ?? '');
-      $full_name = trim($_POST['full_name'] ?? '');
-      $email = trim($_POST['email'] ?? '');
-      $phone = trim($_POST['phone'] ?? '');
-      $travel_date = trim($_POST['travel_date'] ?? '');
-      $travelers = trim($_POST['travelers'] ?? '');
-      $message = trim($_POST['message'] ?? '');
-      
-      // Validation
-      $errors = [];
-      if (empty($service_type)) $errors[] = 'Service type is required';
-      if (empty($package_name)) $errors[] = 'Service selection is required';
-      if (empty($full_name)) $errors[] = 'Full name is required';
-      if (empty($email)) $errors[] = 'Email is required';
-      if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = 'Valid email is required';
-      if (empty($phone)) $errors[] = 'Phone number is required';
-      
-      if (empty($errors)) {
-          try {
-              // Insert enquiry into other_service table
-              $insertStmt = $pdo->prepare("
+    // Clear the session variables
+    unset($_SESSION['enquiry_success']);
+    unset($_SESSION['enquiry_error']);
+    unset($_SESSION['submitted_service_type']);
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_service_enquiry'])) {
+
+    $service_type = trim($_POST['service_type'] ?? '');
+    $package_name = trim($_POST['package_name'] ?? '');
+    $full_name = trim($_POST['full_name'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $phone = trim($_POST['phone'] ?? '');
+    $travel_date = trim($_POST['travel_date'] ?? '');
+    $travelers = trim($_POST['travelers'] ?? '');
+    $message = trim($_POST['message'] ?? '');
+
+    // Validation
+    $errors = [];
+    if (empty($service_type)) {
+        $errors[] = 'Service type is required';
+    }
+    if (empty($package_name)) {
+        $errors[] = 'Service selection is required';
+    }
+    if (empty($full_name)) {
+        $errors[] = 'Full name is required';
+    }
+    if (empty($email)) {
+        $errors[] = 'Email is required';
+    }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = 'Valid email is required';
+    }
+    if (empty($phone)) {
+        $errors[] = 'Phone number is required';
+    }
+
+    if (empty($errors)) {
+        try {
+            // Insert enquiry into other_service table
+            $insertStmt = $pdo->prepare("
                   INSERT INTO other_service (full_name, email, phone, package_name, travel_date, travelers, message, status) 
                   VALUES (?, ?, ?, ?, ?, ?, ?, 'New')
               ");
-              
-              $insertStmt->execute([
-                  $full_name,
-                  $email,
-                  $phone,
-                  $package_name . ' (' . $service_type . ')',
-                  !empty($travel_date) ? $travel_date : null,
-                  !empty($travelers) ? $travelers : null,
-                  $message
-              ]);
-              
-              // Set success message in session
-              $_SESSION['enquiry_success'] = true;
-              $_SESSION['submitted_service_type'] = $service_type;
-              
-          } catch (PDOException $e) {
-              // Set error message in session
-              $_SESSION['enquiry_success'] = false;
-              $_SESSION['enquiry_error'] = 'Failed to submit enquiry. Please try again.';
-              $_SESSION['submitted_service_type'] = $service_type;
-          }
-      } else {
-          // Set validation errors in session
-          $_SESSION['enquiry_success'] = false;
-          $_SESSION['enquiry_error'] = implode('<br>', $errors);
-          $_SESSION['submitted_service_type'] = $service_type;
-      }
-      
-      // Redirect to the same page to prevent form resubmission
-      header('Location: ' . $_SERVER['PHP_SELF']);
-      exit;
-  }
-  // Get hero content
-  $hero_content = $pdo->query("SELECT * FROM hero_content WHERE is_active = 1 LIMIT 1")->fetch();
 
-  // Get active carousel images
-  $carousel_images = $pdo->query("SELECT * FROM hero_carousel WHERE is_active = 1 ORDER BY display_order, created_at ASC")->fetchAll();
+            $insertStmt->execute([
+                $full_name,
+                $email,
+                $phone,
+                $package_name . ' (' . $service_type . ')',
+                !empty($travel_date) ? $travel_date : null,
+                !empty($travelers) ? $travelers : null,
+                $message
+            ]);
 
-  // Store in variables for frontend use
-  $hero_title = $hero_content['main_title'] ?? 'Discover Amazing Destinations';
-  $hero_description = $hero_content['main_description'] ?? 'We offer the best national and international tour packages...';
-  $hero_button_text = $hero_content['button_text'] ?? 'Explore Packages';
-  $hero_button_link = $hero_content['button_link'] ?? '#packages';
+            // Set success message in session
+            $_SESSION['enquiry_success'] = true;
+            $_SESSION['submitted_service_type'] = $service_type;
 
-  $destStmt = $pdo->prepare("
+        } catch (PDOException $e) {
+            // Set error message in session
+            $_SESSION['enquiry_success'] = false;
+            $_SESSION['enquiry_error'] = 'Failed to submit enquiry. Please try again.';
+            $_SESSION['submitted_service_type'] = $service_type;
+        }
+    } else {
+        // Set validation errors in session
+        $_SESSION['enquiry_success'] = false;
+        $_SESSION['enquiry_error'] = implode('<br>', $errors);
+        $_SESSION['submitted_service_type'] = $service_type;
+    }
+
+    // Redirect to the same page to prevent form resubmission
+    header('Location: ' . $_SERVER['PHP_SELF']);
+    exit;
+}
+// Get hero content
+$hero_content = $pdo->query("SELECT * FROM hero_content WHERE is_active = 1 LIMIT 1")->fetch();
+
+// Get active carousel images
+$carousel_images = $pdo->query("SELECT * FROM hero_carousel WHERE is_active = 1 ORDER BY display_order, created_at ASC")->fetchAll();
+
+// Store in variables for frontend use
+$hero_title = $hero_content['main_title'] ?? 'Discover Amazing Destinations';
+$hero_description = $hero_content['main_description'] ?? 'We offer the best national and international tour packages...';
+$hero_button_text = $hero_content['button_text'] ?? 'Explore Packages';
+$hero_button_link = $hero_content['button_link'] ?? '#packages';
+
+$destStmt = $pdo->prepare("
       SELECT title, image 
       FROM popular_destinations 
       WHERE status = 'Active' 
       ORDER BY display_order ASC
   ");
-  $destStmt->execute();
-  $destinations = $destStmt->fetchAll(PDO::FETCH_ASSOC);
-  /* ========================
-    HANDLE MODAL ENQUIRY SUBMISSION
-  ======================== */
-  $modal_enquiry_success = false;
-  $modal_enquiry_error = '';
+$destStmt->execute();
+$destinations = $destStmt->fetchAll(PDO::FETCH_ASSOC);
+/* ========================
+  HANDLE MODAL ENQUIRY SUBMISSION
+======================== */
+$modal_enquiry_success = false;
+$modal_enquiry_error = '';
 
-  if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_modal_enquiry'])) {
-      
-      $full_name = trim($_POST['modal_full_name'] ?? '');
-      $email = trim($_POST['modal_email'] ?? '');
-      $phone = trim($_POST['modal_phone'] ?? '');
-      $package_name = trim($_POST['modal_package'] ?? '');
-      $travel_date = trim($_POST['modal_travel_date'] ?? '');
-      $travelers = trim($_POST['modal_travelers'] ?? '');
-      $message = trim($_POST['modal_message'] ?? '');
-      $source = trim($_POST['source'] ?? 'navbar');
-      
-      // Validation
-      $errors = [];
-      if (empty($full_name)) $errors[] = 'Full name is required';
-      if (empty($email)) $errors[] = 'Email is required';
-      if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = 'Valid email is required';
-      if (empty($phone)) $errors[] = 'Phone number is required';
-      if (empty($travel_date)) $errors[] = 'Travel date is required';
-      if (empty($travelers)) $errors[] = 'Number of travelers is required';
-      
-      if (empty($errors)) {
-          try {
-              // Insert enquiry into enquiries table
-              $insertStmt = $pdo->prepare("
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_modal_enquiry'])) {
+
+    $full_name = trim($_POST['modal_full_name'] ?? '');
+    $email = trim($_POST['modal_email'] ?? '');
+    $phone = trim($_POST['modal_phone'] ?? '');
+    $package_name = trim($_POST['modal_package'] ?? '');
+    $travel_date = trim($_POST['modal_travel_date'] ?? '');
+    $travelers = trim($_POST['modal_travelers'] ?? '');
+    $message = trim($_POST['modal_message'] ?? '');
+    $source = trim($_POST['source'] ?? 'navbar');
+
+    // Validation
+    $errors = [];
+    if (empty($full_name)) {
+        $errors[] = 'Full name is required';
+    }
+    if (empty($email)) {
+        $errors[] = 'Email is required';
+    }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = 'Valid email is required';
+    }
+    if (empty($phone)) {
+        $errors[] = 'Phone number is required';
+    }
+    if (empty($travel_date)) {
+        $errors[] = 'Travel date is required';
+    }
+    if (empty($travelers)) {
+        $errors[] = 'Number of travelers is required';
+    }
+
+    if (empty($errors)) {
+        try {
+            // Insert enquiry into enquiries table
+            $insertStmt = $pdo->prepare("
                   INSERT INTO enquiries (full_name, email, phone, package_name, travel_date, travelers, message, source, status) 
                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'New')
               ");
-              
-              $insertStmt->execute([
-                  $full_name,
-                  $email,
-                  $phone,
-                  !empty($package_name) ? $package_name : null,
-                  !empty($travel_date) ? $travel_date : null,
-                  $travelers,
-                  !empty($message) ? $message : null,
-                  $source
-              ]);
-              
-              // Set success message in session
-              $_SESSION['modal_enquiry_success'] = true;
-              $_SESSION['modal_enquiry_message'] = 'Thank you for your enquiry! We will contact you within 24 hours.';
-              
-          } catch (PDOException $e) {
-              $_SESSION['modal_enquiry_success'] = false;
-              $_SESSION['modal_enquiry_error'] = 'Failed to submit enquiry. Please try again.';
-          }
-      } else {
-          $_SESSION['modal_enquiry_success'] = false;
-          $_SESSION['modal_enquiry_error'] = implode('<br>', $errors);
-      }
-      
-      // Redirect to the same page to prevent form resubmission
-      header('Location: ' . $_SERVER['PHP_SELF']);
-      exit;
-  }
 
-  // Check for modal flash messages in session
-  if (isset($_SESSION['modal_enquiry_success'])) {
-      $modal_enquiry_success = $_SESSION['modal_enquiry_success'];
-      $modal_enquiry_message = $_SESSION['modal_enquiry_message'] ?? '';
-      $modal_enquiry_error = $_SESSION['modal_enquiry_error'] ?? '';
-      
-      unset($_SESSION['modal_enquiry_success']);
-      unset($_SESSION['modal_enquiry_message']);
-      unset($_SESSION['modal_enquiry_error']);
-  }
-  // Handle contact form submission
+            $insertStmt->execute([
+                $full_name,
+                $email,
+                $phone,
+                !empty($package_name) ? $package_name : null,
+                !empty($travel_date) ? $travel_date : null,
+                $travelers,
+                !empty($message) ? $message : null,
+                $source
+            ]);
+
+            // Set success message in session
+            $_SESSION['modal_enquiry_success'] = true;
+            $_SESSION['modal_enquiry_message'] = 'Thank you for your enquiry! We will contact you within 24 hours.';
+
+        } catch (PDOException $e) {
+            $_SESSION['modal_enquiry_success'] = false;
+            $_SESSION['modal_enquiry_error'] = 'Failed to submit enquiry. Please try again.';
+        }
+    } else {
+        $_SESSION['modal_enquiry_success'] = false;
+        $_SESSION['modal_enquiry_error'] = implode('<br>', $errors);
+    }
+
+    // Redirect to the same page to prevent form resubmission
+    header('Location: ' . $_SERVER['PHP_SELF']);
+    exit;
+}
+
+// Check for modal flash messages in session
+if (isset($_SESSION['modal_enquiry_success'])) {
+    $modal_enquiry_success = $_SESSION['modal_enquiry_success'];
+    $modal_enquiry_message = $_SESSION['modal_enquiry_message'] ?? '';
+    $modal_enquiry_error = $_SESSION['modal_enquiry_error'] ?? '';
+
+    unset($_SESSION['modal_enquiry_success']);
+    unset($_SESSION['modal_enquiry_message']);
+    unset($_SESSION['modal_enquiry_error']);
+}
+// Handle contact form submission
 $contact_success = false;
 $contact_error = '';
 $contact_message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_contact'])) {
-    
+
     $full_name = trim($_POST['full_name'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $phone = trim($_POST['phone'] ?? '');
     $subject = trim($_POST['subject'] ?? '');
     $message = trim($_POST['message'] ?? '');
-    
+
     // Validation
     $errors = [];
-    if (empty($full_name)) $errors[] = 'Full name is required';
-    if (empty($email)) $errors[] = 'Email is required';
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = 'Valid email is required';
-    if (empty($message)) $errors[] = 'Message is required';
-    
+    if (empty($full_name)) {
+        $errors[] = 'Full name is required';
+    }
+    if (empty($email)) {
+        $errors[] = 'Email is required';
+    }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = 'Valid email is required';
+    }
+    if (empty($message)) {
+        $errors[] = 'Message is required';
+    }
+
     if (empty($errors)) {
         try {
             // Get IP and user agent
             $ip_address = $_SERVER['REMOTE_ADDR'] ?? null;
             $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? null;
-            
+
             // Insert message into contact_messages table
             $insertStmt = $pdo->prepare("
                 INSERT INTO contact_messages (full_name, email, phone, subject, message, ip_address, user_agent, status) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, 'New')
             ");
-            
+
             $insertStmt->execute([
                 $full_name,
                 $email,
@@ -236,11 +268,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_contact'])) {
                 $ip_address,
                 $user_agent
             ]);
-            
+
             // Set success message
             $contact_success = true;
             $contact_message = 'Thank you for contacting us! We will get back to you within 24 hours.';
-            
+
         } catch (PDOException $e) {
             $contact_error = 'Failed to send message. Please try again.';
         }
@@ -276,7 +308,7 @@ $ratingStats = $pdo->query("
 $total_reviews = $ratingStats['total_reviews'] ?? 0;
 $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_rating'], 1) : 0;
 
-  ?>
+?>
 
 
   <!DOCTYPE html>
@@ -295,7 +327,7 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
       <link rel="icon" type="image/png" sizes="32x32" href="uploads/lg-tra (1).png">
       <!-- Google Fonts - Professional Selection -->
-      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
       <style>
   :root {
       --primary-color: #2A4365;
@@ -507,154 +539,133 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
 
   body.page-exit {
       opacity: 0;
-  }
+    }
 
     /* Navbar */
     .navbar {
       position: fixed;
-      top: 0;
+      top: 40px;
       left: 0;
       width: 100%;
       background: var(--white) !important;
       box-shadow: var(--shadow-sm);
       z-index: 9999;
+      padding: 12px 20px;
+      transition: top 0.4s ease, box-shadow 0.3s ease;
+      height: auto;
+      min-height: 70px;
+    }
 
-      padding: 8px 20px; /* 🔽 reduce this */
-  }
-  .navbar {
-      position: fixed;
-      top: 40px; /* below CTA */
-      width: 100%;
-      transition: top 0.4s ease;
-  }
-  /* When CTA is hidden */
-  .navbar.sticky {
+    .navbar.sticky {
       top: 0;
-  }
+      background: var(--white) !important;
+      box-shadow: var(--shadow-md);
+    }
 
-  .navbar a {
-      padding: 6px 12px; /* 🔽 reduce */
-      line-height: 1.2;
-      font-size: 17px; /* optional */
-  }
-  .navbar {
-      height: 150px; 
-  }
+    .navbar-brand img {
+        width: 100px;
+        height: auto;
+        transition: all 0.3s ease;
+    }
 
-          .navbar.sticky {
-              top: 0;
-              background: var(--white) !important;
-              box-shadow: var(--shadow-md);
-          }
+    @media (max-width: 768px) {
+        .navbar-brand img {
+            width: 80px;
+        }
+    }
 
-          .navbar-brand img {
-              width: 140px;
-              height: auto;
-              transition: all 0.3s ease;
-          }
+    .nav-link {
+        color: var(--dark-color) !important;
+        font-weight: 600;
+        padding: 0.5rem 0.75rem !important;
+        margin: 0 0.15rem;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+        position: relative;
+        font-size: 0.95rem;
+    }
 
-          @media (max-width: 768px) {
-              .navbar-brand img {
-                  width: 100px;
-              }
-          }
+    .nav-link:hover {
+        color: var(--secondary-color) !important;
+        background: rgba(242, 140, 40, 0.1);
+    }
 
-          .nav-link {
-              color: var(--dark-color) !important;
-              font-weight: 600;
-              padding: 0.5rem 1rem !important;
-              margin: 0 0.25rem;
-              border-radius: 6px;
-              transition: all 0.3s ease;
-              position: relative;
-          }
+    .nav-link.active {
+        color: var(--secondary-color) !important;
+    }
 
-          .nav-link:hover {
-              color: var(--secondary-color) !important;
-              background: rgba(242, 140, 40, 0.1);
-          }
+    .nav-link.active::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 20px;
+        height: 3px;
+        background: var(--secondary-color);
+        border-radius: 2px;
+    }
 
-          .nav-link.active {
-              color: var(--secondary-color) !important;
-          }
+    .navbar .dropdown-menu {
+        background-color: #ffffff !important;
+        border: 1px solid var(--border-color);
+        box-shadow: var(--shadow-lg);
+        padding: 0.5rem 0;
+        z-index: 1055;
+        border-radius: 8px;
+        margin-top: 0.5rem;
+    }
 
-          .nav-link.active::after {
-              content: '';
-              position: absolute;
-              bottom: -5px;
-              left: 50%;
-              transform: translateX(-50%);
-              width: 20px;
-              height: 3px;
-              background: var(--secondary-color);
-              border-radius: 2px;
-          }
-              /* Navbar dropdown background */
-  .navbar .dropdown-menu {
-      background-color: #ffffff !important;
-      border: 1px solid var(--border-color);
-      box-shadow: var(--shadow-lg);
-      padding: 0.5rem 0;
-      z-index: 1055;
-  }
-  @media (max-width: 768px) {
-      .navbar-collapse {
-          background-color: #ffffff;
-          padding: 1rem;
-          box-shadow: var(--shadow-md);
-      }
+    .navbar .dropdown-item {
+        color: var(--text-color);
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+    }
 
-      .navbar .dropdown-menu {
-          position: static;
-          float: none;
-          box-shadow: none;
-          border: none;
-          padding-left: 1rem;
-      }
-  }
-  .navbar .dropdown-item {
-      color: var(--text-color);
-      font-weight: 500;
-  }
+    .navbar .dropdown-item:hover {
+        background-color: var(--light-color);
+        color: var(--primary-color);
+    }
+    
+    .navbar .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.6rem 1.25rem;
+    }
 
-  .navbar .dropdown-item:hover {
-      background-color: var(--light-color);
-      color: var(--primary-color);
-  }
+    @media (max-width: 768px) {
+        .navbar {
+            top: 40px;
+            padding: 8px 16px;
+        }
 
-  .navbar .dropdown-menu {
-      background-color: #ffffff !important;
-      border: 1px solid var(--border-color);
-      box-shadow: var(--shadow-lg);
-      padding: 0.5rem 0;
-      z-index: 1055;
-  }
-  @media (max-width: 768px) {
-      .navbar-collapse {
-          background-color: #ffffff;
-          padding: 1rem;
-          box-shadow: var(--shadow-md);
-      }
+        .navbar.sticky {
+            top: 0;
+        }
 
-      .navbar .dropdown-menu {
-          position: static;
-          float: none;
-          box-shadow: none;
-          border: none;
-          padding-left: 1rem;
-      }
-  }
+        .navbar-collapse {
+            background-color: #ffffff;
+            padding: 1rem;
+            box-shadow: var(--shadow-md);
+            border-radius: 0 0 12px 12px;
+            margin-top: 8px;
+        }
 
+        .navbar .dropdown-menu {
+            position: static;
+            float: none;
+            box-shadow: none;
+            border: none;
+            padding-left: 1rem;
+            margin-bottom: 0.5rem;
+        }
 
-  .navbar .dropdown-item {
-      color: var(--text-color);
-      font-weight: 500;
-  }
-
-  .navbar .dropdown-item:hover {
-      background-color: var(--light-color);
-      color: var(--primary-color);
-  }
+        .navbar .dropdown-toggle::after {
+            float: right;
+            margin-top: 8px;
+        }
+    }
   /* ================= TOP CTA BAR ================= */
   .top-cta {
       position: fixed;
@@ -675,13 +686,70 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
       transform: translateY(-100%);
   }
 
+  .top-cta .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+  }
 
+  .top-cta span {
+      font-weight: 500;
+      letter-spacing: 0.5px;
+  }
+
+  .top-cta .btn-outline-light {
+      border: 1px solid rgba(255,255,255,0.3);
+      color: white;
+      padding: 0.25rem 1rem;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+  }
+
+  .top-cta .btn-outline-light:hover {
+      background: white;
+      color: var(--accent-color);
+      border-color: white;
+      transform: translateY(-2px);
+  }
+
+  @media (max-width: 768px) {
+      .top-cta {
+          height: 40px;
+          padding: 0 10px;
+          font-size: 11px;
+      }
+      .top-cta .container {
+          justify-content: space-between;
+          gap: 8px;
+      }
+      .top-cta .cta-text {
+          font-size: 11px;
+      }
+      .top-cta .btn-outline-light {
+          padding: 0.2rem 0.7rem;
+          font-size: 10px;
+          flex-shrink: 0;
+          white-space: nowrap;
+      }
+  }
+
+  @media (max-width: 480px) {
+      .top-cta .cta-text {
+          font-size: 10px;
+      }
+      .top-cta .btn-outline-light {
+          padding: 0.15rem 0.5rem;
+          font-size: 9px;
+      }
+  }
 
   /* ================= HERO SECTION (FIXED) ================= */
   .hero-section {
       position: relative;
-      min-height: calc(100vh - var(--navbar-height));
-      padding-top: var(--navbar-height);
+      min-height: 100vh;
+      padding-top: 110px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -692,7 +760,7 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
   .hero-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(0,0,0,0.4);
+      background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.6) 100%);
       z-index: 1;
   }
 
@@ -708,7 +776,12 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
       background-size: cover;
       background-position: center;
       opacity: 0;
-      transition: opacity 1s ease-in-out;
+      transition: opacity 0.6s ease-in-out;
+      will-change: opacity;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
   }
 
   .bg-slide.active {
@@ -719,54 +792,89 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
   .hero-content {
       position: relative;
       z-index: 2;
-      max-width: 800px;
+      max-width: 850px;
       width: 100%;
-      padding: 1.5rem;
+      padding: 2rem;
       margin: 0 auto;
       text-align: center;
       color: var(--white);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 60vh;
   }
 
   .hero-title {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Inter', sans-serif;
+      letter-spacing: -0.03em;
       font-size: 3.5rem;
-      font-weight: 700;
+      font-weight: 800;
       margin-bottom: 1.25rem;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+      line-height: 1.15;
+  }
+
+  .hero-title span {
+      color: var(--secondary-color);
   }
 
   .hero-description {
       font-size: 1.25rem;
-      opacity: 0.9;
+      opacity: 0.95;
+      color: rgba(255,255,255,0.9);
       margin-bottom: 2rem;
-      line-height: 1.8;
+      line-height: 1.7;
+      max-width: 650px;
+      margin-left: auto;
+      margin-right: auto;
+  }
+
+  .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
   }
 
   /* ================= BUTTONS ================= */
-  .btn-primary {
+  .btn-primary, .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
       background: var(--secondary-color);
       border: none;
-      padding: 0.75rem 2rem;
+      padding: 0.875rem 2.25rem;
       font-weight: 600;
-      border-radius: 6px;
+      border-radius: 8px;
       transition: all 0.3s ease;
+      font-size: 1rem;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+  }
+
+  .btn-enquire-primary {
+    padding: 0;
   }
 
   .btn-primary:hover {
-      background: var(--primary-color);
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
+      background: #e07a1f;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(242, 140, 40, 0.35);
   }
 
   .btn-outline {
-      border: 2px solid var(--secondary-color);
+      border: 2px solid rgba(255,255,255,0.8);
       background: transparent;
-      color: var(--secondary-color);
+      color: var(--white);
   }
 
   .btn-outline:hover {
-      background: var(--secondary-color);
-      color: var(--white);
+      background: var(--white);
+      color: var(--dark-color);
+      border-color: var(--white);
+      transform: translateY(-3px);
   }
 
   /* ================= PACKAGE CARDS ================= */
@@ -842,9 +950,163 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
 
   /* ================= FOOTER ================= */
   footer {
-      background: var(--dark-color);
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
       color: var(--white);
       padding: 4rem 0 2rem;
+      position: relative;
+      overflow: hidden;
+  }
+  
+  footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--secondary-color), var(--accent-color), var(--secondary-color));
+      background-size: 200% 100%;
+      animation: gradientMove 3s linear infinite;
+  }
+  
+  @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+  }
+
+  .footer-title {
+      color: var(--white);
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      position: relative;
+      padding-bottom: 0.75rem;
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 0.5px;
+  }
+
+  .footer-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 40px;
+      height: 3px;
+      background: var(--secondary-color);
+      border-radius: 2px;
+  }
+
+  .footer-links {
+      list-style: none;
+      padding: 0;
+  }
+
+  .footer-links li {
+      margin-bottom: 0.85rem;
+  }
+
+  .footer-links a {
+      color: #94a3b8;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+  }
+
+  .footer-links a:hover {
+      color: var(--secondary-color);
+      transform: translateX(6px);
+  }
+
+  .footer-links a i {
+      margin-right: 0.6rem;
+      font-size: 0.7rem;
+      color: var(--secondary-color);
+  }
+
+  .contact-info {
+      list-style: none;
+      padding: 0;
+  }
+
+  .contact-info li {
+      margin-bottom: 1.1rem;
+      color: #94a3b8;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: flex-start;
+      line-height: 1.5;
+  }
+
+  .contact-info i {
+      color: var(--secondary-color);
+      margin-right: 0.75rem;
+      width: 18px;
+      margin-top: 4px;
+      flex-shrink: 0;
+  }
+
+  .social-links {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+  }
+
+  .social-link {
+      width: 42px;
+      height: 42px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      text-decoration: none;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+  }
+
+  .social-link::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 0;
+  }
+
+  .social-link i {
+      position: relative;
+      z-index: 1;
+      font-size: 1rem;
+  }
+
+  .social-link:hover {
+      transform: translateY(-4px);
+      background: rgba(255, 255, 255, 0.15);
+  }
+
+  .social-link:hover::before {
+      opacity: 1;
+  }
+  
+  .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      text-align: center;
+  }
+  
+  .footer-bottom p {
+      color: #64748b;
+      font-size: 0.9rem;
+      margin: 0;
   }
 
   /* ================= RESPONSIVE ================= */
@@ -883,41 +1145,85 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
           height: 45px;
       }
   }
-  /* ================= MOBILE HERO: SHOW ONLY BUTTONS ================= */
+  /* ================= RESPONSIVE HERO ================= */
+  @media (max-width: 1200px) {
+      .hero-title {
+          font-size: 3rem;
+      }
+  }
+
+  @media (max-width: 992px) {
+      .hero-title {
+          font-size: 2.5rem;
+      }
+      
+      .hero-description {
+          font-size: 1.15rem;
+      }
+      
+      .hero-section {
+          padding-top: 100px;
+      }
+  }
+
   @media (max-width: 768px) {
+      .hero-section {
+          min-height: 85vh;
+          padding-top: 90px;
+          flex-wrap: wrap;
+          align-content: flex-start;
+      }
+      
+      .hero-title {
+          font-size: 2rem;
+      }
+      
+      .hero-description {
+          font-size: 1.05rem;
+          margin-bottom: 1.5rem;
+      }
+      
+      .hero-content {
+          padding: 1.5rem;
+          width: 100%;
+      }
+      
+      .hero-buttons {
+          flex-direction: column;
+          width: 100%;
+          max-width: 300px;
+          margin: 0 auto;
+      }
+      
+      .hero-buttons .btn {
+          width: 100%;
+          text-align: center;
+      }
 
-  /* Hide text content */
-  .hero-title,
-  .hero-description {
-      display: none !important;
+      .carousel-thumbnails {
+          position: relative;
+          bottom: auto;
+          left: auto;
+          transform: none;
+          width: 100%;
+          justify-content: center;
+          margin-top: 1.5rem;
+          padding: 0 1rem;
+      }
   }
 
-  /* Center hero content */
-  .hero-content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding-top: 1rem;
-      padding-bottom: 1rem;
-  }
-
-  /* Buttons spacing */
-  .hero-content .btn-primary,
-  .hero-content .btn-outline {
-      width: 100%;
-      max-width: 260px;
-      margin: 0.5rem auto;
-  }
+  @media (max-width: 576px) {
+      .hero-title {
+          font-size: 1.75rem;
+      }
+      
+      .hero-description {
+          font-size: 0.95rem;
+          line-height: 1.6;
+      }
   }
 
   /* Extra small devices (iPhone SE etc.) */
-  @media (max-width: 480px) {
-  .hero-content {
-      padding-top: 0.5rem;
-      padding-bottom: 0.5rem;
-  }
-  }
 
           
           /* Package Cards - Professional */
@@ -974,7 +1280,6 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
               border-radius: 6px;
               font-size: 1.25rem;
               font-weight: 700;
-              color: var(--accent-color);
           }
           
           .card-body {
@@ -982,7 +1287,7 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
           }
           
           .card-title {
-              font-family: 'Playfair Display', serif;
+              font-family: 'Inter', sans-serif;
               font-size: 1.5rem;
               font-weight: 600;
               color: var(--primary-color);
@@ -1039,81 +1344,7 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
               box-shadow: var(--shadow-sm);
           }
           
-          /* Footer - Professional */
-          footer {
-              background: var(--dark-color);
-              color: var(--white);
-              padding: 4rem 0 2rem;
-          }
-          
-          .footer-title {
-              color: var(--white);
-              font-size: 1.25rem;
-              font-weight: 600;
-              margin-bottom: 1.5rem;
-          }
-          
-          .footer-links {
-              list-style: none;
-              padding: 0;
-          }
-          
-          .footer-links li {
-              margin-bottom: 0.75rem;
-          }
-          
-          .footer-links a {
-              color: #CBD5E0;
-              text-decoration: none;
-              transition: all 0.3s ease;
-              font-size: 0.95rem;
-          }
-          
-          .footer-links a:hover {
-              color: var(--secondary-color);
-              padding-left: 0.5rem;
-          }
-          
-          .contact-info {
-              list-style: none;
-              padding: 0;
-          }
-          
-          .contact-info li {
-              margin-bottom: 1rem;
-              color: #CBD5E0;
-              font-size: 0.95rem;
-          }
-          
-          .contact-info i {
-              color: var(--secondary-color);
-              margin-right: 0.75rem;
-              width: 20px;
-          }
-          
-          .social-links {
-              display: flex;
-              gap: 1rem;
-              margin-top: 1.5rem;
-          }
-          
-          .social-link {
-              width: 40px;
-              height: 40px;
-              background: rgba(255, 255, 255, 0.1);
-              border-radius: 50%;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              color: var(--white);
-              text-decoration: none;
-              transition: all 0.3s ease;
-          }
-          
-          .social-link:hover {
-              background: var(--secondary-color);
-              transform: translateY(-3px);
-          }
+
           
           .copyright {
               border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -1133,7 +1364,7 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
           }
           
           .modal-title {
-              font-family: 'Playfair Display', serif;
+              font-family: 'Inter', sans-serif;
               font-weight: 600;
           }
           
@@ -1396,7 +1627,7 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
     }
 
     .package-card {
-      min-width: 260px; /* adjust card width */
+      min-width: 260px;
     }
   }
   /* ================= DESKTOP GRID ================= */
@@ -1587,7 +1818,7 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
   .popular-destinations .section-title::after {
       content: '';
       position: absolute;
-      bottom: -10px;
+      bottom: -18px;
       left: 50%;
       transform: translateX(-50%);
       width: 80px;
@@ -1709,7 +1940,6 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
       left: 0;
       right: 0;
       height: 100px;
-      background: linear-gradient(to top, rgba(0,0,0,0.3), transparent);
       pointer-events: none;
   }
 
@@ -2138,7 +2368,7 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
 .about-section .section-title::after {
     content: '';
     position: absolute;
-    bottom: -10px;
+    bottom: -18px;
     left: 0;
     width: 80px;
     height: 4px;
@@ -2312,7 +2542,7 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
 }
 
 .quote-section h3 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Inter', sans-serif;
     font-size: 2.2rem;
     font-weight: 700;
     margin: 1.5rem 0;
@@ -2506,7 +2736,7 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
             
             .contact-info-side h2,
             .contact-form-side h2 {
-                font-size: 1.6rem;
+                font-size: 1.4rem;
             }
             
             .contact-detail-card .icon-wrapper {
@@ -2575,7 +2805,7 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
             margin-bottom: 1rem;
             position: relative;
             z-index: 2;
-            font-family: 'Playfair Display', serif;
+            font-family: 'Inter', sans-serif;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
 
@@ -2672,12 +2902,12 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
         }
 
         .contact-info-side h2 {
-            font-size: 2.5rem;
+            font-size: 2.3rem;
             font-weight: 700;
             margin-bottom: 2.5rem;
             position: relative;
             z-index: 2;
-            font-family: 'Playfair Display', serif;
+            font-family: 'Inter', sans-serif;
         }
 
         .contact-info-side h2 i {
@@ -2692,7 +2922,7 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
         .contact-info-side h2::after {
             content: '';
             position: absolute;
-            bottom: -10px;
+            bottom: -18px;
             left: 0;
             width: 80px;
             height: 4px;
@@ -2794,7 +3024,7 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
             font-weight: 700;
             color: var(--primary-color);
             margin-bottom: 1rem;
-            font-family: 'Playfair Display', serif;
+            font-family: 'Inter', sans-serif;
         }
 
         .contact-form-side p {
@@ -3235,6 +3465,7 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
         flex-direction: column;
         border-radius: 30px;
         padding: 1.5rem;
+      width: 70%;
         gap: 1rem;
     }
     
@@ -3250,6 +3481,31 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
         justify-content: center;
         margin-top: 20px;
     }
+}
+/* Start side */
+.rounded-start-8 {
+  border-start-start-radius: 8px !important;
+  border-end-start-radius: 8px !important;
+}
+
+/* End side */
+.rounded-end-8 {
+  border-start-end-radius: 15px !important;
+  border-end-end-radius: 15px !important;
+}
+
+/* Remove start radius on sm+ */
+@media (min-width: 576px) {
+  .rounded-start-sm-0 {
+    border-start-start-radius: 0 !important;
+    border-end-start-radius: 0 !important;
+  }
+
+  .rounded-end-sm-0 {
+    border-start-end-radius: 0 !important;
+    border-end-end-radius: 0 !important;
+  }
+}
 }
   </style>
   </head>
@@ -3279,8 +3535,9 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
     <!-- Top CTA Header -->
   <div class="top-cta" id="topCta">
       <div class="container d-flex justify-content-between align-items-center">
-          <span>
-              ✈️ Flat 20% Off on International Packages!
+          <span class="cta-text">
+              <span class="d-none d-md-inline">✈️ Flat 20% Off on International Packages!</span>
+              <span class="d-md-none">✈️ Flat 20% Off on Intl Packages!</span>
           </span>
           <a href="tel:+919033186905" class="btn btn-sm btn-outline-light">
               Call Now
@@ -3308,7 +3565,7 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
       <nav class="navbar navbar-expand-lg navbar-light fixed-top">
           <div class="container">
               <a class="navbar-brand" href="index.php">
-                  <img src="uploads/lg-tra (1).png" alt="ExploreWorld Travel" class="img-fluid" style="width: 120px; height: 120px;">
+                  <img src="uploads/lg-tra (1).png" alt="Travelcation" class="img-fluid">
               </a>
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                   <span class="navbar-toggler-icon"></span>
@@ -3351,8 +3608,8 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
       <section class="hero-section" id="home">
           <!-- Background Carousel -->
           <div class="hero-background">
-              <?php if(count($carousel_images) > 0): ?>
-                  <?php foreach($carousel_images as $index => $image): ?>
+              <?php if (count($carousel_images) > 0): ?>
+                  <?php foreach ($carousel_images as $index => $image): ?>
                       <div class="bg-slide <?= $index === 0 ? 'active' : '' ?>" 
                           style="background-image: url('<?= $image['image_url'] ?>');"></div>
                   <?php endforeach; ?>
@@ -3380,9 +3637,9 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
         
 
           <!-- Carousel Thumbnails -->
-          <?php if(count($carousel_images) > 0): ?>
+          <?php if (count($carousel_images) > 0): ?>
               <div class="carousel-thumbnails">
-                  <?php foreach($carousel_images as $index => $image): ?>
+                  <?php foreach ($carousel_images as $index => $image): ?>
                       <div class="thumbnail <?= $index === 0 ? 'active' : '' ?>" data-slide="<?= $index ?>">
                           <img src="<?= $image['thumbnail_url'] ?>" alt="<?= htmlspecialchars($image['alt_text']) ?>">
                       </div>
@@ -3410,8 +3667,8 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
         <div class="swiper-wrapper">
 
           <?php foreach ($destinations as $d):
-            $citySlug = strtolower(trim($d['title']));
-          ?>
+              $citySlug = strtolower(trim($d['title']));
+              ?>
             <div class="swiper-slide">
               <a href="destination.php?slug=<?= urlencode($citySlug) ?>" class="destination-card">
 
@@ -3517,6 +3774,7 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
                       </span>
                       <span class="text-muted">/night</span>
                     </div>
+                  </div>
                     <div class="d-grid mt-3">
     <a
       href="hotel_details.php?id=<?= $h['id'] ?>"
@@ -3526,7 +3784,6 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
   </div>
 
 
-                  </div>
                 </div>
 
               </div>
@@ -3589,14 +3846,16 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
         <div class="swiper-wrapper">
 
           <?php while ($pkg = $packageStmt->fetch(PDO::FETCH_ASSOC)):
-            $featuresRaw = $pkg['features'];
-            if (strpos($featuresRaw, '[') === 0) {
-              $features = json_decode($featuresRaw, true);
-              if (!is_array($features)) $features = [];
-            } else {
-              $features = array_map('trim', explode(',', $featuresRaw));
-            }
-          ?>
+              $featuresRaw = $pkg['features'];
+              if (strpos($featuresRaw, '[') === 0) {
+                  $features = json_decode($featuresRaw, true);
+                  if (!is_array($features)) {
+                      $features = [];
+                  }
+              } else {
+                  $features = array_map('trim', explode(',', $featuresRaw));
+              }
+              ?>
             <div class="swiper-slide">
               <div class="package-card h-100">
 
@@ -3722,7 +3981,7 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
 
               <!-- Action Buttons -->
               <div class="d-flex gap-2 mb-3">
-                <button class="btn btn-primary flex-grow-1" onclick="openEnquiryModal('passport')">
+                <button class="btn btn-primary btn-enquire-primary flex-grow-1" onclick="openEnquiryModal('passport')">
                   <i class="fas fa-envelope me-2"></i> Enquire Now
                 </button>
                 <a href="tel:+919876543210" class="btn btn-outline-primary">
@@ -4049,15 +4308,15 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
         </div>
 
         <!-- Feedback Stats -->
-        <?php if($total_reviews > 0): ?>
+        <?php if ($total_reviews > 0): ?>
         <div class="d-flex justify-content-center mb-5">
             <div class="feedback-stats">
                 <div class="feedback-stat-item">
                     <span class="stat-number"><?= $avg_rating ?></span>
                     <div class="stat-label">
                         <div class="text-warning mb-1">
-                            <?php for($i = 1; $i <= 5; $i++): ?>
-                                <?php if($i <= round($avg_rating)): ?>
+                            <?php for ($i = 1; $i <= 5; $i++): ?>
+                                <?php if ($i <= round($avg_rating)): ?>
                                     <i class="fas fa-star fa-sm"></i>
                                 <?php else: ?>
                                     <i class="far fa-star fa-sm"></i>
@@ -4082,14 +4341,14 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
         <?php if (!empty($published_feedbacks)): ?>
         <!-- Feedback Carousel -->
         <div class="owl-carousel owl-theme feedback-carousel">
-            <?php foreach($published_feedbacks as $feedback): ?>
+            <?php foreach ($published_feedbacks as $feedback): ?>
             <div class="item">
                 <div class="feedback-card">
                     <!-- Rating -->
                     <div class="feedback-rating">
                         <div class="feedback-stars">
-                            <?php for($i = 1; $i <= 5; $i++): ?>
-                                <?php if($i <= $feedback['rating']): ?>
+                            <?php for ($i = 1; $i <= 5; $i++): ?>
+                                <?php if ($i <= $feedback['rating']): ?>
                                     <i class="fas fa-star"></i>
                                 <?php else: ?>
                                     <i class="far fa-star"></i>
@@ -4132,8 +4391,8 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
         </div>
 
         <!-- Call to Action Buttons -->
-        <div class="text-center mt-5">
-            <a href="submit_feedback.php" class="btn btn-primary btn-lg me-2">
+        <div class="text-center mt-5 d-flex flex-column gap-2 flex-md-row align-items-center justify-content-center">
+            <a href="submit_feedback.php" class="btn btn-feedback-primary btn-primary me-2">
                 <i class="fas fa-pen-fancy me-2"></i>Write a Review
             </a>
             <a href="submit_feedback.php#testimonials-section" class="btn btn-outline-primary btn-lg">
@@ -4217,7 +4476,7 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
                             </div>
 
                             <!-- Social Media Links -->
-                            <div class="d-flex gap-3 mt-4" data-aos="fade-up" data-aos-delay="500">
+                            <div class="d-flex gap-3 mt-4 align-items-center justify-content-center" data-aos="fade-up" data-aos-delay="500">
                                 <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
                                 <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
                                 <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
@@ -4427,8 +4686,8 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
                     <h3 class="footer-title">Newsletter</h3>
                     <p class="mb-3 text-white-50">Subscribe to receive exclusive travel deals and updates.</p>
                     <div class="input-group">
-                        <input type="email" class="form-control bg-dark text-white border-secondary" placeholder="Your email address">
-                        <button class="btn btn-primary" type="button">
+                        <input type="email" class="rounded-end-8 rounded-end-sm-0 form-control bg-dark text-white border-secondary" placeholder="Your email address">
+                        <button class="btn btn-primary mt-sm-0 mt-2 rounded-start-8 rounded-start-sm-0" type="button">
                             <i class="fas fa-paper-plane"></i>
                         </button>
                     </div>

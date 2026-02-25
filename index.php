@@ -350,13 +350,16 @@
             background-size: cover;
             background-position: center;
             opacity: 0;
-            transition: opacity 1.2s ease-in-out;
-            transform: scale(1.05);
+            transition: opacity 0.6s ease-in-out;
+            will-change: opacity;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
         }
 
         .bg-slide.active {
             opacity: 1;
-            transform: scale(1);
         }
 
         .hero-content {

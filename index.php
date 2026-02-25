@@ -275,6 +275,13 @@
       background-color: var(--light-color);
       color: var(--primary-color);
   }
+  
+  .navbar .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.6rem 1.25rem;
+  }
 
          /* ================= BUTTONS ================= */
   .btn-primary, .btn-outline {

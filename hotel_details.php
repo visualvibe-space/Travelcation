@@ -55,7 +55,7 @@ $otherHotels = $otherStmt->fetchAll(PDO::FETCH_ASSOC);
    HANDLE HOTEL ENQUIRY SUBMISSION
 ======================== */
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_hotel_enquiry'])) {
-    
+
     $hotel_id = $_POST['hotel_id'] ?? null;
     $full_name = $_POST['full_name'] ?? '';
     $email = $_POST['email'] ?? '';
@@ -66,40 +66,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_hotel_enquiry'
     $guests = $_POST['guests'] ?? '';
     $rooms = $_POST['rooms'] ?? '';
     $message = $_POST['message'] ?? '';
-    
+
     // Basic validation
     $errors = [];
-    if (empty($full_name)) $errors[] = 'Full name is required';
-    if (empty($email)) $errors[] = 'Email is required';
-    if (empty($phone)) $errors[] = 'Phone is required';
-    if (empty($check_in_date)) $errors[] = 'Check-in date is required';
-    if (empty($check_out_date)) $errors[] = 'Check-out date is required';
-    if (empty($guests)) $errors[] = 'Number of guests is required';
-    if (empty($rooms)) $errors[] = 'Number of rooms is required';
-    
+    if (empty($full_name)) {
+        $errors[] = 'Full name is required';
+    }
+    if (empty($email)) {
+        $errors[] = 'Email is required';
+    }
+    if (empty($phone)) {
+        $errors[] = 'Phone is required';
+    }
+    if (empty($check_in_date)) {
+        $errors[] = 'Check-in date is required';
+    }
+    if (empty($check_out_date)) {
+        $errors[] = 'Check-out date is required';
+    }
+    if (empty($guests)) {
+        $errors[] = 'Number of guests is required';
+    }
+    if (empty($rooms)) {
+        $errors[] = 'Number of rooms is required';
+    }
+
     // Email validation
     if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors[] = 'Invalid email format';
     }
-    
+
     // Phone validation (simple)
     if (!empty($phone) && !preg_match('/^[0-9+\-\s]{10,15}$/', $phone)) {
         $errors[] = 'Invalid phone number';
     }
-    
+
     // Date validation
     $today = new DateTime();
     $checkIn = DateTime::createFromFormat('Y-m-d', $check_in_date);
     $checkOut = DateTime::createFromFormat('Y-m-d', $check_out_date);
-    
+
     if ($checkIn && $checkIn < $today->modify('+1 day')) {
         $errors[] = 'Check-in date must be at least tomorrow';
     }
-    
+
     if ($checkOut && $checkOut <= $checkIn) {
         $errors[] = 'Check-out date must be after check-in date';
     }
-    
+
     if (empty($errors)) {
         try {
             $stmt = $pdo->prepare("
@@ -107,7 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_hotel_enquiry'
                 (hotel_id, full_name, email, phone, hotel_name, check_in_date, check_out_date, guests, rooms, message, status) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'New')
             ");
-            
+
             $stmt->execute([
                 $hotel_id,
                 $full_name,
@@ -120,7 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_hotel_enquiry'
                 $rooms,
                 $message
             ]);
-            
+
             $enquiry_success = true;
             $enquiry_message = "Thank you! Your hotel booking enquiry has been submitted successfully. Our team will contact you shortly.";
         } catch (PDOException $e) {
@@ -361,7 +375,7 @@ $carousel_images = $pdo->query("SELECT * FROM hero_carousel WHERE is_active = 1 
         /* Hotel Hero Banner */
         .hotel-hero-banner {
             position: relative;
-            min-height: 70vh;
+            min-height: 90vh;
             background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7));
             overflow: hidden;
             margin-top: 40px;
@@ -430,7 +444,7 @@ $carousel_images = $pdo->query("SELECT * FROM hero_carousel WHERE is_active = 1 
         }
 
         .hotel-title {
-            font-family: 'Playfair Display', serif;
+            font-family: Inter, sans-serif;
             font-size: 3.5rem;
             font-weight: 700;
             margin-bottom: 1rem;
@@ -528,7 +542,7 @@ $carousel_images = $pdo->query("SELECT * FROM hero_carousel WHERE is_active = 1 
 
         /* Section Titles */
         .section-title {
-            font-family: 'Playfair Display', serif;
+            font-family: Inter, sans-serif;
             font-size: 1.75rem;
             font-weight: 700;
             color: var(--primary-color);
@@ -879,7 +893,7 @@ $carousel_images = $pdo->query("SELECT * FROM hero_carousel WHERE is_active = 1 
         }
 
         .card-title {
-            font-family: 'Playfair Display', serif;
+            font-family: Inter, sans-serif;
             font-size: 1.2rem;
             font-weight: 600;
             color: var(--primary-color);
@@ -1029,7 +1043,7 @@ $carousel_images = $pdo->query("SELECT * FROM hero_carousel WHERE is_active = 1 
         /* Responsive */
         @media (max-width: 768px) {
             .hotel-hero-banner {
-                min-height: 60vh;
+                min-height: 90vh;
                 padding-top: 64px;
             }
             
@@ -1088,7 +1102,7 @@ $carousel_images = $pdo->query("SELECT * FROM hero_carousel WHERE is_active = 1 
         }
 
         .modal-title {
-            font-family: 'Playfair Display', serif;
+        font-family: Inter, sans-serif;
             font-weight: 600;
         }
 
@@ -1604,7 +1618,7 @@ $carousel_images = $pdo->query("SELECT * FROM hero_carousel WHERE is_active = 1 
         </div>
 
         <div class="row g-4">
-            <?php foreach ($otherHotels as $hotelItem): 
+            <?php foreach ($otherHotels as $hotelItem):
                 $otherFeatures = [];
                 if (isset($hotelItem['features']) && !empty($hotelItem['features'])) {
                     $otherFeaturesRaw = $hotelItem['features'];
@@ -1615,7 +1629,7 @@ $carousel_images = $pdo->query("SELECT * FROM hero_carousel WHERE is_active = 1 
                     }
                 }
                 $otherFeatures = array_slice($otherFeatures, 0, 3);
-            ?>
+                ?>
                 <div class="col-md-6 col-lg-3">
                     <div class="hotel-card">
                         <div class="card-img-container">

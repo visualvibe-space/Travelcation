@@ -18,29 +18,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_feedback'])) {
     $ip_address = $_SERVER['REMOTE_ADDR'] ?? '';
     $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? '';
     $page_url = $_SERVER['REQUEST_URI'] ?? '';
-    
+
     $errors = [];
     $success = false;
-    
+
     // Validation
     if (empty($name)) {
         $errors[] = "Name is required";
     }
-    
+
     if (empty($email)) {
         $errors[] = "Email is required";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors[] = "Invalid email format";
     }
-    
+
     if (empty($message)) {
         $errors[] = "Feedback message is required";
     }
-    
+
     if ($rating < 1 || $rating > 5) {
         $errors[] = "Please select a valid rating";
     }
-    
+
     if (empty($errors)) {
         try {
             $stmt = $pdo->prepare("
@@ -52,12 +52,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_feedback'])) {
                     ?, ?, ?, NOW(), NOW()
                 )
             ");
-            
+
             $result = $stmt->execute([
                 $name, $email, $phone, $subject, $message, $rating,
                 $ip_address, $user_agent, $page_url
             ]);
-            
+
             if ($result) {
                 $success = true;
                 $success_message = "Thank you for your valuable feedback! Your input helps us improve our services.";
@@ -78,7 +78,7 @@ $modal_enquiry_success = false;
 $modal_enquiry_error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_modal_enquiry'])) {
-    
+
     $full_name = trim($_POST['modal_full_name'] ?? '');
     $email = trim($_POST['modal_email'] ?? '');
     $phone = trim($_POST['modal_phone'] ?? '');
@@ -87,16 +87,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_modal_enquiry'
     $travelers = trim($_POST['modal_travelers'] ?? '');
     $message = trim($_POST['modal_message'] ?? '');
     $source = trim($_POST['source'] ?? 'navbar');
-    
+
     // Validation
     $errors = [];
-    if (empty($full_name)) $errors[] = 'Full name is required';
-    if (empty($email)) $errors[] = 'Email is required';
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = 'Valid email is required';
-    if (empty($phone)) $errors[] = 'Phone number is required';
-    if (empty($travel_date)) $errors[] = 'Travel date is required';
-    if (empty($travelers)) $errors[] = 'Number of travelers is required';
-    
+    if (empty($full_name)) {
+        $errors[] = 'Full name is required';
+    }
+    if (empty($email)) {
+        $errors[] = 'Email is required';
+    }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = 'Valid email is required';
+    }
+    if (empty($phone)) {
+        $errors[] = 'Phone number is required';
+    }
+    if (empty($travel_date)) {
+        $errors[] = 'Travel date is required';
+    }
+    if (empty($travelers)) {
+        $errors[] = 'Number of travelers is required';
+    }
+
     if (empty($errors)) {
         try {
             // Insert enquiry into enquiries table
@@ -104,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_modal_enquiry'
                 INSERT INTO enquiries (full_name, email, phone, package_name, travel_date, travelers, message, source, status) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'New')
             ");
-            
+
             $insertStmt->execute([
                 $full_name,
                 $email,
@@ -115,11 +127,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_modal_enquiry'
                 !empty($message) ? $message : null,
                 $source
             ]);
-            
+
             // Set success message in session
             $_SESSION['modal_enquiry_success'] = true;
             $_SESSION['modal_enquiry_message'] = 'Thank you for your enquiry! We will contact you within 24 hours.';
-            
+
         } catch (PDOException $e) {
             $_SESSION['modal_enquiry_success'] = false;
             $_SESSION['modal_enquiry_error'] = 'Failed to submit enquiry. Please try again.';
@@ -128,7 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_modal_enquiry'
         $_SESSION['modal_enquiry_success'] = false;
         $_SESSION['modal_enquiry_error'] = implode('<br>', $errors);
     }
-    
+
     // Redirect to the same page to prevent form resubmission
     header('Location: ' . $_SERVER['PHP_SELF']);
     exit;
@@ -139,7 +151,7 @@ if (isset($_SESSION['modal_enquiry_success'])) {
     $modal_enquiry_success = $_SESSION['modal_enquiry_success'];
     $modal_enquiry_message = $_SESSION['modal_enquiry_message'] ?? '';
     $modal_enquiry_error = $_SESSION['modal_enquiry_error'] ?? '';
-    
+
     unset($_SESSION['modal_enquiry_success']);
     unset($_SESSION['modal_enquiry_message']);
     unset($_SESSION['modal_enquiry_error']);
@@ -458,7 +470,7 @@ $avg_rating = $rating_stats['avg_rating'] ? number_format($rating_stats['avg_rat
         }
         
         .page-title {
-            font-family: 'Playfair Display', serif;
+          font-size: Inter, sans-serif;
             font-size: 3rem;
             font-weight: 700;
             color: var(--white);
@@ -620,7 +632,8 @@ $avg_rating = $rating_stats['avg_rating'] ? number_format($rating_stats['avg_rat
         }
 
         .feedback-header h3 {
-            font-family: 'Playfair Display', serif;
+          font-weight: bold;
+          font-family: Inter, sans-serif;
             font-size: 2rem;
             margin-bottom: 0.5rem;
         }
@@ -690,7 +703,7 @@ $avg_rating = $rating_stats['avg_rating'] ? number_format($rating_stats['avg_rat
         }
 
         .section-title {
-            font-family: 'Playfair Display', serif;
+          font-family: Inter, sans-serif;
             font-size: 2.5rem;
             font-weight: 700;
             color: var(--primary-color);
@@ -908,7 +921,7 @@ $avg_rating = $rating_stats['avg_rating'] ? number_format($rating_stats['avg_rat
         /* Responsive */
         @media (max-width: 768px) {
             .page-header {
-                padding: 100px 0 40px;
+                padding: 180px 0 40px;
             }
             
             .page-title {
@@ -1027,8 +1040,8 @@ $avg_rating = $rating_stats['avg_rating'] ? number_format($rating_stats['avg_rat
                     <div class="stat-number"><?= $avg_rating ?></div>
                     <div class="stat-label">Average Rating</div>
                     <div class="mt-2 text-warning">
-                        <?php for($i = 1; $i <= 5; $i++): ?>
-                            <?php if($i <= round($avg_rating)): ?>
+                        <?php for ($i = 1; $i <= 5; $i++): ?>
+                            <?php if ($i <= round($avg_rating)): ?>
                                 <i class="fas fa-star"></i>
                             <?php else: ?>
                                 <i class="far fa-star"></i>
@@ -1069,13 +1082,13 @@ $avg_rating = $rating_stats['avg_rating'] ? number_format($rating_stats['avg_rat
             </div>
         </div>
         
-        <?php if($total_reviews > 0): ?>
+        <?php if ($total_reviews > 0): ?>
         <div class="row mt-5">
             <div class="col-lg-8 mx-auto">
                 <div class="rating-breakdown">
                     <h5 class="text-center mb-4">Rating Breakdown</h5>
                     
-                    <?php 
+                    <?php
                     $ratings = [
                         5 => $rating_stats['five_star'] ?? 0,
                         4 => $rating_stats['four_star'] ?? 0,
@@ -1083,10 +1096,10 @@ $avg_rating = $rating_stats['avg_rating'] ? number_format($rating_stats['avg_rat
                         2 => $rating_stats['two_star'] ?? 0,
                         1 => $rating_stats['one_star'] ?? 0
                     ];
-                    
-                    foreach($ratings as $stars => $count):
-                        $percentage = $total_reviews > 0 ? round(($count / $total_reviews) * 100) : 0;
-                    ?>
+
+            foreach ($ratings as $stars => $count):
+                $percentage = $total_reviews > 0 ? round(($count / $total_reviews) * 100) : 0;
+                ?>
                     <div class="rating-row">
                         <div class="rating-label"><?= $stars ?> Star</div>
                         <div class="rating-bar">
@@ -1108,7 +1121,7 @@ $avg_rating = $rating_stats['avg_rating'] ? number_format($rating_stats['avg_rat
         <?php if (!empty($errors)): ?>
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <i class="fas fa-exclamation-circle me-2"></i>
-                <?php foreach($errors as $error): ?>
+                <?php foreach ($errors as $error): ?>
                     <?= $error ?><br>
                 <?php endforeach; ?>
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -1236,12 +1249,12 @@ $avg_rating = $rating_stats['avg_rating'] ? number_format($rating_stats['avg_rat
         <p class="section-subtitle">Real experiences from our happy customers around the world</p>
         
         <div class="row g-4">
-            <?php foreach($published_feedbacks as $feedback): ?>
+            <?php foreach ($published_feedbacks as $feedback): ?>
             <div class="col-lg-4 col-md-6">
                 <div class="testimonial-card">
                     <div class="testimonial-rating">
-                        <?php for($i = 1; $i <= 5; $i++): ?>
-                            <?php if($i <= $feedback['rating']): ?>
+                        <?php for ($i = 1; $i <= 5; $i++): ?>
+                            <?php if ($i <= $feedback['rating']): ?>
                                 <i class="fas fa-star"></i>
                             <?php else: ?>
                                 <i class="far fa-star"></i>

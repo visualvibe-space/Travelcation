@@ -3616,6 +3616,320 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
                 border-end-end-radius: 0 !important;
             }
         }
+
+        /* ================= DECORATIVE AEROPLANES ================= */
+        .flying-plane {
+            position: fixed;
+            z-index: 1000;
+            opacity: 0.6;
+            pointer-events: none;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+
+        .plane-1 {
+            top: 15%;
+            left: -120px;
+            font-size: 3.5rem;
+            color: var(--secondary-color);
+            animation: flyRight 12s infinite;
+            animation-delay: 0s;
+        }
+
+        .plane-2 {
+            bottom: 25%;
+            right: -120px;
+            font-size: 4rem;
+            color: var(--accent-color);
+            animation: flyLeft 18s infinite;
+            animation-delay: 0s;
+        }
+
+        .plane-3 {
+            top: 55%;
+            left: -120px;
+            font-size: 3rem;
+            color: var(--secondary-color);
+            animation: flyRight 22s infinite;
+            animation-delay: -7s;
+        }
+
+        @keyframes flyRight {
+            0% {
+                transform: translateX(-100px) translateY(0) rotate(15deg);
+            }
+
+            25% {
+                transform: translateX(25vw) translateY(-20px) rotate(10deg);
+            }
+
+            50% {
+                transform: translateX(50vw) translateY(10px) rotate(15deg);
+            }
+
+            75% {
+                transform: translateX(75vw) translateY(-10px) rotate(5deg);
+            }
+
+            100% {
+                transform: translateX(calc(100vw + 100px)) translateY(0) rotate(15deg);
+            }
+        }
+
+        @keyframes flyLeft {
+            0% {
+                transform: translateX(100px) translateY(0) rotate(-165deg);
+            }
+
+            25% {
+                transform: translateX(-25vw) translateY(20px) rotate(-170deg);
+            }
+
+            50% {
+                transform: translateX(-50vw) translateY(-10px) rotate(-165deg);
+            }
+
+            75% {
+                transform: translateX(-75vw) translateY(15px) rotate(-175deg);
+            }
+
+            100% {
+                transform: translateX(calc(-100vw - 100px)) translateY(0) rotate(-165deg);
+            }
+        }
+
+        @keyframes flyRightDiagonal {
+            0% {
+                transform: translateX(-100px) translateY(0) rotate(35deg);
+            }
+
+            100% {
+                transform: translateX(calc(100vw + 100px)) translateY(-50vh) rotate(35deg);
+            }
+        }
+
+        /* ================= DECORATIVE AIRPLANE WIREFRAMES ================= */
+        .deco-plane-wrap {
+            position: absolute;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.08;
+        }
+
+        .deco-plane-left {
+            bottom: 8%;
+            left: -60px;
+            animation: planeDrift 8s ease-in-out infinite alternate;
+        }
+
+        .deco-plane-right {
+            top: 12%;
+            right: -60px;
+            transform: scaleX(-1) rotate(-5deg);
+            animation: planeDrift 9s ease-in-out infinite alternate-reverse;
+        }
+
+        .deco-plane-top-right {
+            top: 5%;
+            right: -40px;
+            opacity: 0.06;
+            animation: planeDrift 12s ease-in-out infinite alternate;
+        }
+
+        .deco-plane-bottom-left {
+            bottom: 3%;
+            left: -40px;
+            opacity: 0.06;
+            animation: planeDrift 10s ease-in-out infinite alternate-reverse;
+        }
+
+        .deco-plane-wrap svg {
+            width: 420px;
+            height: auto;
+        }
+
+        .has-plane-deco {
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes planeDrift {
+            0% {
+                transform: translateY(0px) translateX(0px);
+            }
+
+            50% {
+                transform: translateY(-20px) translateX(10px);
+            }
+
+            100% {
+                transform: translateY(-10px) translateX(-5px);
+            }
+        }
+
+        .deco-plane-right {
+            transform: scaleX(-1) rotate(-5deg);
+        }
+
+        @keyframes planeDriftReverse {
+            0% {
+                transform: scaleX(-1) rotate(-5deg) translateY(0px);
+            }
+
+            50% {
+                transform: scaleX(-1) rotate(-5deg) translateY(18px);
+            }
+
+            100% {
+                transform: scaleX(-1) rotate(-5deg) translateY(-8px);
+            }
+        }
+
+        .deco-plane-right {
+            animation: planeDriftReverse 9s ease-in-out infinite alternate-reverse;
+        }
+
+        @media (max-width: 992px) {
+            .deco-plane-wrap svg {
+                width: 280px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .deco-plane-wrap {
+                display: none;
+            }
+        }
+
+        /* BG Airplane watermarks for section backgrounds */
+        .bg-plane-watermark {
+            position: absolute;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.05;
+        }
+
+        .bg-plane-watermark svg {
+            width: 500px;
+            height: auto;
+        }
+
+        .bg-plane-tl {
+            top: -30px;
+            left: -80px;
+            transform: rotate(-15deg);
+        }
+
+        .bg-plane-br {
+            bottom: -30px;
+            right: -80px;
+            transform: rotate(165deg);
+        }
+
+        .bg-plane-tr {
+            top: -20px;
+            right: -60px;
+            transform: rotate(20deg) scaleX(-1);
+        }
+
+        .bg-plane-bl {
+            bottom: -20px;
+            left: -60px;
+            transform: rotate(-20deg);
+        }
+
+        @media (max-width: 768px) {
+            .bg-plane-watermark svg {
+                width: 280px;
+            }
+        }
+
+        /* ================= SUITCASE POP-OUT GRAPHIC ================= */
+        .suitcase-deco {
+            position: absolute;
+            pointer-events: none;
+            z-index: 3;
+            width: 140px;
+            /* Controls how big the SVGRepo suitcase appears */
+        }
+
+        .suitcase-right {
+            right: -35px;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: suitcaseBounce 4s ease-in-out infinite;
+        }
+
+        .suitcase-left {
+            left: -35px;
+            top: 45%;
+            transform: translateY(-50%);
+            animation: suitcaseBounce 4.5s ease-in-out infinite 0.5s;
+        }
+
+        .suitcase-bottom-right {
+            right: -35px;
+            bottom: 10%;
+            animation: suitcaseBounce 5s ease-in-out infinite 1s;
+        }
+
+        .suitcase-deco svg {
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(3px 6px 12px rgba(0, 0, 0, 0.15));
+        }
+
+        @keyframes suitcaseBounce {
+
+            0%,
+            100% {
+                transform: translateY(-50%) rotate(-3deg);
+            }
+
+            50% {
+                transform: translateY(calc(-50% - 12px)) rotate(3deg);
+            }
+        }
+
+        .suitcase-bottom-right {
+            animation-name: suitcaseBounceSimple;
+        }
+
+        @keyframes suitcaseBounceSimple {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(-2deg);
+            }
+
+            50% {
+                transform: translateY(-12px) rotate(2deg);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .suitcase-deco {
+                width: 100px;
+            }
+
+            .suitcase-right {
+                right: -25px;
+            }
+
+            .suitcase-left {
+                left: -25px;
+            }
+
+            .suitcase-bottom-right {
+                right: -25px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .suitcase-deco {
+                display: none;
+            }
+        }
     </style>
 </head>
 
@@ -5178,17 +5492,6 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
 
     <!-- Replace jQuery slim with full version -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

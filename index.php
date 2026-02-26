@@ -1080,10 +1080,6 @@
                             <a class="dropdown-item" href="home.php#hotels">Hotels</a>
                             <a class="dropdown-item" href="offers.php">Exclusive Offers</a>
                             <a class="dropdown-item" href="alldestinations.php">Destinations</a>
-                            <a class="dropdown-item" href="home.php#packages">Packages</a>
-                            <a class="dropdown-item" href="home.php#hotels">Hotels</a>
-                            <a class="dropdown-item" href="offers.php">Exclusive Offers</a>
-                            <a class="dropdown-item" href="alldestinations.php">Destinations</a>
                         </div>
                     </li>
 

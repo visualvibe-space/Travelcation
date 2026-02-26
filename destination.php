@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/config/config.php';
+require_once __DIR__ . '/svgs.php';
 
 /* ============================
    1. GET DESTINATION BY SLUG
@@ -55,7 +56,7 @@ if ($duration !== '') {
 ============================ */
 $limit = 8;
 $page = $_GET['page'] ?? 1;
-$page = max(1, (int)$page);
+$page = max(1, (int) $page);
 $offset = ($page - 1) * $limit;
 
 /* ============================
@@ -101,20 +102,25 @@ $otherDestinations = $otherDestStmt->fetchAll();
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($destination['title']) ?> Travelcation</title>
-    
+
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" type="image/png" sizes="32x32" href="uploads/lg-tra (1).png">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
     <style>
         :root {
             --primary-color: #2A4365;
@@ -128,10 +134,10 @@ $otherDestinations = $otherDestStmt->fetchAll();
             --success-color: #38A169;
             --white: #FFFFFF;
 
-            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
-            --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
-            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
-            --shadow-xl: 0 20px 25px rgba(0,0,0,0.1);
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
             --navbar-height: 72px;
         }
 
@@ -155,51 +161,59 @@ $otherDestinations = $otherDestStmt->fetchAll();
             font-weight: 400;
             overflow-x: hidden;
         }
-/* Page transition */
-body {
-    opacity: 0;
-    transition: opacity 0.4s ease-in-out;
-}
 
-body.page-loaded {
-    opacity: 1;
-}
+        /* Page transition */
+        body {
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+        }
 
-body.page-exit {
-    opacity: 0;
-}
+        body.page-loaded {
+            opacity: 1;
+        }
 
-              /* Navbar */
-  .navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: var(--white) !important;
-    box-shadow: var(--shadow-sm);
-    z-index: 9999;
+        body.page-exit {
+            opacity: 0;
+        }
 
-    padding: 8px 20px; /* 🔽 reduce this */
-}
-.navbar {
-    position: fixed;
-    top: 40px; /* below CTA */
-    width: 100%;
-    transition: top 0.4s ease;
-}
-/* When CTA is hidden */
-.navbar.sticky {
-    top: 0;
-}
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--white) !important;
+            box-shadow: var(--shadow-sm);
+            z-index: 9999;
 
-.navbar a {
-    padding: 6px 12px; /* 🔽 reduce */
-    line-height: 1.2;
-    font-size: 17px; /* optional */
-}
-.navbar {
-    height: 150px; 
-}
+            padding: 8px 20px;
+            /* 🔽 reduce this */
+        }
+
+        .navbar {
+            position: fixed;
+            top: 40px;
+            /* below CTA */
+            width: 100%;
+            transition: top 0.4s ease;
+        }
+
+        /* When CTA is hidden */
+        .navbar.sticky {
+            top: 0;
+        }
+
+        .navbar a {
+            padding: 6px 12px;
+            /* 🔽 reduce */
+            line-height: 1.2;
+            font-size: 17px;
+            /* optional */
+        }
+
+        .navbar {
+            height: 150px;
+        }
 
         .navbar.sticky {
             top: 0;
@@ -249,117 +263,125 @@ body.page-exit {
             background: var(--secondary-color);
             border-radius: 2px;
         }
-             /* Navbar dropdown background */
-.navbar .dropdown-menu {
-    background-color: #ffffff !important;
-    border: 1px solid var(--border-color);
-    box-shadow: var(--shadow-lg);
-    padding: 0.5rem 0;
-    z-index: 1055;
-}
-@media (max-width: 768px) {
-    .navbar-collapse {
-        background-color: #ffffff;
-        padding: 1rem;
-        box-shadow: var(--shadow-md);
-    }
 
-    .navbar .dropdown-menu {
-        position: static;
-        float: none;
-        box-shadow: none;
-        border: none;
-        padding-left: 1rem;
-    }
-}
-.navbar .dropdown-item {
-    color: var(--text-color);
-    font-weight: 500;
-}
+        /* Navbar dropdown background */
+        .navbar .dropdown-menu {
+            background-color: #ffffff !important;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-lg);
+            padding: 0.5rem 0;
+            z-index: 1055;
+        }
 
-.navbar .dropdown-item:hover {
-    background-color: var(--light-color);
-    color: var(--primary-color);
-}
+        @media (max-width: 768px) {
+            .navbar-collapse {
+                background-color: #ffffff;
+                padding: 1rem;
+                box-shadow: var(--shadow-md);
+            }
 
-.navbar .dropdown-menu {
-    background-color: #ffffff !important;
-    border: 1px solid var(--border-color);
-    box-shadow: var(--shadow-lg);
-    padding: 0.5rem 0;
-    z-index: 1055;
-}
-@media (max-width: 768px) {
-    .navbar-collapse {
-        background-color: #ffffff;
-        padding: 1rem;
-        box-shadow: var(--shadow-md);
-    }
+            .navbar .dropdown-menu {
+                position: static;
+                float: none;
+                box-shadow: none;
+                border: none;
+                padding-left: 1rem;
+            }
+        }
 
-    .navbar .dropdown-menu {
-        position: static;
-        float: none;
-        box-shadow: none;
-        border: none;
-        padding-left: 1rem;
-    }
-}
-.navbar .dropdown-item {
-    color: var(--text-color);
-    font-weight: 500;
-}
+        .navbar .dropdown-item {
+            color: var(--text-color);
+            font-weight: 500;
+        }
 
-.navbar .dropdown-item:hover {
-    background-color: var(--light-color);
-    color: var(--primary-color);
-}
+        .navbar .dropdown-item:hover {
+            background-color: var(--light-color);
+            color: var(--primary-color);
+        }
+
+        .navbar .dropdown-menu {
+            background-color: #ffffff !important;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-lg);
+            padding: 0.5rem 0;
+            z-index: 1055;
+        }
+
+        @media (max-width: 768px) {
+            .navbar-collapse {
+                background-color: #ffffff;
+                padding: 1rem;
+                box-shadow: var(--shadow-md);
+            }
+
+            .navbar .dropdown-menu {
+                position: static;
+                float: none;
+                box-shadow: none;
+                border: none;
+                padding-left: 1rem;
+            }
+        }
+
+        .navbar .dropdown-item {
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .navbar .dropdown-item:hover {
+            background-color: var(--light-color);
+            color: var(--primary-color);
+        }
 
         #enquiryModal .modal-dialog {
-    margin-top: 10%; /* adjust to your navbar height */
-}
-@media (max-width: 576px) {
-    #enquiryModal .modal-dialog {
-        margin: 0;
-        height: 100%;
-        max-width: 100%;
-        margin-top:46%;
-    }
+            margin-top: 10%;
+            /* adjust to your navbar height */
+        }
 
-    #enquiryModal .modal-content {
-        height: 100%;
-        border-radius: 0;
-    }
+        @media (max-width: 576px) {
+            #enquiryModal .modal-dialog {
+                margin: 0;
+                height: 100%;
+                max-width: 100%;
+                margin-top: 46%;
+            }
 
-    #enquiryModal .modal-body {
-        overflow-y: auto;
-        padding-top: 1rem;
-    }
-}
+            #enquiryModal .modal-content {
+                height: 100%;
+                border-radius: 0;
+            }
+
+            #enquiryModal .modal-body {
+                overflow-y: auto;
+                padding-top: 1rem;
+            }
+        }
 
 
-/* ================= TOP CTA BAR ================= */
-.top-cta {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 40px;
-    background: var(--accent-color);
-    color: #fff;
-    z-index: 10000;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    transition: transform 0.4s ease;
-}
+        /* ================= TOP CTA BAR ================= */
+        .top-cta {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background: var(--accent-color);
+            color: #fff;
+            z-index: 10000;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            transition: transform 0.4s ease;
+        }
 
-.top-cta.hidden {
-    transform: translateY(-100%);
-}
-:root {
-    --cta-height: 40px;
-    --navbar-height: 72px;
-}
+        .top-cta.hidden {
+            transform: translateY(-100%);
+        }
+
+        :root {
+            --cta-height: 40px;
+            --navbar-height: 72px;
+        }
 
         /* ================= HERO SECTION ================= */
         .destination-hero {
@@ -389,7 +411,7 @@ body.page-exit {
         .destination-hero-overlay {
             position: absolute;
             inset: 0;
-            background: rgba(0,0,0,0.4);
+            background: rgba(0, 0, 0, 0.4);
             z-index: 1;
         }
 
@@ -405,11 +427,11 @@ body.page-exit {
         }
 
         .destination-hero-title {
-          font-family: Inter, sans-serif;
+            font-family: Inter, sans-serif;
             font-size: 3.5rem;
             font-weight: 700;
             margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .destination-hero-subtitle {
@@ -461,14 +483,16 @@ body.page-exit {
             border: 1px solid var(--border-color);
         }
 
-        .form-control, .form-select {
+        .form-control,
+        .form-select {
             border: 1px solid var(--border-color);
             border-radius: 4px;
             padding: 0.75rem;
             transition: all 0.3s ease;
         }
 
-        .form-control:focus, .form-select:focus {
+        .form-control:focus,
+        .form-select:focus {
             border-color: var(--accent-color);
             box-shadow: 0 0 0 3px rgba(0, 166, 200, 0.1);
         }
@@ -483,29 +507,29 @@ body.page-exit {
             box-shadow: var(--shadow-md);
             background: var(--white);
         }
-        
+
         .package-card:hover {
             transform: translateY(-8px);
             box-shadow: var(--shadow-xl);
         }
-        
+
         .card-img-container {
             position: relative;
             overflow: hidden;
             height: 240px;
         }
-        
+
         .card-img-container img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: transform 0.5s ease;
         }
-        
+
         .package-card:hover .card-img-container img {
             transform: scale(1.05);
         }
-        
+
         .package-badge {
             position: absolute;
             top: 15px;
@@ -517,7 +541,7 @@ body.page-exit {
             font-size: 0.875rem;
             font-weight: 600;
         }
-        
+
         .package-price {
             position: absolute;
             bottom: 15px;
@@ -529,37 +553,37 @@ body.page-exit {
             font-weight: 700;
             color: var(--accent-color);
         }
-        
+
         .card-body {
             padding: 1.5rem;
         }
-        
+
         .card-title {
-          font-family: Inter, sans-serif;
+            font-family: Inter, sans-serif;
             font-size: 1.5rem;
             font-weight: 600;
             color: var(--primary-color);
             margin-bottom: 0.75rem;
         }
-        
+
         .card-text {
             color: var(--text-light);
             margin-bottom: 1.5rem;
             font-size: 0.95rem;
         }
-        
+
         .features-list {
             list-style: none;
             padding: 0;
             margin: 1rem 0;
         }
-        
+
         .features-list li {
             padding: 0.25rem 0;
             color: var(--text-color);
             font-size: 0.9rem;
         }
-        
+
         .features-list li i {
             color: var(--success-color);
             margin-right: 0.5rem;
@@ -574,12 +598,12 @@ body.page-exit {
             transition: all 0.3s ease;
             height: 100%;
         }
-        
+
         .hotel-card:hover {
             border-color: var(--accent-color);
             box-shadow: var(--shadow-lg);
         }
-        
+
         .hotel-rating {
             position: absolute;
             top: 15px;
@@ -614,7 +638,7 @@ body.page-exit {
         .destination-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
             display: flex;
             align-items: flex-end;
             padding: 15px;
@@ -624,7 +648,7 @@ body.page-exit {
             color: var(--white);
             font-weight: 700;
             margin: 0;
-            text-shadow: 0 3px 8px rgba(0,0,0,0.6);
+            text-shadow: 0 3px 8px rgba(0, 0, 0, 0.6);
         }
 
         /* ================= PAGINATION ================= */
@@ -649,7 +673,7 @@ body.page-exit {
 
         /* ================= SECTIONS ================= */
         .section-title {
-          font-family: Inter, sans-serif;
+            font-family: Inter, sans-serif;
             font-size: 2.5rem;
             font-weight: 700;
             color: var(--primary-color);
@@ -679,58 +703,58 @@ body.page-exit {
             color: var(--white);
             padding: 4rem 0 2rem;
         }
-        
+
         .footer-title {
             color: var(--white);
             font-size: 1.25rem;
             font-weight: 600;
             margin-bottom: 1.5rem;
         }
-        
+
         .footer-links {
             list-style: none;
             padding: 0;
         }
-        
+
         .footer-links li {
             margin-bottom: 0.75rem;
         }
-        
+
         .footer-links a {
             color: #CBD5E0;
             text-decoration: none;
             transition: all 0.3s ease;
             font-size: 0.95rem;
         }
-        
+
         .footer-links a:hover {
             color: var(--secondary-color);
             padding-left: 0.5rem;
         }
-        
+
         .contact-info {
             list-style: none;
             padding: 0;
         }
-        
+
         .contact-info li {
             margin-bottom: 1rem;
             color: #CBD5E0;
             font-size: 0.95rem;
         }
-        
+
         .contact-info i {
             color: var(--secondary-color);
             margin-right: 0.75rem;
             width: 20px;
         }
-        
+
         .social-links {
             display: flex;
             gap: 1rem;
             margin-top: 1.5rem;
         }
-        
+
         .social-link {
             width: 40px;
             height: 40px;
@@ -743,12 +767,12 @@ body.page-exit {
             text-decoration: none;
             transition: all 0.3s ease;
         }
-        
+
         .social-link:hover {
             background: var(--secondary-color);
             transform: translateY(-3px);
         }
-        
+
         .copyright {
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             margin-top: 3rem;
@@ -765,16 +789,16 @@ body.page-exit {
             border-bottom: none;
             padding: 1.5rem;
         }
-        
+
         .modal-title {
-          font-family: inter, sans-serif;
+            font-family: inter, sans-serif;
             font-weight: 600;
         }
-        
+
         .modal-body {
             padding: 2rem;
         }
-        
+
         .form-label {
             font-weight: 500;
             color: var(--text-color);
@@ -783,51 +807,51 @@ body.page-exit {
 
         /* ================= RESPONSIVE ================= */
         @media (max-width: 576px) {
-    .section-title::after {
-        left: 50%;
-        transform: translateX(-50%);
-    }
-}
+            .section-title::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
 
 
-       
 
 
-@media (max-width: 768px) {
+
+        @media (max-width: 768px) {
             .destination-hero-title {
                 font-size: 2.5rem;
             }
-            
+
             .destination-hero-subtitle {
                 font-size: 1.1rem;
             }
-            
+
             .destination-hero {
                 min-height: 50vh;
-                margin-top:40%;
+                margin-top: 40%;
             }
-            
+
             .section-title {
                 font-size: 2rem;
             }
-            
-            
+
+
         }
-        
+
         @media (max-width: 576px) {
             .destination-hero-title {
                 font-size: 2rem;
             }
-            
+
             .destination-hero-subtitle {
                 font-size: 1rem;
             }
-            
+
             .btn-primary {
                 padding: 0.75rem 1.5rem;
                 width: 100%;
             }
-            
+
             .section-title {
                 font-size: 1.75rem;
             }
@@ -861,112 +885,206 @@ body.page-exit {
         .fade-in {
             animation: fadeIn 0.8s ease-in-out;
         }
-        
+
         .slide-up {
             animation: slideUp 0.6s ease-out;
         }
-        
+
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
-        
+
         @keyframes slideUp {
             from {
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
+            }
+        }
+
+        .bg-plane-watermark {
+            position: absolute;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .bg-plane-watermark svg {
+            width: 420px;
+            height: auto;
+        }
+
+        .bg-plane-tl {
+            top: -40px;
+            left: -60px;
+        }
+
+        .bg-plane-tr {
+            top: -40px;
+            right: -60px;
+            transform: scaleX(-1);
+        }
+
+        .bg-plane-br {
+            bottom: -40px;
+            right: -60px;
+            transform: scaleX(-1);
+        }
+
+        .suitcase-deco {
+            position: absolute;
+            pointer-events: none;
+            z-index: 3;
+            width: 140px;
+        }
+
+        .suitcase-right {
+            right: -35px;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: suitcaseBounce 4s ease-in-out infinite;
+        }
+
+        .suitcase-left {
+            left: -35px;
+            top: 45%;
+            transform: translateY(-50%);
+            animation: suitcaseBounce 4.5s ease-in-out infinite 0.5s;
+        }
+
+        .suitcase-deco svg {
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(3px 6px 12px rgba(0, 0, 0, 0.15));
+        }
+
+        @keyframes suitcaseBounce {
+
+            0%,
+            100% {
+                transform: translateY(-50%) rotate(-3deg);
+            }
+
+            50% {
+                transform: translateY(calc(-50% - 12px)) rotate(3deg);
+            }
+        }
+
+        @media (max-width:992px) {
+            .suitcase-deco {
+                width: 100px;
+            }
+
+            .bg-plane-watermark svg {
+                width: 280px;
+            }
+        }
+
+        @media (max-width:768px) {
+            .suitcase-deco {
+                display: none;
             }
         }
     </style>
 </head>
 
 <body>
-      <!-- Top CTA Header -->
-<div class="top-cta" id="topCta">
-    <div class="container d-flex justify-content-between align-items-center">
-        <span>
-            ✈️ Flat 20% Off on International Packages!
-        </span>
-        <a href="tel:+919033186905" class="btn btn-sm btn-outline-light">
-            Call Now
-        </a>
+    <!-- Top CTA Header -->
+    <div class="top-cta" id="topCta">
+        <div class="container d-flex justify-content-between align-items-center">
+            <span>
+                ✈️ Flat 20% Off on International Packages!
+            </span>
+            <a href="tel:+919033186905" class="btn btn-sm btn-outline-light">
+                Call Now
+            </a>
+        </div>
     </div>
-</div>
-<script>
-    const cta = document.getElementById("topCta");
-    const navbar = document.querySelector(".navbar");
-    const triggerPoint = document.querySelector(".hero-section").offsetHeight - 100;
+    <script>
+        const cta = document.getElementById("topCta");
+        const navbar = document.querySelector(".navbar");
+        const triggerPoint = document.querySelector(".hero-section").offsetHeight - 100;
 
-    window.addEventListener("scroll", () => {
-        if (window.scrollY > triggerPoint) {
-            cta.classList.add("hidden");
-            navbar.classList.add("sticky");
-        } else {
-            cta.classList.remove("hidden");
-            navbar.classList.remove("sticky");
-        }
-    });
-    
-</script>
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > triggerPoint) {
+                cta.classList.add("hidden");
+                navbar.classList.add("sticky");
+            } else {
+                cta.classList.remove("hidden");
+                navbar.classList.remove("sticky");
+            }
+        });
+
+    </script>
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top">
-          <div class="container">
-              <a class="navbar-brand" href="index.php">
-                  <img src="uploads/lg-tra (1).png" alt="ExploreWorld Travel" class="img-fluid" style="width: 120px; height: 120px;">
-              </a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                  <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarNav">
-                  <ul class="navbar-nav ms-auto">
-                      <li class="nav-item">
-                          <a class="nav-link " href="home.php">Home</a>
-                      </li>
-                      <li class="nav-item">
-                          <a class="nav-link" href="aboutus.php">About</a>
-                      </li>
-                      <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink123" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Explore
+        <div class="container">
+            <a class="navbar-brand" href="index.php">
+                <img src="uploads/lg-tra (1).png" alt="ExploreWorld Travel" class="img-fluid"
+                    style="width: 120px; height: 120px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link " href="home.php">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="aboutus.php">About</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink123"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Explore
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink123">
-                        <a class="dropdown-item" href="home.php#packages">Packages</a>
-                        <a class="dropdown-item" href="home.php#hotels">Hotels</a>
-                        <a class="dropdown-item" href="offers.php">Exclusive Offers</a>
-                        <a class="dropdown-item active" href="alldestinations.php">Destinations</a>
+                            <a class="dropdown-item" href="home.php#packages">Packages</a>
+                            <a class="dropdown-item" href="home.php#hotels">Hotels</a>
+                            <a class="dropdown-item" href="offers.php">Exclusive Offers</a>
+                            <a class="dropdown-item active" href="alldestinations.php">Destinations</a>
                         </div>
                     </li>
-                      
-                      <li class="nav-item">
-                          <a class="nav-link" href="home.php#contact-section">Contact</a>
-                      </li>
-                      <li class="nav-item">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="home.php#contact-section">Contact</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="submit_feedback.php">Submit Feedback</a>
                     </li>
-                  </ul>
-                  <button class="btn btn-primary ms-lg-3 mt-3 mt-lg-0" data-bs-toggle="modal" data-bs-target="#enquiryModal">
-                      <i class="fas fa-paper-plane me-2"></i>Quick Enquiry
-                  </button>
-              </div>
-          </div>
-      </nav>
+                </ul>
+                <button class="btn btn-primary ms-lg-3 mt-3 mt-lg-0" data-bs-toggle="modal"
+                    data-bs-target="#enquiryModal">
+                    <i class="fas fa-paper-plane me-2"></i>Quick Enquiry
+                </button>
+            </div>
+        </div>
+    </nav>
 
     <!-- =========================
          HERO SECTION
     ========================= -->
     <section class="destination-hero">
         <div class="destination-hero-bg"></div>
-        <div class="destination-hero-image" style="background-image: url('uploads/<?= htmlspecialchars($destination['image']) ?>');"></div>
+        <div class="destination-hero-image"
+            style="background-image: url('uploads/<?= htmlspecialchars($destination['image']) ?>');"></div>
         <div class="destination-hero-overlay"></div>
-        
+
         <div class="container">
             <div class="destination-hero-content fade-in">
                 <h1 class="destination-hero-title"><?= htmlspecialchars($destination['title']) ?></h1>
-                <p class="destination-hero-subtitle">Discover amazing tour packages and luxurious hotels in this beautiful destination</p>
+                <p class="destination-hero-subtitle">Discover amazing tour packages and luxurious hotels in this
+                    beautiful destination</p>
                 <div class="d-flex flex-column flex-md-row gap-3 align-items-center justify-content-center">
                     <a href="#packages" class="btn btn-primary btn-lg">
                         <i class="fas fa-suitcase-rolling me-2"></i>View Packages
@@ -990,14 +1108,14 @@ body.page-exit {
 
                     <div class="col-md-3">
                         <label class="form-label">Min Price (₹)</label>
-                        <input type="number" name="min_price" class="form-control"
-                               placeholder="Min Price" value="<?= htmlspecialchars($minPrice) ?>">
+                        <input type="number" name="min_price" class="form-control" placeholder="Min Price"
+                            value="<?= htmlspecialchars($minPrice) ?>">
                     </div>
 
                     <div class="col-md-3">
                         <label class="form-label">Max Price (₹)</label>
-                        <input type="number" name="max_price" class="form-control"
-                               placeholder="Max Price" value="<?= htmlspecialchars($maxPrice) ?>">
+                        <input type="number" name="max_price" class="form-control" placeholder="Max Price"
+                            value="<?= htmlspecialchars($maxPrice) ?>">
                     </div>
 
                     <div class="col-md-3">
@@ -1024,10 +1142,13 @@ body.page-exit {
     <!-- =========================
          PACKAGES SECTION
     ========================= -->
-    <section class="py-5" id="packages">
+    <section class="py-5" id="packages" style="position:relative;overflow:hidden;">
+        <div class="bg-plane-watermark bg-plane-tl" style="opacity:0.10;"><?= $svg_airplane ?></div>
+        <div class="suitcase-deco suitcase-right" style="top:40%; right:-25px;"><?= $svg_suitcase ?></div>
         <div class="container">
             <div class="text-center mb-5">
-                <h2 class="section-title text-center">Tour Packages in <?= htmlspecialchars($destination['title']) ?></h2>
+                <h2 class="section-title text-center">Tour Packages in <?= htmlspecialchars($destination['title']) ?>
+                </h2>
                 <p class="section-subtitle text-center">Choose from our carefully curated selection of tour packages</p>
             </div>
 
@@ -1044,38 +1165,38 @@ body.page-exit {
                             ? array_map('trim', explode(',', $p['features']))
                             : [];
                         ?>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="package-card slide-up">
-                            <div class="card-img-container">
-                                <img src="uploads/<?= htmlspecialchars($p['image']) ?>" 
-                                     alt="<?= htmlspecialchars($p['title']) ?>"
-                                     class="img-fluid">
-                                <span class="package-badge"><?= htmlspecialchars($p['package_type']) ?></span>
-                                <div class="package-price">₹<?= number_format($p['price']) ?></div>
-                            </div>
-                            <div class="card-body">
-                                <h3 class="card-title"><?= htmlspecialchars($p['title']) ?></h3>
-                                <p class="card-text"><?= htmlspecialchars(substr($p['description'], 0, 100)) ?>...</p>
-                                
-                                <?php if (!empty($features)): ?>
-                                    <ul class="features-list">
-                                        <?php foreach (array_slice($features, 0, 3) as $feature): ?>
-                                            <li><i class="fas fa-check-circle"></i> <?= htmlspecialchars($feature, ENT_QUOTES, 'UTF-8') ?></li>
-                                        <?php endforeach; ?>
-                                    </ul>
-                                <?php endif; ?>
-                                
-                                <div class="d-flex justify-content-between align-items-center mt-3">
-                                    <span class="text-muted"><i class="fas fa-clock me-1"></i> <?= htmlspecialchars($p['duration']) ?></span>
-                                    <button class="btn btn-primary enquiry-btn" 
-                                            data-package-id="<?= $p['id'] ?>"
+                        <div class="col-lg-3 col-md-6">
+                            <div class="package-card slide-up">
+                                <div class="card-img-container">
+                                    <img src="uploads/<?= htmlspecialchars($p['image']) ?>"
+                                        alt="<?= htmlspecialchars($p['title']) ?>" class="img-fluid">
+                                    <span class="package-badge"><?= htmlspecialchars($p['package_type']) ?></span>
+                                    <div class="package-price">₹<?= number_format($p['price']) ?></div>
+                                </div>
+                                <div class="card-body">
+                                    <h3 class="card-title"><?= htmlspecialchars($p['title']) ?></h3>
+                                    <p class="card-text"><?= htmlspecialchars(substr($p['description'], 0, 100)) ?>...</p>
+
+                                    <?php if (!empty($features)): ?>
+                                        <ul class="features-list">
+                                            <?php foreach (array_slice($features, 0, 3) as $feature): ?>
+                                                <li><i class="fas fa-check-circle"></i>
+                                                    <?= htmlspecialchars($feature, ENT_QUOTES, 'UTF-8') ?></li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    <?php endif; ?>
+
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <span class="text-muted"><i class="fas fa-clock me-1"></i>
+                                            <?= htmlspecialchars($p['duration']) ?></span>
+                                        <button class="btn btn-primary enquiry-btn" data-package-id="<?= $p['id'] ?>"
                                             data-package-title="<?= htmlspecialchars($p['title']) ?>">
-                                        Enquire Now
-                                    </button>
+                                            Enquire Now
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     <?php endforeach; ?>
                 </div>
 
@@ -1083,18 +1204,18 @@ body.page-exit {
                      PAGINATION
                 ========================= -->
                 <?php if ($totalPages > 1): ?>
-                <nav class="mt-5">
-                    <ul class="pagination justify-content-center">
-                        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                            <li class="page-item <?= $i == $page ? 'active' : '' ?>">
-                                <a class="page-link"
-                                   href="?slug=<?= $slug ?>&page=<?= $i ?>&min_price=<?= $minPrice ?>&max_price=<?= $maxPrice ?>&duration=<?= $duration ?>">
-                                    <?= $i ?>
-                                </a>
-                            </li>
-                        <?php endfor; ?>
-                    </ul>
-                </nav>
+                    <nav class="mt-5">
+                        <ul class="pagination justify-content-center">
+                            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                                <li class="page-item <?= $i == $page ? 'active' : '' ?>">
+                                    <a class="page-link"
+                                        href="?slug=<?= $slug ?>&page=<?= $i ?>&min_price=<?= $minPrice ?>&max_price=<?= $maxPrice ?>&duration=<?= $duration ?>">
+                                        <?= $i ?>
+                                    </a>
+                                </li>
+                            <?php endfor; ?>
+                        </ul>
+                    </nav>
                 <?php endif; ?>
             <?php endif; ?>
         </div>
@@ -1123,41 +1244,42 @@ body.page-exit {
                             ? array_map('trim', explode(',', $h['features']))
                             : [];
                         ?>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="hotel-card slide-up">
-                            <div class="card-img-container">
-                                <img src="uploads/<?= htmlspecialchars($h['image']) ?>" 
-                                     alt="<?= htmlspecialchars($h['hotel_name']) ?>"
-                                     class="img-fluid">
-                                <div class="hotel-rating">
-                                    <i class="fas fa-star"></i> <?= $h['rating'] ?? '4.5' ?>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <h3 class="card-title"><?= htmlspecialchars($h['hotel_name']) ?></h3>
-                                <p class="card-text"><?= htmlspecialchars(substr($h['description'], 0, 100)) ?>...</p>
-                                
-                                <?php if (!empty($features)): ?>
-                                    <ul class="features-list">
-                                        <?php foreach (array_slice($features, 0, 3) as $feature): ?>
-                                            <li><i class="fas fa-check"></i> <?= htmlspecialchars($feature, ENT_QUOTES, 'UTF-8') ?></li>
-                                        <?php endforeach; ?>
-                                    </ul>
-                                <?php endif; ?>
-                                
-                                <div class="d-flex justify-content-between align-items-center mt-3">
-                                    <div>
-                                        <span class="fw-bold fs-5" style="color: var(--accent-color);">₹<?= number_format($h['price_per_night']) ?></span>
-                                        <span class="text-muted">/night</span>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="hotel-card slide-up">
+                                <div class="card-img-container">
+                                    <img src="uploads/<?= htmlspecialchars($h['image']) ?>"
+                                        alt="<?= htmlspecialchars($h['hotel_name']) ?>" class="img-fluid">
+                                    <div class="hotel-rating">
+                                        <i class="fas fa-star"></i> <?= $h['rating'] ?? '4.5' ?>
                                     </div>
-                                    <button class="btn btn-primary book-hotel-btn"
+                                </div>
+                                <div class="card-body">
+                                    <h3 class="card-title"><?= htmlspecialchars($h['hotel_name']) ?></h3>
+                                    <p class="card-text"><?= htmlspecialchars(substr($h['description'], 0, 100)) ?>...</p>
+
+                                    <?php if (!empty($features)): ?>
+                                        <ul class="features-list">
+                                            <?php foreach (array_slice($features, 0, 3) as $feature): ?>
+                                                <li><i class="fas fa-check"></i> <?= htmlspecialchars($feature, ENT_QUOTES, 'UTF-8') ?>
+                                                </li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    <?php endif; ?>
+
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <div>
+                                            <span class="fw-bold fs-5"
+                                                style="color: var(--accent-color);">₹<?= number_format($h['price_per_night']) ?></span>
+                                            <span class="text-muted">/night</span>
+                                        </div>
+                                        <button class="btn btn-primary book-hotel-btn"
                                             data-hotel-name="<?= htmlspecialchars($h['hotel_name']) ?>">
-                                        Book Now
-                                    </button>
+                                            Book Now
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>
@@ -1168,39 +1290,40 @@ body.page-exit {
          OTHER DESTINATIONS
     ========================= -->
     <?php if (!empty($otherDestinations)): ?>
-    <section class="py-5 other-destinations">
-        <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="section-title text-center">Explore Other Destinations</h2>
-                <p class="section-subtitle text-center">Discover more amazing places to visit</p>
-            </div>
-
-            <div class="row justify-content-center g-4">
-                <?php foreach ($otherDestinations as $d): ?>
-                <div class="col-lg-2 col-md-4 col-6">
-                    <a href="destination.php?slug=<?= urlencode($d['slug']) ?>" class="destination-card">
-                        <div class="destination-img"
-                             style="background-image:url('uploads/<?= htmlspecialchars($d['image']) ?>');">
-                            <div class="destination-overlay">
-                                <h5><?= htmlspecialchars($d['title']) ?></h5>
-                            </div>
-                        </div>
-                    </a>
+        <section class="py-5 other-destinations">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="section-title text-center">Explore Other Destinations</h2>
+                    <p class="section-subtitle text-center">Discover more amazing places to visit</p>
                 </div>
-                <?php endforeach; ?>
+
+                <div class="row justify-content-center g-4">
+                    <?php foreach ($otherDestinations as $d): ?>
+                        <div class="col-lg-2 col-md-4 col-6">
+                            <a href="destination.php?slug=<?= urlencode($d['slug']) ?>" class="destination-card">
+                                <div class="destination-img"
+                                    style="background-image:url('uploads/<?= htmlspecialchars($d['image']) ?>');">
+                                    <div class="destination-overlay">
+                                        <h5><?= htmlspecialchars($d['title']) ?></h5>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
     <?php endif; ?>
 
-  
-      <!-- Footer -->
-      <footer id="contact">
+
+    <!-- Footer -->
+    <footer id="contact">
         <div class="container">
             <div class="row g-4">
                 <div class="col-lg-4 col-md-6">
                     <h3 class="footer-title">Travelcation</h3>
-                    <p class="mb-3 text-white-50">Your trusted partner for creating unforgettable travel experiences with personalized service and expert guidance.</p>
+                    <p class="mb-3 text-white-50">Your trusted partner for creating unforgettable travel experiences
+                        with personalized service and expert guidance.</p>
                     <div class="social-links">
                         <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
@@ -1208,7 +1331,7 @@ body.page-exit {
                         <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
-                
+
                 <div class="col-lg-2 col-md-6">
                     <h3 class="footer-title">Quick Links</h3>
                     <ul class="footer-links">
@@ -1222,25 +1345,27 @@ body.page-exit {
                 <div class="col-lg-3 col-md-6">
                     <h3 class="footer-title">Contact Info</h3>
                     <ul class="contact-info">
-                        <li><i class="fas fa-map-marker-alt"></i> 214, Oberon, Opp. Mercedes-Benz Showroom, New City Light Road, Surat – 395017</li>
+                        <li><i class="fas fa-map-marker-alt"></i> 214, Oberon, Opp. Mercedes-Benz Showroom, New City
+                            Light Road, Surat – 395017</li>
                         <li><i class="fas fa-phone"></i> +91-90331 86905</li>
                         <li><i class="fas fa-envelope"></i>info@travelcation.co.in</li>
                         <li><i class="fas fa-clock"></i> Mon-Sat: 11:00 AM - 8:00 PM</li>
                     </ul>
                 </div>
-                
+
                 <div class="col-lg-3 col-md-6">
                     <h3 class="footer-title">Newsletter</h3>
                     <p class="mb-3 text-white-50">Subscribe to receive exclusive travel deals and updates.</p>
                     <div class="input-group">
-                        <input type="email" class="form-control bg-dark text-white border-secondary" placeholder="Your email address">
+                        <input type="email" class="form-control bg-dark text-white border-secondary"
+                            placeholder="Your email address">
                         <button class="btn btn-primary" type="button">
                             <i class="fas fa-paper-plane"></i>
                         </button>
                     </div>
                 </div>
             </div>
-            
+
             <div class="copyright">
                 <p>&copy; 2026 Travelcation. All rights reserved.</p>
             </div>
@@ -1261,7 +1386,7 @@ body.page-exit {
                     <form id="enquiryForm">
                         <input type="hidden" name="destination" value="<?= htmlspecialchars($destination['title']) ?>">
                         <input type="hidden" name="item" id="enquiryItem">
-                        
+
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label for="fullName" class="form-label">Full Name *</label>
@@ -1301,7 +1426,8 @@ body.page-exit {
                             </div>
                             <div class="col-12">
                                 <label for="message" class="form-label">Additional Requirements</label>
-                                <textarea class="form-control" id="message" rows="4" placeholder="Please share any specific requirements or questions..."></textarea>
+                                <textarea class="form-control" id="message" rows="4"
+                                    placeholder="Please share any specific requirements or questions..."></textarea>
                             </div>
                             <div class="col-12">
                                 <div class="form-check">
@@ -1325,11 +1451,11 @@ body.page-exit {
 
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Navbar scroll effect
-            window.addEventListener('scroll', function() {
+            window.addEventListener('scroll', function () {
                 const navbar = document.querySelector('.navbar');
                 if (window.scrollY > 50) {
                     navbar.classList.add('scrolled');
@@ -1341,36 +1467,36 @@ body.page-exit {
             // Set minimum date for travel date
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('travelDate').min = today;
-            
+
             // Handle enquiry button clicks
             const packageInput = document.getElementById('enquiryItem');
-            
+
             document.querySelectorAll('.enquiry-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
+                btn.addEventListener('click', function () {
                     const packageTitle = this.getAttribute('data-package-title');
                     packageInput.value = packageTitle;
-                    
+
                     const modal = new bootstrap.Modal(document.getElementById('enquiryModal'));
                     modal.show();
                 });
             });
-            
+
             // Handle hotel booking button clicks
             document.querySelectorAll('.book-hotel-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
+                btn.addEventListener('click', function () {
                     const hotelName = this.getAttribute('data-hotel-name');
                     packageInput.value = 'Hotel Booking - ' + hotelName;
-                    
+
                     const modal = new bootstrap.Modal(document.getElementById('enquiryModal'));
                     modal.show();
                 });
             });
-            
+
             // Form submission
             const enquiryForm = document.getElementById('enquiryForm');
-            enquiryForm.addEventListener('submit', function(e) {
+            enquiryForm.addEventListener('submit', function (e) {
                 e.preventDefault();
-                
+
                 // Form validation
                 const formData = {
                     name: document.getElementById('fullName').value.trim(),
@@ -1383,39 +1509,39 @@ body.page-exit {
                     message: document.getElementById('message').value.trim(),
                     newsletter: document.getElementById('newsletter').checked
                 };
-                
+
                 // Basic validation
                 if (!formData.name || !formData.email || !formData.phone || !formData.travelDate) {
                     alert('Please fill in all required fields.');
                     return;
                 }
-                
+
                 // Email validation
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 if (!emailRegex.test(formData.email)) {
                     alert('Please enter a valid email address.');
                     return;
                 }
-                
+
                 // Show loading state
                 const submitBtn = enquiryForm.querySelector('button[type="submit"]');
                 const originalText = submitBtn.innerHTML;
                 submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processing...';
                 submitBtn.disabled = true;
-                
+
                 // Simulate API call (replace with actual API call)
                 setTimeout(() => {
                     // Reset button
                     submitBtn.innerHTML = originalText;
                     submitBtn.disabled = false;
-                    
+
                     // Show success message
                     alert('Thank you for your enquiry! Our travel consultant will contact you within 24 hours.');
-                    
+
                     // Close modal
                     const modal = bootstrap.Modal.getInstance(document.getElementById('enquiryModal'));
                     modal.hide();
-                    
+
                     // Reset form
                     enquiryForm.reset();
                     packageInput.value = '';
@@ -1424,10 +1550,10 @@ body.page-exit {
 
             // Add smooth scrolling for anchor links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
+                anchor.addEventListener('click', function (e) {
                     const href = this.getAttribute('href');
                     if (href === '#') return;
-                    
+
                     e.preventDefault();
                     const target = document.querySelector(href);
                     if (target) {
@@ -1460,43 +1586,50 @@ body.page-exit {
         });
     </script>
     <script>
-document.addEventListener("DOMContentLoaded", () => {
-    document.body.classList.add("page-loaded");
+        document.addEventListener("DOMContentLoaded", () => {
+            document.body.classList.add("page-loaded");
 
-    document.querySelectorAll("a[href]").forEach(link => {
-        const url = link.getAttribute("href");
+            document.querySelectorAll("a[href]").forEach(link => {
+                const url = link.getAttribute("href");
 
-        // Skip anchors, JS links, new tabs
-        if (
-            !url ||
-            url.startsWith("#") ||
-            url.startsWith("javascript") ||
-            link.target === "_blank"
-        ) return;
+                // Skip anchors, JS links, new tabs
+                if (
+                    !url ||
+                    url.startsWith("#") ||
+                    url.startsWith("javascript") ||
+                    link.target === "_blank"
+                ) return;
 
-        link.addEventListener("click", function (e) {
-            e.preventDefault();
-            document.body.classList.remove("page-loaded");
-            document.body.classList.add("page-exit");
+                link.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    document.body.classList.remove("page-loaded");
+                    document.body.classList.add("page-exit");
 
-            setTimeout(() => {
-                window.location.href = url;
-            }, 100);
+                    setTimeout(() => {
+                        window.location.href = url;
+                    }, 100);
+                });
+            });
         });
-    });
-});
-</script>
-<script>
-  window.addEventListener("pageshow", function (event) {
-    // Fix for back/forward cache
-    document.body.classList.remove("page-exit");
-    document.body.classList.add("page-loaded");
-});
-</script>
- <!-- Optional JavaScript -->
+    </script>
+    <script>
+        window.addEventListener("pageshow", function (event) {
+            // Fix for back/forward cache
+            document.body.classList.remove("page-exit");
+            document.body.classList.add("page-loaded");
+        });
+    </script>
+    <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 </body>
+
 </html>

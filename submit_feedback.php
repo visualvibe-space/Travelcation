@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/config/config.php';
+require_once __DIR__ . '/svgs.php';
 // Start session if not already started
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -54,8 +55,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_feedback'])) {
             ");
 
             $result = $stmt->execute([
-                $name, $email, $phone, $subject, $message, $rating,
-                $ip_address, $user_agent, $page_url
+                $name,
+                $email,
+                $phone,
+                $subject,
+                $message,
+                $rating,
+                $ip_address,
+                $user_agent,
+                $page_url
             ]);
 
             if ($result) {
@@ -188,21 +196,24 @@ $avg_rating = $rating_stats['avg_rating'] ? number_format($rating_stats['avg_rat
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Travelcation</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Share your travel experience with us - your feedback helps us serve you better">
-    
+
     <!-- Bootstrap & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="icon" type="image/png" sizes="32x32" href="uploads/lg-tra (1).png">
-    
+
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
     <style>
         :root {
             --primary-color: #2A4365;
@@ -215,10 +226,10 @@ $avg_rating = $rating_stats['avg_rating'] ? number_format($rating_stats['avg_rat
             --border-color: #E2E8F0;
             --success-color: #38A169;
             --white: #FFFFFF;
-            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
-            --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
-            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
-            --shadow-xl: 0 20px 25px rgba(0,0,0,0.1);
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
         }
 
         * {
@@ -288,12 +299,14 @@ $avg_rating = $rating_stats['avg_rating'] ? number_format($rating_stats['avg_rat
             z-index: 9999;
             padding: 8px 20px;
         }
+
         .navbar {
             position: fixed;
             top: 40px;
             width: 100%;
             transition: top 0.4s ease;
         }
+
         .navbar.sticky {
             top: 0;
         }
@@ -361,6 +374,7 @@ $avg_rating = $rating_stats['avg_rating'] ? number_format($rating_stats['avg_rat
             padding: 0.5rem 0;
             z-index: 1055;
         }
+
         @media (max-width: 768px) {
             .navbar-collapse {
                 background-color: #ffffff;
@@ -376,6 +390,7 @@ $avg_rating = $rating_stats['avg_rating'] ? number_format($rating_stats['avg_rat
                 padding-left: 1rem;
             }
         }
+
         .navbar .dropdown-item {
             color: var(--text-color);
             font-weight: 500;
@@ -426,7 +441,7 @@ $avg_rating = $rating_stats['avg_rating'] ? number_format($rating_stats['avg_rat
             margin-top: 40px;
             position: relative;
             overflow: hidden;
-            padding-top:15%;
+            padding-top: 15%;
         }
 
         .page-header::before {
@@ -445,17 +460,17 @@ $avg_rating = $rating_stats['avg_rating'] ? number_format($rating_stats['avg_rat
             position: relative;
             z-index: 1;
         }
-        
+
         #enquiryModal .modal-dialog {
             margin-top: 10%;
         }
-        
+
         @media (max-width: 576px) {
             #enquiryModal .modal-dialog {
                 margin: 0;
                 height: 100%;
                 max-width: 100%;
-                margin-top:46%;
+                margin-top: 46%;
             }
 
             #enquiryModal .modal-content {
@@ -468,9 +483,9 @@ $avg_rating = $rating_stats['avg_rating'] ? number_format($rating_stats['avg_rat
                 padding-top: 1rem;
             }
         }
-        
+
         .page-title {
-          font-size: Inter, sans-serif;
+            font-size: Inter, sans-serif;
             font-size: 3rem;
             font-weight: 700;
             color: var(--white);
@@ -632,8 +647,8 @@ $avg_rating = $rating_stats['avg_rating'] ? number_format($rating_stats['avg_rat
         }
 
         .feedback-header h3 {
-          font-weight: bold;
-          font-family: Inter, sans-serif;
+            font-weight: bold;
+            font-family: Inter, sans-serif;
             font-size: 2rem;
             margin-bottom: 0.5rem;
         }
@@ -662,8 +677,8 @@ $avg_rating = $rating_stats['avg_rating'] ? number_format($rating_stats['avg_rat
         }
 
         .rating-label:hover,
-        .rating-label:hover ~ .rating-label,
-        .rating-input:checked ~ .rating-label {
+        .rating-label:hover~.rating-label,
+        .rating-input:checked~.rating-label {
             color: #ffc107;
         }
 
@@ -675,7 +690,8 @@ $avg_rating = $rating_stats['avg_rating'] ? number_format($rating_stats['avg_rat
             color: var(--secondary-color);
         }
 
-        .form-control, .form-select {
+        .form-control,
+        .form-select {
             border: 1px solid var(--border-color);
             border-left: none;
             border-radius: 0 8px 8px 0;
@@ -683,7 +699,8 @@ $avg_rating = $rating_stats['avg_rating'] ? number_format($rating_stats['avg_rat
             transition: all 0.3s ease;
         }
 
-        .form-control:focus, .form-select:focus {
+        .form-control:focus,
+        .form-select:focus {
             border-color: var(--accent-color);
             box-shadow: 0 0 0 3px rgba(0, 166, 200, 0.1);
             outline: none;
@@ -692,6 +709,7 @@ $avg_rating = $rating_stats['avg_rating'] ? number_format($rating_stats['avg_rat
         .is-invalid {
             border-color: #dc3545 !important;
         }
+
         .is-invalid:focus {
             box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important;
         }
@@ -703,7 +721,7 @@ $avg_rating = $rating_stats['avg_rating'] ? number_format($rating_stats['avg_rat
         }
 
         .section-title {
-          font-family: Inter, sans-serif;
+            font-family: Inter, sans-serif;
             font-size: 2.5rem;
             font-weight: 700;
             color: var(--primary-color);
@@ -789,6 +807,7 @@ $avg_rating = $rating_stats['avg_rating'] ? number_format($rating_stats['avg_rat
                 transform: translateY(-20px);
                 opacity: 0;
             }
+
             to {
                 transform: translateY(0);
                 opacity: 1;
@@ -923,19 +942,19 @@ $avg_rating = $rating_stats['avg_rating'] ? number_format($rating_stats['avg_rat
             .page-header {
                 padding: 180px 0 40px;
             }
-            
+
             .page-title {
                 font-size: 2.2rem;
             }
-            
+
             .section-title {
                 font-size: 2rem;
             }
-            
+
             .feedback-body {
                 padding: 1.5rem;
             }
-            
+
             .rating-stars {
                 font-size: 2rem;
             }
@@ -945,10 +964,87 @@ $avg_rating = $rating_stats['avg_rating'] ? number_format($rating_stats['avg_rat
             .stat-card {
                 margin-bottom: 1rem;
             }
-            
+
             .rating-stars {
                 font-size: 1.8rem;
                 gap: 0.2rem;
+            }
+        }
+
+        .bg-plane-watermark {
+            position: absolute;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .bg-plane-watermark svg {
+            width: 420px;
+            height: auto;
+        }
+
+        .bg-plane-tl {
+            top: -40px;
+            left: -60px;
+        }
+
+        .bg-plane-tr {
+            top: -40px;
+            right: -60px;
+            transform: scaleX(-1);
+        }
+
+        .suitcase-deco {
+            position: absolute;
+            pointer-events: none;
+            z-index: 3;
+            width: 140px;
+        }
+
+        .suitcase-right {
+            right: -35px;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: suitcaseBounce 4s ease-in-out infinite;
+        }
+
+        .suitcase-left {
+            left: -35px;
+            top: 45%;
+            transform: translateY(-50%);
+            animation: suitcaseBounce 4.5s ease-in-out infinite 0.5s;
+        }
+
+        .suitcase-deco svg {
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(3px 6px 12px rgba(0, 0, 0, 0.15));
+        }
+
+        @keyframes suitcaseBounce {
+
+            0%,
+            100% {
+                transform: translateY(-50%) rotate(-3deg);
+            }
+
+            50% {
+                transform: translateY(calc(-50% - 12px)) rotate(3deg);
+            }
+        }
+
+        @media (max-width:992px) {
+            .suitcase-deco {
+                width: 100px;
+            }
+
+            .bg-plane-watermark svg {
+                width: 280px;
+            }
+        }
+
+        @media (max-width:768px) {
+            .suitcase-deco {
+                display: none;
             }
         }
     </style>
@@ -956,433 +1052,455 @@ $avg_rating = $rating_stats['avg_rating'] ? number_format($rating_stats['avg_rat
 
 <body>
 
-<!-- Top CTA Header -->
-<div class="top-cta" id="topCta">
-    <div class="container d-flex justify-content-between align-items-center">
-        <span>
-            <i class="fas fa-heart me-2"></i>Share Your Experience & Help Us Improve!
-        </span>
-        <a href="tel:+919033186905" class="btn btn-sm btn-outline-light">
-            <i class="fas fa-phone-alt me-1"></i> Call Now
-        </a>
-    </div>
-</div>
-
- <!-- Navigation Bar -->
- <nav class="navbar navbar-expand-lg navbar-light fixed-top">
-          <div class="container">
-              <a class="navbar-brand" href="index.php">
-                  <img src="uploads/lg-tra (1).png" alt="ExploreWorld Travel" class="img-fluid" style="width: 120px; height: 120px;">
-              </a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                  <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarNav">
-                  <ul class="navbar-nav ms-auto">
-                      <li class="nav-item">
-                          <a class="nav-link " href="home.php">Home</a>
-                      </li>
-                      <li class="nav-item">
-                          <a class="nav-link" href="aboutus.php">About</a>
-                      </li>
-                      <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink123" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Explore
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink123">
-                        <a class="dropdown-item" href="home.php#packages">Packages</a>
-                        <a class="dropdown-item" href="home.php#hotels">Hotels</a>
-                        <a class="dropdown-item" href="offers.php">Exclusive Offers</a>
-                        <a class="dropdown-item" href="alldestinations.php">Destinations</a>
-                        </div>
-                    </li>
-                      
-                      <li class="nav-item">
-                          <a class="nav-link" href="home.php#contact-section">Contact</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link active" href="submit_feedback.php">Submit Feedback</a>
-                    </li>
-                  </ul>
-                  <button class="btn btn-primary ms-lg-3 mt-3 mt-lg-0" data-bs-toggle="modal" data-bs-target="#enquiryModal">
-                      <i class="fas fa-paper-plane me-2"></i>Quick Enquiry
-                  </button>
-              </div>
-          </div>
-      </nav>
-
-<!-- Page Header -->
-<section class="page-header">
-    <div class="container">
-        <div class="row">
-            <div class="col-12 text-center">
-                <h1 class="page-title animate__animated animate__fadeInDown">Share Your Feedback</h1>
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb page-breadcrumb justify-content-center">
-                        <li class="breadcrumb-item"><a href="index.php">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Submit Feedback</li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Stats Section -->
-<section class="stats-section">
-    <div class="container">
-        <div class="row g-4">
-            <div class="col-lg-3 col-md-6">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <div class="stat-number"><?= $avg_rating ?></div>
-                    <div class="stat-label">Average Rating</div>
-                    <div class="mt-2 text-warning">
-                        <?php for ($i = 1; $i <= 5; $i++): ?>
-                            <?php if ($i <= round($avg_rating)): ?>
-                                <i class="fas fa-star"></i>
-                            <?php else: ?>
-                                <i class="far fa-star"></i>
-                            <?php endif; ?>
-                        <?php endfor; ?>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-lg-3 col-md-6">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <div class="stat-number"><?= $total_reviews ?></div>
-                    <div class="stat-label">Total Reviews</div>
-                </div>
-            </div>
-            
-            <div class="col-lg-3 col-md-6">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-smile"></i>
-                    </div>
-                    <div class="stat-number"><?= $rating_stats['five_star'] ?? 0 ?></div>
-                    <div class="stat-label">5-Star Reviews</div>
-                </div>
-            </div>
-            
-            <div class="col-lg-3 col-md-6">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <div class="stat-number">100%</div>
-                    <div class="stat-label">Satisfaction Rate</div>
-                </div>
-            </div>
-        </div>
-        
-        <?php if ($total_reviews > 0): ?>
-        <div class="row mt-5">
-            <div class="col-lg-8 mx-auto">
-                <div class="rating-breakdown">
-                    <h5 class="text-center mb-4">Rating Breakdown</h5>
-                    
-                    <?php
-                    $ratings = [
-                        5 => $rating_stats['five_star'] ?? 0,
-                        4 => $rating_stats['four_star'] ?? 0,
-                        3 => $rating_stats['three_star'] ?? 0,
-                        2 => $rating_stats['two_star'] ?? 0,
-                        1 => $rating_stats['one_star'] ?? 0
-                    ];
-
-            foreach ($ratings as $stars => $count):
-                $percentage = $total_reviews > 0 ? round(($count / $total_reviews) * 100) : 0;
-                ?>
-                    <div class="rating-row">
-                        <div class="rating-label"><?= $stars ?> Star</div>
-                        <div class="rating-bar">
-                            <div class="rating-fill" style="width: <?= $percentage ?>%"></div>
-                        </div>
-                        <div class="rating-percent"><?= $percentage ?>%</div>
-                    </div>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-        </div>
-        <?php endif; ?>
-    </div>
-</section>
-
-<!-- Feedback Form Section -->
-<section class="feedback-section" id="feedback">
-    <div class="container">
-        <?php if (!empty($errors)): ?>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <i class="fas fa-exclamation-circle me-2"></i>
-                <?php foreach ($errors as $error): ?>
-                    <?= $error ?><br>
-                <?php endforeach; ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        <?php endif; ?>
-        
-        <?php if (isset($success) && $success): ?>
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <i class="fas fa-check-circle me-2"></i>
-                <?= $success_message ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        <?php endif; ?>
-        
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <div class="feedback-card">
-                    <div class="feedback-header">
-                        <h3><i class="fas fa-pen-fancy me-2"></i>We Value Your Opinion</h3>
-                        <p class="mb-0">Your feedback helps us create better travel experiences</p>
-                    </div>
-                    
-                    <div class="feedback-body">
-                        <form method="POST" action="" id="feedbackForm">
-                            <!-- Rating -->
-                            <div class="mb-4 text-center">
-                                <label class="form-label fw-bold mb-3">How would you rate your experience? *</label>
-                                <div class="rating-stars">
-                                    <input type="radio" name="rating" value="5" id="star5" class="rating-input" required>
-                                    <label for="star5" class="rating-label"><i class="fas fa-star"></i></label>
-                                    
-                                    <input type="radio" name="rating" value="4" id="star4" class="rating-input">
-                                    <label for="star4" class="rating-label"><i class="fas fa-star"></i></label>
-                                    
-                                    <input type="radio" name="rating" value="3" id="star3" class="rating-input">
-                                    <label for="star3" class="rating-label"><i class="fas fa-star"></i></label>
-                                    
-                                    <input type="radio" name="rating" value="2" id="star2" class="rating-input">
-                                    <label for="star2" class="rating-label"><i class="fas fa-star"></i></label>
-                                    
-                                    <input type="radio" name="rating" value="1" id="star1" class="rating-input">
-                                    <label for="star1" class="rating-label"><i class="fas fa-star"></i></label>
-                                </div>
-                                <div id="rating-error" class="text-danger small mt-2" style="display: none;">Please select a rating</div>
-                            </div>
-                            
-                            <div class="row g-4">
-                                <!-- Name -->
-                                <div class="col-md-6">
-                                    <label class="form-label fw-bold">Your Full Name *</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                        <input type="text" class="form-control" id="feedback-name" name="name" 
-                                               placeholder="Enter your full name" required value="<?= isset($_POST['name']) ? htmlspecialchars($_POST['name']) : '' ?>">
-                                    </div>
-                                </div>
-                                
-                                <!-- Email -->
-                                <div class="col-md-6">
-                                    <label class="form-label fw-bold">Email Address *</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                                        <input type="email" class="form-control" id="feedback-email" name="email" 
-                                               placeholder="Enter your email" required value="<?= isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '' ?>">
-                                    </div>
-                                </div>
-                                
-                                <!-- Phone (Optional) -->
-                                <div class="col-md-6">
-                                    <label class="form-label fw-bold">Phone Number <span class="text-muted">(Optional)</span></label>
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                                        <input type="tel" class="form-control" id="feedback-phone" name="phone" 
-                                               placeholder="Enter your phone number" value="<?= isset($_POST['phone']) ? htmlspecialchars($_POST['phone']) : '' ?>">
-                                    </div>
-                                </div>
-                                
-                                <!-- Subject -->
-                                <div class="col-md-6">
-                                    <label class="form-label fw-bold">Subject <span class="text-muted">(Optional)</span></label>
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fas fa-tag"></i></span>
-                                        <input type="text" class="form-control" id="feedback-subject" name="subject" 
-                                               placeholder="e.g., Tour Experience, Hotel Stay" value="<?= isset($_POST['subject']) ? htmlspecialchars($_POST['subject']) : '' ?>">
-                                    </div>
-                                </div>
-                                
-                                <!-- Message -->
-                                <div class="col-12">
-                                    <label class="form-label fw-bold">Your Feedback *</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fas fa-comment"></i></span>
-                                        <textarea class="form-control" id="feedback-message" name="message" 
-                                                  rows="5" placeholder="Please share your detailed experience with us..." required><?= isset($_POST['message']) ? htmlspecialchars($_POST['message']) : '' ?></textarea>
-                                    </div>
-                                </div>
-                                
-                                <!-- Submit Button -->
-                                <div class="col-12 text-center mt-4">
-                                    <button type="submit" name="submit_feedback" class="btn btn-primary btn-lg px-5">
-                                        <i class="fas fa-paper-plane me-2"></i>Submit Feedback
-                                    </button>
-                                </div>
-                                
-                                <div class="col-12">
-                                    <p class="text-muted small text-center mb-0">
-                                        <i class="fas fa-lock me-1"></i>
-                                        Your feedback is valuable and helps us improve our services
-                                    </p>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Testimonials Section -->
-<?php if (!empty($published_feedbacks)): ?>
-<section class="testimonials-section" id="testimonials-section">
-    <div class="container">
-        <h2 class="section-title">What Our Travelers Say</h2>
-        <p class="section-subtitle">Real experiences from our happy customers around the world</p>
-        
-        <div class="row g-4">
-            <?php foreach ($published_feedbacks as $feedback): ?>
-            <div class="col-lg-4 col-md-6">
-                <div class="testimonial-card">
-                    <div class="testimonial-rating">
-                        <?php for ($i = 1; $i <= 5; $i++): ?>
-                            <?php if ($i <= $feedback['rating']): ?>
-                                <i class="fas fa-star"></i>
-                            <?php else: ?>
-                                <i class="far fa-star"></i>
-                            <?php endif; ?>
-                        <?php endfor; ?>
-                    </div>
-                    
-                    <p class="testimonial-text">"<?= htmlspecialchars(substr($feedback['message'], 0, 150)) ?>..."</p>
-                    
-                    <div class="testimonial-author">
-                        <div class="author-avatar">
-                            <?= strtoupper(substr($feedback['name'], 0, 1)) ?>
-                        </div>
-                        <div class="author-info">
-                            <h6><?= htmlspecialchars($feedback['name']) ?></h6>
-                            <small><i class="far fa-calendar-alt me-1"></i> <?= date('M d, Y', strtotime($feedback['created_at'])) ?></small>
-                        </div>
-                    </div>
-                    
-                    <?php if (!empty($feedback['subject'])): ?>
-                    <div class="mt-3">
-                        <span class="badge bg-light text-dark">
-                            <i class="fas fa-tag me-1"></i> <?= htmlspecialchars($feedback['subject']) ?>
-                        </span>
-                    </div>
-                    <?php endif; ?>
-                </div>
-            </div>
-            <?php endforeach; ?>
-        </div>
-        
-        <?php if (count($published_feedbacks) >= 9): ?>
-        <div class="text-center mt-5">
-            <a href="all-testimonials.php" class="btn btn-outline-primary">
-                <i class="fas fa-star me-2"></i>View All Testimonials
+    <!-- Top CTA Header -->
+    <div class="top-cta" id="topCta">
+        <div class="container d-flex justify-content-between align-items-center">
+            <span>
+                <i class="fas fa-heart me-2"></i>Share Your Experience & Help Us Improve!
+            </span>
+            <a href="tel:+919033186905" class="btn btn-sm btn-outline-light">
+                <i class="fas fa-phone-alt me-1"></i> Call Now
             </a>
         </div>
-        <?php endif; ?>
     </div>
-</section>
-<?php endif; ?>
 
-<!-- Enquiry Modal -->
-<div class="modal fade enquiry-modal" id="enquiryModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"><i class="fas fa-paper-plane me-2"></i> Travel Enquiry Form</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.php">
+                <img src="uploads/lg-tra (1).png" alt="ExploreWorld Travel" class="img-fluid"
+                    style="width: 120px; height: 120px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link " href="home.php">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="aboutus.php">About</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink123"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Explore
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink123">
+                            <a class="dropdown-item" href="home.php#packages">Packages</a>
+                            <a class="dropdown-item" href="home.php#hotels">Hotels</a>
+                            <a class="dropdown-item" href="offers.php">Exclusive Offers</a>
+                            <a class="dropdown-item" href="alldestinations.php">Destinations</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="home.php#contact-section">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="submit_feedback.php">Submit Feedback</a>
+                    </li>
+                </ul>
+                <button class="btn btn-primary ms-lg-3 mt-3 mt-lg-0" data-bs-toggle="modal"
+                    data-bs-target="#enquiryModal">
+                    <i class="fas fa-paper-plane me-2"></i>Quick Enquiry
+                </button>
             </div>
-            <div class="modal-body">
-                
-                <?php if ($modal_enquiry_success): ?>
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <i class="fas fa-check-circle me-2"></i>
-                    <?= htmlspecialchars($modal_enquiry_message) ?>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="page-title animate__animated animate__fadeInDown">Share Your Feedback</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb page-breadcrumb justify-content-center">
+                            <li class="breadcrumb-item"><a href="index.php">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Submit Feedback</li>
+                        </ol>
+                    </nav>
                 </div>
-                <?php endif; ?>
-                
-                <?php if (!$modal_enquiry_success && $modal_enquiry_error): ?>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section" style="position:relative;overflow:hidden;">
+        <div class="bg-plane-watermark bg-plane-tl" style="opacity:0.10;"><?= $svg_airplane ?></div>
+        <div class="suitcase-deco suitcase-right" style="top:40%; right:-25px;"><?= $svg_suitcase ?></div>
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-number"><?= $avg_rating ?></div>
+                        <div class="stat-label">Average Rating</div>
+                        <div class="mt-2 text-warning">
+                            <?php for ($i = 1; $i <= 5; $i++): ?>
+                                <?php if ($i <= round($avg_rating)): ?>
+                                    <i class="fas fa-star"></i>
+                                <?php else: ?>
+                                    <i class="far fa-star"></i>
+                                <?php endif; ?>
+                            <?php endfor; ?>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-number"><?= $total_reviews ?></div>
+                        <div class="stat-label">Total Reviews</div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-smile"></i>
+                        </div>
+                        <div class="stat-number"><?= $rating_stats['five_star'] ?? 0 ?></div>
+                        <div class="stat-label">5-Star Reviews</div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Satisfaction Rate</div>
+                    </div>
+                </div>
+            </div>
+
+            <?php if ($total_reviews > 0): ?>
+                <div class="row mt-5">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="rating-breakdown">
+                            <h5 class="text-center mb-4">Rating Breakdown</h5>
+
+                            <?php
+                            $ratings = [
+                                5 => $rating_stats['five_star'] ?? 0,
+                                4 => $rating_stats['four_star'] ?? 0,
+                                3 => $rating_stats['three_star'] ?? 0,
+                                2 => $rating_stats['two_star'] ?? 0,
+                                1 => $rating_stats['one_star'] ?? 0
+                            ];
+
+                            foreach ($ratings as $stars => $count):
+                                $percentage = $total_reviews > 0 ? round(($count / $total_reviews) * 100) : 0;
+                                ?>
+                                <div class="rating-row">
+                                    <div class="rating-label"><?= $stars ?> Star</div>
+                                    <div class="rating-bar">
+                                        <div class="rating-fill" style="width: <?= $percentage ?>%"></div>
+                                    </div>
+                                    <div class="rating-percent"><?= $percentage ?>%</div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+        </div>
+    </section>
+
+    <!-- Feedback Form Section -->
+    <section class="feedback-section" id="feedback">
+        <div class="container">
+            <?php if (!empty($errors)): ?>
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <i class="fas fa-exclamation-circle me-2"></i>
-                    <?= $modal_enquiry_error ?>
+                    <?php foreach ($errors as $error): ?>
+                        <?= $error ?><br>
+                    <?php endforeach; ?>
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
+            <?php endif; ?>
+
+            <?php if (isset($success) && $success): ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle me-2"></i>
+                    <?= $success_message ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            <?php endif; ?>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="feedback-card">
+                        <div class="feedback-header">
+                            <h3><i class="fas fa-pen-fancy me-2"></i>We Value Your Opinion</h3>
+                            <p class="mb-0">Your feedback helps us create better travel experiences</p>
+                        </div>
+
+                        <div class="feedback-body">
+                            <form method="POST" action="" id="feedbackForm">
+                                <!-- Rating -->
+                                <div class="mb-4 text-center">
+                                    <label class="form-label fw-bold mb-3">How would you rate your experience? *</label>
+                                    <div class="rating-stars">
+                                        <input type="radio" name="rating" value="5" id="star5" class="rating-input"
+                                            required>
+                                        <label for="star5" class="rating-label"><i class="fas fa-star"></i></label>
+
+                                        <input type="radio" name="rating" value="4" id="star4" class="rating-input">
+                                        <label for="star4" class="rating-label"><i class="fas fa-star"></i></label>
+
+                                        <input type="radio" name="rating" value="3" id="star3" class="rating-input">
+                                        <label for="star3" class="rating-label"><i class="fas fa-star"></i></label>
+
+                                        <input type="radio" name="rating" value="2" id="star2" class="rating-input">
+                                        <label for="star2" class="rating-label"><i class="fas fa-star"></i></label>
+
+                                        <input type="radio" name="rating" value="1" id="star1" class="rating-input">
+                                        <label for="star1" class="rating-label"><i class="fas fa-star"></i></label>
+                                    </div>
+                                    <div id="rating-error" class="text-danger small mt-2" style="display: none;">Please
+                                        select a rating</div>
+                                </div>
+
+                                <div class="row g-4">
+                                    <!-- Name -->
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">Your Full Name *</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                            <input type="text" class="form-control" id="feedback-name" name="name"
+                                                placeholder="Enter your full name" required
+                                                value="<?= isset($_POST['name']) ? htmlspecialchars($_POST['name']) : '' ?>">
+                                        </div>
+                                    </div>
+
+                                    <!-- Email -->
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">Email Address *</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                            <input type="email" class="form-control" id="feedback-email" name="email"
+                                                placeholder="Enter your email" required
+                                                value="<?= isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '' ?>">
+                                        </div>
+                                    </div>
+
+                                    <!-- Phone (Optional) -->
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">Phone Number <span
+                                                class="text-muted">(Optional)</span></label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                            <input type="tel" class="form-control" id="feedback-phone" name="phone"
+                                                placeholder="Enter your phone number"
+                                                value="<?= isset($_POST['phone']) ? htmlspecialchars($_POST['phone']) : '' ?>">
+                                        </div>
+                                    </div>
+
+                                    <!-- Subject -->
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">Subject <span
+                                                class="text-muted">(Optional)</span></label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fas fa-tag"></i></span>
+                                            <input type="text" class="form-control" id="feedback-subject" name="subject"
+                                                placeholder="e.g., Tour Experience, Hotel Stay"
+                                                value="<?= isset($_POST['subject']) ? htmlspecialchars($_POST['subject']) : '' ?>">
+                                        </div>
+                                    </div>
+
+                                    <!-- Message -->
+                                    <div class="col-12">
+                                        <label class="form-label fw-bold">Your Feedback *</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fas fa-comment"></i></span>
+                                            <textarea class="form-control" id="feedback-message" name="message" rows="5"
+                                                placeholder="Please share your detailed experience with us..."
+                                                required><?= isset($_POST['message']) ? htmlspecialchars($_POST['message']) : '' ?></textarea>
+                                        </div>
+                                    </div>
+
+                                    <!-- Submit Button -->
+                                    <div class="col-12 text-center mt-4">
+                                        <button type="submit" name="submit_feedback"
+                                            class="btn btn-primary btn-lg px-5">
+                                            <i class="fas fa-paper-plane me-2"></i>Submit Feedback
+                                        </button>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <p class="text-muted small text-center mb-0">
+                                            <i class="fas fa-lock me-1"></i>
+                                            Your feedback is valuable and helps us improve our services
+                                        </p>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <?php if (!empty($published_feedbacks)): ?>
+        <section class="testimonials-section" id="testimonials-section">
+            <div class="container">
+                <h2 class="section-title">What Our Travelers Say</h2>
+                <p class="section-subtitle">Real experiences from our happy customers around the world</p>
+
+                <div class="row g-4">
+                    <?php foreach ($published_feedbacks as $feedback): ?>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="testimonial-card">
+                                <div class="testimonial-rating">
+                                    <?php for ($i = 1; $i <= 5; $i++): ?>
+                                        <?php if ($i <= $feedback['rating']): ?>
+                                            <i class="fas fa-star"></i>
+                                        <?php else: ?>
+                                            <i class="far fa-star"></i>
+                                        <?php endif; ?>
+                                    <?php endfor; ?>
+                                </div>
+
+                                <p class="testimonial-text">"<?= htmlspecialchars(substr($feedback['message'], 0, 150)) ?>..."
+                                </p>
+
+                                <div class="testimonial-author">
+                                    <div class="author-avatar">
+                                        <?= strtoupper(substr($feedback['name'], 0, 1)) ?>
+                                    </div>
+                                    <div class="author-info">
+                                        <h6><?= htmlspecialchars($feedback['name']) ?></h6>
+                                        <small><i class="far fa-calendar-alt me-1"></i>
+                                            <?= date('M d, Y', strtotime($feedback['created_at'])) ?></small>
+                                    </div>
+                                </div>
+
+                                <?php if (!empty($feedback['subject'])): ?>
+                                    <div class="mt-3">
+                                        <span class="badge bg-light text-dark">
+                                            <i class="fas fa-tag me-1"></i> <?= htmlspecialchars($feedback['subject']) ?>
+                                        </span>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+
+                <?php if (count($published_feedbacks) >= 9): ?>
+                    <div class="text-center mt-5">
+                        <a href="all-testimonials.php" class="btn btn-outline-primary">
+                            <i class="fas fa-star me-2"></i>View All Testimonials
+                        </a>
+                    </div>
                 <?php endif; ?>
-                
-                <form method="POST" action="">
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label for="modal_full_name" class="form-label">Full Name *</label>
-                            <input type="text" class="form-control" id="modal_full_name" name="modal_full_name" required>
+            </div>
+        </section>
+    <?php endif; ?>
+
+    <!-- Enquiry Modal -->
+    <div class="modal fade enquiry-modal" id="enquiryModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-paper-plane me-2"></i> Travel Enquiry Form</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+
+                    <?php if ($modal_enquiry_success): ?>
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="fas fa-check-circle me-2"></i>
+                            <?= htmlspecialchars($modal_enquiry_message) ?>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                         </div>
-                        <div class="col-md-6">
-                            <label for="modal_email" class="form-label">Email Address *</label>
-                            <input type="email" class="form-control" id="modal_email" name="modal_email" required>
+                    <?php endif; ?>
+
+                    <?php if (!$modal_enquiry_success && $modal_enquiry_error): ?>
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-circle me-2"></i>
+                            <?= $modal_enquiry_error ?>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                         </div>
-                        <div class="col-md-6">
-                            <label for="modal_phone" class="form-label">Phone Number *</label>
-                            <input type="tel" class="form-control" id="modal_phone" name="modal_phone" required>
+                    <?php endif; ?>
+
+                    <form method="POST" action="">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="modal_full_name" class="form-label">Full Name *</label>
+                                <input type="text" class="form-control" id="modal_full_name" name="modal_full_name"
+                                    required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="modal_email" class="form-label">Email Address *</label>
+                                <input type="email" class="form-control" id="modal_email" name="modal_email" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="modal_phone" class="form-label">Phone Number *</label>
+                                <input type="tel" class="form-control" id="modal_phone" name="modal_phone" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="modal_package" class="form-label">Package Interested In</label>
+                                <input type="text" class="form-control" id="modal_package" name="modal_package"
+                                    placeholder="Enter package name (optional)">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="modal_travel_date" class="form-label">Travel Date *</label>
+                                <input type="date" class="form-control" id="modal_travel_date" name="modal_travel_date"
+                                    min="<?= date('Y-m-d', strtotime('+1 day')) ?>" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="modal_travelers" class="form-label">Number of Travelers *</label>
+                                <select class="form-select" id="modal_travelers" name="modal_travelers" required>
+                                    <option value="">Select</option>
+                                    <option value="1">1 Traveler</option>
+                                    <option value="2" selected>2 Travelers</option>
+                                    <option value="3">3 Travelers</option>
+                                    <option value="4">4 Travelers</option>
+                                    <option value="5+">5+ Travelers</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label for="modal_message" class="form-label">Additional Requirements</label>
+                                <textarea class="form-control" id="modal_message" name="modal_message" rows="4"
+                                    placeholder="Please share any specific requirements or questions..."></textarea>
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <label for="modal_package" class="form-label">Package Interested In</label>
-                            <input type="text" class="form-control" id="modal_package" name="modal_package" placeholder="Enter package name (optional)">
+
+                        <input type="hidden" name="source" id="enquiry_source" value="navbar">
+
+                        <div class="d-grid mt-4">
+                            <button type="submit" name="submit_modal_enquiry" class="btn btn-primary btn-lg">
+                                <i class="fas fa-paper-plane me-2"></i>Submit Enquiry
+                            </button>
                         </div>
-                        <div class="col-md-6">
-                            <label for="modal_travel_date" class="form-label">Travel Date *</label>
-                            <input type="date" class="form-control" id="modal_travel_date" name="modal_travel_date" min="<?= date('Y-m-d', strtotime('+1 day')) ?>" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="modal_travelers" class="form-label">Number of Travelers *</label>
-                            <select class="form-select" id="modal_travelers" name="modal_travelers" required>
-                                <option value="">Select</option>
-                                <option value="1">1 Traveler</option>
-                                <option value="2" selected>2 Travelers</option>
-                                <option value="3">3 Travelers</option>
-                                <option value="4">4 Travelers</option>
-                                <option value="5+">5+ Travelers</option>
-                            </select>
-                        </div>
-                        <div class="col-12">
-                            <label for="modal_message" class="form-label">Additional Requirements</label>
-                            <textarea class="form-control" id="modal_message" name="modal_message" rows="4" placeholder="Please share any specific requirements or questions..."></textarea>
-                        </div>
-                    </div>
-                    
-                    <input type="hidden" name="source" id="enquiry_source" value="navbar">
-                    
-                    <div class="d-grid mt-4">
-                        <button type="submit" name="submit_modal_enquiry" class="btn btn-primary btn-lg">
-                            <i class="fas fa-paper-plane me-2"></i>Submit Enquiry
-                        </button>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
-      <!-- Footer -->
-      <footer id="contact">
+    <!-- Footer -->
+    <footer id="contact">
         <div class="container">
             <div class="row g-4">
                 <div class="col-lg-4 col-md-6">
                     <h3 class="footer-title">Travelcation</h3>
-                    <p class="mb-3 text-white-50">Your trusted partner for creating unforgettable travel experiences with personalized service and expert guidance.</p>
+                    <p class="mb-3 text-white-50">Your trusted partner for creating unforgettable travel experiences
+                        with personalized service and expert guidance.</p>
                     <div class="social-links">
                         <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
@@ -1390,7 +1508,7 @@ $avg_rating = $rating_stats['avg_rating'] ? number_format($rating_stats['avg_rat
                         <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
-                
+
                 <div class="col-lg-2 col-md-6">
                     <h3 class="footer-title">Quick Links</h3>
                     <ul class="footer-links">
@@ -1401,196 +1519,205 @@ $avg_rating = $rating_stats['avg_rating'] ? number_format($rating_stats['avg_rat
                         <li><a href="home.php#contact"><i class="fas fa-chevron-right"></i> Contact</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="col-lg-3 col-md-6">
                     <h3 class="footer-title">Contact Info</h3>
                     <ul class="contact-info">
-                        <li><i class="fas fa-map-marker-alt"></i> 214, Oberon, Opp. Mercedes-Benz Showroom, New City Light Road, Surat – 395017</li>
+                        <li><i class="fas fa-map-marker-alt"></i> 214, Oberon, Opp. Mercedes-Benz Showroom, New City
+                            Light Road, Surat – 395017</li>
                         <li><i class="fas fa-phone"></i> +91-90331 86905</li>
                         <li><i class="fas fa-envelope"></i>info@travelcation.co.in</li>
                         <li><i class="fas fa-clock"></i> Mon-Sat: 11:00 AM - 8:00 PM</li>
                     </ul>
                 </div>
-                
+
                 <div class="col-lg-3 col-md-6">
                     <h3 class="footer-title">Newsletter</h3>
                     <p class="mb-3 text-white-50">Subscribe to receive exclusive travel deals and updates.</p>
                     <div class="input-group">
-                        <input type="email" class="form-control bg-dark text-white border-secondary" placeholder="Your email address">
+                        <input type="email" class="form-control bg-dark text-white border-secondary"
+                            placeholder="Your email address">
                         <button class="btn btn-primary" type="button">
                             <i class="fas fa-paper-plane"></i>
                         </button>
                     </div>
                 </div>
             </div>
-            
+
             <div class="copyright">
                 <p>&copy; 2026 Travelcation. All rights reserved.</p>
             </div>
         </div>
     </footer>
-<!-- Back to Top Button -->
-<button class="btn-back-to-top" id="backToTop">
-    <i class="fas fa-chevron-up"></i>
-</button>
+    <!-- Back to Top Button -->
+    <button class="btn-back-to-top" id="backToTop">
+        <i class="fas fa-chevron-up"></i>
+    </button>
 
-<!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script>
-    // Page transition
-    document.addEventListener("DOMContentLoaded", () => {
-        document.body.classList.add("page-loaded");
-    });
+    <script>
+        // Page transition
+        document.addEventListener("DOMContentLoaded", () => {
+            document.body.classList.add("page-loaded");
+        });
 
-    // CTA and Navbar scroll effect
-    const cta = document.getElementById("topCta");
-    const navbar = document.querySelector(".navbar");
-    const header = document.querySelector(".page-header");
-    
-    if (header) {
-        window.addEventListener("scroll", () => {
-            const headerHeight = header.offsetHeight;
-            const hidePoint = headerHeight * 0.3;
-            
-            if (window.scrollY > hidePoint) {
-                cta.classList.add("hidden");
-                navbar.classList.add("sticky");
+        // CTA and Navbar scroll effect
+        const cta = document.getElementById("topCta");
+        const navbar = document.querySelector(".navbar");
+        const header = document.querySelector(".page-header");
+
+        if (header) {
+            window.addEventListener("scroll", () => {
+                const headerHeight = header.offsetHeight;
+                const hidePoint = headerHeight * 0.3;
+
+                if (window.scrollY > hidePoint) {
+                    cta.classList.add("hidden");
+                    navbar.classList.add("sticky");
+                } else {
+                    cta.classList.remove("hidden");
+                    navbar.classList.remove("sticky");
+                }
+            });
+        }
+
+        // Back to Top
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.style.display = 'flex';
             } else {
-                cta.classList.remove("hidden");
-                navbar.classList.remove("sticky");
+                backToTop.style.display = 'none';
             }
         });
-    }
 
-    // Back to Top
-    const backToTop = document.getElementById('backToTop');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) {
-            backToTop.style.display = 'flex';
-        } else {
-            backToTop.style.display = 'none';
-        }
-    });
-
-    backToTop.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    // Set min date for travel date
-    const today = new Date();
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    
-    const travelDate = document.getElementById('travelDate');
-    if (travelDate) {
-        travelDate.min = tomorrow.toISOString().split('T')[0];
-    }
-
-    // Feedback form validation
-    document.getElementById('feedbackForm')?.addEventListener('submit', function(e) {
-        const rating = document.querySelector('input[name="rating"]:checked');
-        const name = document.getElementById('feedback-name').value.trim();
-        const email = document.getElementById('feedback-email').value.trim();
-        const message = document.getElementById('feedback-message').value.trim();
-        
-        let isValid = true;
-        
-        // Validate rating
-        if (!rating) {
-            document.getElementById('rating-error').style.display = 'block';
-            isValid = false;
-        } else {
-            document.getElementById('rating-error').style.display = 'none';
-        }
-        
-        // Validate name
-        if (!name) {
-            document.getElementById('feedback-name').classList.add('is-invalid');
-            isValid = false;
-        } else {
-            document.getElementById('feedback-name').classList.remove('is-invalid');
-        }
-        
-        // Validate email
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!email || !emailRegex.test(email)) {
-            document.getElementById('feedback-email').classList.add('is-invalid');
-            isValid = false;
-        } else {
-            document.getElementById('feedback-email').classList.remove('is-invalid');
-        }
-        
-        // Validate message
-        if (!message) {
-            document.getElementById('feedback-message').classList.add('is-invalid');
-            isValid = false;
-        } else {
-            document.getElementById('feedback-message').classList.remove('is-invalid');
-        }
-        
-        if (!isValid) {
-            e.preventDefault();
-        }
-    });
-
-    // Real-time rating display
-    document.querySelectorAll('.rating-label').forEach(label => {
-        label.addEventListener('mouseover', function() {
-            // Optional: Show rating text on hover
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
-        
-        label.addEventListener('mouseout', function() {
-            // Optional: Remove hover effect
-        });
-    });
 
-    // Modal enquiry form handling
-    document.querySelector('.btn-primary[data-bs-target="#enquiryModal"]').addEventListener('click', function() {
-        document.getElementById('enquiry_source').value = 'navbar';
-        document.getElementById('modal_package').value = '';
-        document.getElementById('modal_package').removeAttribute('readonly');
-    });
+        // Set min date for travel date
+        const today = new Date();
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
 
-    // Page transition for links
-    document.addEventListener("DOMContentLoaded", () => {
-        document.querySelectorAll("a[href]").forEach(link => {
-            const url = link.getAttribute("href");
+        const travelDate = document.getElementById('travelDate');
+        if (travelDate) {
+            travelDate.min = tomorrow.toISOString().split('T')[0];
+        }
 
-            if (
-                !url ||
-                url.startsWith("#") ||
-                url.startsWith("javascript") ||
-                link.target === "_blank" ||
-                url.includes("tel:") ||
-                url.includes("mailto:")
-            ) return;
+        // Feedback form validation
+        document.getElementById('feedbackForm')?.addEventListener('submit', function (e) {
+            const rating = document.querySelector('input[name="rating"]:checked');
+            const name = document.getElementById('feedback-name').value.trim();
+            const email = document.getElementById('feedback-email').value.trim();
+            const message = document.getElementById('feedback-message').value.trim();
 
-            link.addEventListener("click", function (e) {
-                if (this.getAttribute('data-bs-toggle') === 'modal') return;
-                
+            let isValid = true;
+
+            // Validate rating
+            if (!rating) {
+                document.getElementById('rating-error').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('rating-error').style.display = 'none';
+            }
+
+            // Validate name
+            if (!name) {
+                document.getElementById('feedback-name').classList.add('is-invalid');
+                isValid = false;
+            } else {
+                document.getElementById('feedback-name').classList.remove('is-invalid');
+            }
+
+            // Validate email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email || !emailRegex.test(email)) {
+                document.getElementById('feedback-email').classList.add('is-invalid');
+                isValid = false;
+            } else {
+                document.getElementById('feedback-email').classList.remove('is-invalid');
+            }
+
+            // Validate message
+            if (!message) {
+                document.getElementById('feedback-message').classList.add('is-invalid');
+                isValid = false;
+            } else {
+                document.getElementById('feedback-message').classList.remove('is-invalid');
+            }
+
+            if (!isValid) {
                 e.preventDefault();
-                document.body.classList.remove("page-loaded");
-                document.body.classList.add("page-exit");
+            }
+        });
 
-                setTimeout(() => {
-                    window.location.href = url;
-                }, 300);
+        // Real-time rating display
+        document.querySelectorAll('.rating-label').forEach(label => {
+            label.addEventListener('mouseover', function () {
+                // Optional: Show rating text on hover
+            });
+
+            label.addEventListener('mouseout', function () {
+                // Optional: Remove hover effect
             });
         });
-    });
 
-    // Fix for back/forward cache
-    window.addEventListener("pageshow", function (event) {
-        document.body.classList.remove("page-exit");
-        document.body.classList.add("page-loaded");
-    });
-</script>
-<!-- Optional JavaScript -->
+        // Modal enquiry form handling
+        document.querySelector('.btn-primary[data-bs-target="#enquiryModal"]').addEventListener('click', function () {
+            document.getElementById('enquiry_source').value = 'navbar';
+            document.getElementById('modal_package').value = '';
+            document.getElementById('modal_package').removeAttribute('readonly');
+        });
+
+        // Page transition for links
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll("a[href]").forEach(link => {
+                const url = link.getAttribute("href");
+
+                if (
+                    !url ||
+                    url.startsWith("#") ||
+                    url.startsWith("javascript") ||
+                    link.target === "_blank" ||
+                    url.includes("tel:") ||
+                    url.includes("mailto:")
+                ) return;
+
+                link.addEventListener("click", function (e) {
+                    if (this.getAttribute('data-bs-toggle') === 'modal') return;
+
+                    e.preventDefault();
+                    document.body.classList.remove("page-loaded");
+                    document.body.classList.add("page-exit");
+
+                    setTimeout(() => {
+                        window.location.href = url;
+                    }, 300);
+                });
+            });
+        });
+
+        // Fix for back/forward cache
+        window.addEventListener("pageshow", function (event) {
+            document.body.classList.remove("page-exit");
+            document.body.classList.add("page-loaded");
+        });
+    </script>
+    <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 </body>
+
 </html>

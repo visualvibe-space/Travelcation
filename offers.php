@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/config/config.php';
+require_once __DIR__ . '/svgs.php';
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -18,7 +19,7 @@ if (isset($_SESSION['modal_enquiry_success'])) {
     $modal_enquiry_success = $_SESSION['modal_enquiry_success'];
     $modal_enquiry_message = $_SESSION['modal_enquiry_message'] ?? '';
     $modal_enquiry_error = $_SESSION['modal_enquiry_error'] ?? '';
-    
+
     // Clear session variables
     unset($_SESSION['modal_enquiry_success']);
     unset($_SESSION['modal_enquiry_message']);
@@ -27,7 +28,7 @@ if (isset($_SESSION['modal_enquiry_success'])) {
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_modal_enquiry'])) {
-    
+
     // Get and sanitize form data
     $full_name = trim($_POST['modal_full_name'] ?? '');
     $email = trim($_POST['modal_email'] ?? '');
@@ -37,16 +38,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_modal_enquiry'
     $travelers = trim($_POST['modal_travelers'] ?? '');
     $message = trim($_POST['modal_message'] ?? '');
     $source = trim($_POST['source'] ?? 'offers');
-    
+
     // Validation
     $errors = [];
-    if (empty($full_name)) $errors[] = 'Full name is required';
-    if (empty($email)) $errors[] = 'Email is required';
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = 'Valid email is required';
-    if (empty($phone)) $errors[] = 'Phone number is required';
-    if (empty($travel_date)) $errors[] = 'Travel date is required';
-    if (empty($travelers)) $errors[] = 'Number of travelers is required';
-    
+    if (empty($full_name))
+        $errors[] = 'Full name is required';
+    if (empty($email))
+        $errors[] = 'Email is required';
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL))
+        $errors[] = 'Valid email is required';
+    if (empty($phone))
+        $errors[] = 'Phone number is required';
+    if (empty($travel_date))
+        $errors[] = 'Travel date is required';
+    if (empty($travelers))
+        $errors[] = 'Number of travelers is required';
+
     if (empty($errors)) {
         try {
             // Insert enquiry into enquiries table
@@ -73,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_modal_enquiry'
                     'New'
                 )
             ");
-            
+
             $insertStmt->execute([
                 ':full_name' => $full_name,
                 ':email' => $email,
@@ -84,11 +91,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_modal_enquiry'
                 ':message' => !empty($message) ? $message : null,
                 ':source' => $source
             ]);
-            
+
             // Set success message in session
             $_SESSION['modal_enquiry_success'] = true;
             $_SESSION['modal_enquiry_message'] = 'Thank you for your interest in our offers! We will contact you within 24 hours.';
-            
+
         } catch (PDOException $e) {
             error_log("Enquiry submission error: " . $e->getMessage());
             $_SESSION['modal_enquiry_success'] = false;
@@ -98,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_modal_enquiry'
         $_SESSION['modal_enquiry_success'] = false;
         $_SESSION['modal_enquiry_error'] = implode('<br>', $errors);
     }
-    
+
     // Redirect to prevent form resubmission
     header('Location: ' . $_SERVER['PHP_SELF'] . '?success=' . ($_SESSION['modal_enquiry_success'] ? '1' : '0'));
     exit;
@@ -120,6 +127,7 @@ $page_title = "Exclusive Offers & Deals - ExploreWorld Travel";
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -130,7 +138,9 @@ $page_title = "Exclusive Offers & Deals - ExploreWorld Travel";
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" type="image/png" sizes="32x32" href="uploads/lg-tra (1).png">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --primary-color: #2A4365;
@@ -143,10 +153,10 @@ $page_title = "Exclusive Offers & Deals - ExploreWorld Travel";
             --border-color: #E2E8F0;
             --white: #FFFFFF;
 
-            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
-            --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
-            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
-            --shadow-xl: 0 20px 25px rgba(0,0,0,0.1);
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
             --navbar-height: 72px;
         }
 
@@ -158,8 +168,14 @@ $page_title = "Exclusive Offers & Deals - ExploreWorld Travel";
             transition: opacity 0.4s ease-in-out;
             background-color: var(--light-color);
         }
-        body.page-loaded { opacity: 1; }
-        body.page-exit { opacity: 0; }
+
+        body.page-loaded {
+            opacity: 1;
+        }
+
+        body.page-exit {
+            opacity: 0;
+        }
 
         /* Navbar */
         .navbar {
@@ -258,7 +274,7 @@ $page_title = "Exclusive Offers & Deals - ExploreWorld Travel";
             font-family: 'Playfair Display', serif;
             font-size: 3.5rem;
             font-weight: 700;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .page-header .breadcrumb {
@@ -268,7 +284,7 @@ $page_title = "Exclusive Offers & Deals - ExploreWorld Travel";
 
         .page-header .breadcrumb-item,
         .page-header .breadcrumb-item a {
-            color: rgba(255,255,255,0.8);
+            color: rgba(255, 255, 255, 0.8);
             text-decoration: none;
         }
 
@@ -345,7 +361,8 @@ $page_title = "Exclusive Offers & Deals - ExploreWorld Travel";
             position: relative;
             width: 100%;
             background: #000;
-            aspect-ratio: 9/16; /* Instagram Reels portrait aspect ratio */
+            aspect-ratio: 9/16;
+            /* Instagram Reels portrait aspect ratio */
             max-height: 600px;
             overflow: hidden;
         }
@@ -353,7 +370,8 @@ $page_title = "Exclusive Offers & Deals - ExploreWorld Travel";
         .offer-video {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Cover the container like Instagram Reels */
+            object-fit: cover;
+            /* Cover the container like Instagram Reels */
         }
 
         .video-controls {
@@ -593,7 +611,7 @@ $page_title = "Exclusive Offers & Deals - ExploreWorld Travel";
         .social-link {
             width: 40px;
             height: 40px;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -609,7 +627,7 @@ $page_title = "Exclusive Offers & Deals - ExploreWorld Travel";
         }
 
         .copyright {
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             margin-top: 3rem;
             padding-top: 1.5rem;
             text-align: center;
@@ -648,18 +666,23 @@ $page_title = "Exclusive Offers & Deals - ExploreWorld Travel";
 
         /* Responsive */
         @media (max-width: 768px) {
-            .page-header h1 { font-size: 2.5rem; }
-            .section-title { font-size: 2rem; }
-            
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
             .offers-section {
                 padding: 2rem 0;
             }
-            
+
             .offers-grid {
                 grid-template-columns: 1fr;
                 gap: 20px;
             }
-            
+
             .offer-flyer {
                 max-height: 400px;
             }
@@ -670,8 +693,97 @@ $page_title = "Exclusive Offers & Deals - ExploreWorld Travel";
                 margin-top: 15%;
             }
         }
+
+        .bg-plane-watermark {
+            position: absolute;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .bg-plane-watermark svg {
+            width: 420px;
+            height: auto;
+        }
+
+        .bg-plane-tl {
+            top: -40px;
+            left: -60px;
+        }
+
+        .bg-plane-tr {
+            top: -40px;
+            right: -60px;
+            transform: scaleX(-1);
+        }
+
+        .bg-plane-bl {
+            bottom: -40px;
+            left: -60px;
+        }
+
+        .bg-plane-br {
+            bottom: -40px;
+            right: -60px;
+            transform: scaleX(-1);
+        }
+
+        .suitcase-deco {
+            position: absolute;
+            pointer-events: none;
+            z-index: 3;
+            width: 140px;
+        }
+
+        .suitcase-right {
+            right: -35px;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: suitcaseBounce 4s ease-in-out infinite;
+        }
+
+        .suitcase-left {
+            left: -35px;
+            top: 45%;
+            transform: translateY(-50%);
+            animation: suitcaseBounce 4.5s ease-in-out infinite 0.5s;
+        }
+
+        .suitcase-deco svg {
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(3px 6px 12px rgba(0, 0, 0, 0.15));
+        }
+
+        @keyframes suitcaseBounce {
+
+            0%,
+            100% {
+                transform: translateY(-50%) rotate(-3deg);
+            }
+
+            50% {
+                transform: translateY(calc(-50% - 12px)) rotate(3deg);
+            }
+        }
+
+        @media (max-width:992px) {
+            .suitcase-deco {
+                width: 100px;
+            }
+
+            .bg-plane-watermark svg {
+                width: 280px;
+            }
+        }
+
+        @media (max-width:768px) {
+            .suitcase-deco {
+                display: none;
+            }
+        }
     </style>
 </head>
+
 <body>
     <!-- Top CTA Header -->
     <div class="top-cta" id="topCta">
@@ -683,46 +795,49 @@ $page_title = "Exclusive Offers & Deals - ExploreWorld Travel";
 
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top">
-          <div class="container">
-              <a class="navbar-brand" href="index.php">
-                  <img src="uploads/lg-tra (1).png" alt="ExploreWorld Travel" class="img-fluid" style="width: 120px; height: 120px;">
-              </a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                  <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarNav">
-                  <ul class="navbar-nav ms-auto">
-                      <li class="nav-item">
-                          <a class="nav-link" href="home.php">Home</a>
-                      </li>
-                      <li class="nav-item">
-                          <a class="nav-link" href="aboutus.php">About</a>
-                      </li>
-                      <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink123" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Explore
+        <div class="container">
+            <a class="navbar-brand" href="index.php">
+                <img src="uploads/lg-tra (1).png" alt="ExploreWorld Travel" class="img-fluid"
+                    style="width: 120px; height: 120px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="home.php">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="aboutus.php">About</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink123"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Explore
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink123">
-                        <a class="dropdown-item" href="home.php#packages">Packages</a>
-                        <a class="dropdown-item" href="home.php#hotels">Hotels</a>
-                        <a class="dropdown-item active" href="offers.php">Exclusive Offers</a>
-                        <a class="dropdown-item" href="alldestinations.php">Destinations</a>
+                            <a class="dropdown-item" href="home.php#packages">Packages</a>
+                            <a class="dropdown-item" href="home.php#hotels">Hotels</a>
+                            <a class="dropdown-item active" href="offers.php">Exclusive Offers</a>
+                            <a class="dropdown-item" href="alldestinations.php">Destinations</a>
                         </div>
                     </li>
-                      
-                      <li class="nav-item">
-                          <a class="nav-link" href="home.php#contact-section">Contact</a>
-                      </li>
-                      <li class="nav-item">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="home.php#contact-section">Contact</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="submit_feedback.php">Submit Feedback</a>
                     </li>
-                  </ul>
-                  <button class="btn btn-primary ms-lg-3 mt-3 mt-lg-0" data-bs-toggle="modal" data-bs-target="#enquiryModal">
-                      <i class="fas fa-paper-plane me-2"></i>Quick Enquiry
-                  </button>
-              </div>
-          </div>
-      </nav>
+                </ul>
+                <button class="btn btn-primary ms-lg-3 mt-3 mt-lg-0" data-bs-toggle="modal"
+                    data-bs-target="#enquiryModal">
+                    <i class="fas fa-paper-plane me-2"></i>Quick Enquiry
+                </button>
+            </div>
+        </div>
+    </nav>
 
     <!-- Page Header -->
     <section class="page-header">
@@ -738,7 +853,9 @@ $page_title = "Exclusive Offers & Deals - ExploreWorld Travel";
     </section>
 
     <!-- Main Content - Full Width -->
-    <section class="offers-section">
+    <section class="offers-section" style="position:relative;overflow:hidden;">
+        <div class="bg-plane-watermark bg-plane-tl" style="opacity:0.10;"><?= $svg_airplane ?></div>
+        <div class="suitcase-deco suitcase-right" style="top:40%; right:-25px;"><?= $svg_suitcase ?></div>
         <div class="container">
             <!-- Success/Error Messages from URL parameter -->
             <?php if (isset($_GET['success']) && $_GET['success'] == '1'): ?>
@@ -748,7 +865,7 @@ $page_title = "Exclusive Offers & Deals - ExploreWorld Travel";
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             <?php endif; ?>
-            
+
             <?php if (isset($_GET['success']) && $_GET['success'] == '0'): ?>
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <i class="fas fa-exclamation-circle me-2"></i>
@@ -763,12 +880,12 @@ $page_title = "Exclusive Offers & Deals - ExploreWorld Travel";
 
             <?php if (!empty($promotions)): ?>
                 <div class="offers-grid">
-                    <?php foreach ($promotions as $index => $promo): 
+                    <?php foreach ($promotions as $index => $promo):
                         $isVideo = ($promo['media_type'] == 'video');
                         $mediaPath = $baseUrl . $promo['file_path'];
                         $thumbPath = $baseUrl . ($promo['thumbnail_path'] ?: $promo['file_path']);
                         $videoId = 'videoPlayer_' . $index;
-                    ?>
+                        ?>
                         <div class="offer-card">
                             <!-- Media Section -->
                             <?php if ($isVideo): ?>
@@ -795,16 +912,14 @@ $page_title = "Exclusive Offers & Deals - ExploreWorld Travel";
                                 <span class="media-badge flyer-badge">
                                     <i class="fas fa-image me-1"></i>Flyer
                                 </span>
-                                <img src="<?= $mediaPath ?>" 
-                                     alt="<?= htmlspecialchars($promo['title']) ?>"
-                                     class="offer-flyer"
-                                     onerror="this.onerror=null;this.src='https://via.placeholder.com/400x500?text=Image+Not+Found';">
+                                <img src="<?= $mediaPath ?>" alt="<?= htmlspecialchars($promo['title']) ?>" class="offer-flyer"
+                                    onerror="this.onerror=null;this.src='https://via.placeholder.com/400x500?text=Image+Not+Found';">
                             <?php endif; ?>
 
                             <!-- Content Section -->
                             <div class="offer-content">
                                 <h3 class="offer-title"><?= htmlspecialchars($promo['title']) ?></h3>
-                                
+
                                 <?php if (!empty($promo['description'])): ?>
                                     <p class="offer-description"><?= htmlspecialchars($promo['description']) ?></p>
                                 <?php endif; ?>
@@ -812,11 +927,13 @@ $page_title = "Exclusive Offers & Deals - ExploreWorld Travel";
                                 <?php if (!empty($promo['package_title']) || !empty($promo['destination_title'])): ?>
                                     <div class="offer-meta">
                                         <?php if (!empty($promo['package_title'])): ?>
-                                            <span><i class="fas fa-suitcase-rolling"></i> <?= htmlspecialchars($promo['package_title']) ?></span>
+                                            <span><i class="fas fa-suitcase-rolling"></i>
+                                                <?= htmlspecialchars($promo['package_title']) ?></span>
                                         <?php endif; ?>
-                                        
+
                                         <?php if (!empty($promo['destination_title'])): ?>
-                                            <span><i class="fas fa-map-marker-alt"></i> <?= htmlspecialchars($promo['destination_title']) ?></span>
+                                            <span><i class="fas fa-map-marker-alt"></i>
+                                                <?= htmlspecialchars($promo['destination_title']) ?></span>
                                         <?php endif; ?>
                                     </div>
                                 <?php endif; ?>
@@ -845,15 +962,18 @@ $page_title = "Exclusive Offers & Deals - ExploreWorld Travel";
     </section>
 
     <!-- Enquiry Modal -->
-    <div class="modal fade enquiry-modal" id="enquiryModal" tabindex="-1" aria-labelledby="enquiryModalLabel" aria-hidden="true">
+    <div class="modal fade enquiry-modal" id="enquiryModal" tabindex="-1" aria-labelledby="enquiryModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="enquiryModalLabel"><i class="fas fa-paper-plane me-2"></i> Travel Enquiry Form</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title" id="enquiryModalLabel"><i class="fas fa-paper-plane me-2"></i> Travel
+                        Enquiry Form</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    
+
                     <!-- Success Message -->
                     <?php if ($modal_enquiry_success): ?>
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -862,7 +982,7 @@ $page_title = "Exclusive Offers & Deals - ExploreWorld Travel";
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     <?php endif; ?>
-                    
+
                     <!-- Error Message -->
                     <?php if (!$modal_enquiry_success && $modal_enquiry_error): ?>
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -871,86 +991,68 @@ $page_title = "Exclusive Offers & Deals - ExploreWorld Travel";
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     <?php endif; ?>
-                    
+
                     <!-- Enquiry Form -->
                     <form method="POST" action="<?= htmlspecialchars($_SERVER['PHP_SELF']) ?>" id="enquiryForm">
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label for="modal_full_name" class="form-label">Full Name *</label>
-                                <input type="text" 
-                                       class="form-control" 
-                                       id="modal_full_name" 
-                                       name="modal_full_name" 
-                                       value="<?= htmlspecialchars($_POST['modal_full_name'] ?? '') ?>"
-                                       required>
+                                <input type="text" class="form-control" id="modal_full_name" name="modal_full_name"
+                                    value="<?= htmlspecialchars($_POST['modal_full_name'] ?? '') ?>" required>
                             </div>
-                            
+
                             <div class="col-md-6">
                                 <label for="modal_email" class="form-label">Email Address *</label>
-                                <input type="email" 
-                                       class="form-control" 
-                                       id="modal_email" 
-                                       name="modal_email" 
-                                       value="<?= htmlspecialchars($_POST['modal_email'] ?? '') ?>"
-                                       required>
+                                <input type="email" class="form-control" id="modal_email" name="modal_email"
+                                    value="<?= htmlspecialchars($_POST['modal_email'] ?? '') ?>" required>
                             </div>
-                            
+
                             <div class="col-md-6">
                                 <label for="modal_phone" class="form-label">Phone Number *</label>
-                                <input type="tel" 
-                                       class="form-control" 
-                                       id="modal_phone" 
-                                       name="modal_phone" 
-                                       value="<?= htmlspecialchars($_POST['modal_phone'] ?? '') ?>"
-                                       placeholder="e.g., 9033186905"
-                                       required>
+                                <input type="tel" class="form-control" id="modal_phone" name="modal_phone"
+                                    value="<?= htmlspecialchars($_POST['modal_phone'] ?? '') ?>"
+                                    placeholder="e.g., 9033186905" required>
                             </div>
-                            
+
                             <div class="col-md-6">
                                 <label for="modal_package" class="form-label">Offer Interested In</label>
-                                <input type="text" 
-                                       class="form-control" 
-                                       id="modal_package" 
-                                       name="modal_package" 
-                                       value="<?= htmlspecialchars($_POST['modal_package'] ?? '') ?>"
-                                       placeholder="Enter offer name (optional)">
+                                <input type="text" class="form-control" id="modal_package" name="modal_package"
+                                    value="<?= htmlspecialchars($_POST['modal_package'] ?? '') ?>"
+                                    placeholder="Enter offer name (optional)">
                             </div>
-                            
+
                             <div class="col-md-6">
                                 <label for="modal_travel_date" class="form-label">Travel Date *</label>
-                                <input type="date" 
-                                       class="form-control" 
-                                       id="modal_travel_date" 
-                                       name="modal_travel_date" 
-                                       value="<?= htmlspecialchars($_POST['modal_travel_date'] ?? '') ?>"
-                                       min="<?= date('Y-m-d', strtotime('+1 day')) ?>" 
-                                       required>
+                                <input type="date" class="form-control" id="modal_travel_date" name="modal_travel_date"
+                                    value="<?= htmlspecialchars($_POST['modal_travel_date'] ?? '') ?>"
+                                    min="<?= date('Y-m-d', strtotime('+1 day')) ?>" required>
                             </div>
-                            
+
                             <div class="col-md-6">
                                 <label for="modal_travelers" class="form-label">Number of Travelers *</label>
                                 <select class="form-select" id="modal_travelers" name="modal_travelers" required>
                                     <option value="">Select</option>
-                                    <option value="1" <?= (($_POST['modal_travelers'] ?? '') == '1') ? 'selected' : '' ?>>1 Traveler</option>
-                                    <option value="2" <?= (($_POST['modal_travelers'] ?? '') == '2') ? 'selected' : '' ?>>2 Travelers</option>
-                                    <option value="3" <?= (($_POST['modal_travelers'] ?? '') == '3') ? 'selected' : '' ?>>3 Travelers</option>
-                                    <option value="4" <?= (($_POST['modal_travelers'] ?? '') == '4') ? 'selected' : '' ?>>4 Travelers</option>
+                                    <option value="1" <?= (($_POST['modal_travelers'] ?? '') == '1') ? 'selected' : '' ?>>1
+                                        Traveler</option>
+                                    <option value="2" <?= (($_POST['modal_travelers'] ?? '') == '2') ? 'selected' : '' ?>>2
+                                        Travelers</option>
+                                    <option value="3" <?= (($_POST['modal_travelers'] ?? '') == '3') ? 'selected' : '' ?>>3
+                                        Travelers</option>
+                                    <option value="4" <?= (($_POST['modal_travelers'] ?? '') == '4') ? 'selected' : '' ?>>4
+                                        Travelers</option>
                                     <option value="5+" <?= (($_POST['modal_travelers'] ?? '') == '5+') ? 'selected' : '' ?>>5+ Travelers</option>
                                 </select>
                             </div>
-                            
+
                             <div class="col-12">
                                 <label for="modal_message" class="form-label">Additional Requirements</label>
-                                <textarea class="form-control" 
-                                          id="modal_message" 
-                                          name="modal_message" 
-                                          rows="4" 
-                                          placeholder="Please share any specific requirements or questions..."><?= htmlspecialchars($_POST['modal_message'] ?? '') ?></textarea>
+                                <textarea class="form-control" id="modal_message" name="modal_message" rows="4"
+                                    placeholder="Please share any specific requirements or questions..."><?= htmlspecialchars($_POST['modal_message'] ?? '') ?></textarea>
                             </div>
                         </div>
-                        
+
                         <input type="hidden" name="source" value="offers">
-                        
+
                         <div class="d-grid mt-4">
                             <button type="submit" name="submit_modal_enquiry" class="btn btn-primary btn-lg">
                                 <i class="fas fa-paper-plane me-2"></i>Submit Enquiry
@@ -962,14 +1064,15 @@ $page_title = "Exclusive Offers & Deals - ExploreWorld Travel";
         </div>
     </div>
 
-   
-      <!-- Footer -->
-      <footer id="contact">
+
+    <!-- Footer -->
+    <footer id="contact">
         <div class="container">
             <div class="row g-4">
                 <div class="col-lg-4 col-md-6">
                     <h3 class="footer-title">Travelcation</h3>
-                    <p class="mb-3 text-white-50">Your trusted partner for creating unforgettable travel experiences with personalized service and expert guidance.</p>
+                    <p class="mb-3 text-white-50">Your trusted partner for creating unforgettable travel experiences
+                        with personalized service and expert guidance.</p>
                     <div class="social-links">
                         <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
@@ -977,7 +1080,7 @@ $page_title = "Exclusive Offers & Deals - ExploreWorld Travel";
                         <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
-                
+
                 <div class="col-lg-2 col-md-6">
                     <h3 class="footer-title">Quick Links</h3>
                     <ul class="footer-links">
@@ -988,11 +1091,12 @@ $page_title = "Exclusive Offers & Deals - ExploreWorld Travel";
                         <li><a href="home.php#contact"><i class="fas fa-chevron-right"></i> Contact</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="col-lg-3 col-md-6">
                     <h3 class="footer-title">Contact Info</h3>
                     <ul class="contact-info">
-                        <li><i class="fas fa-map-marker-alt"></i> 214, Oberon, Opp. Mercedes-Benz Showroom, New City Light Road, Surat – 395017</li>
+                        <li><i class="fas fa-map-marker-alt"></i> 214, Oberon, Opp. Mercedes-Benz Showroom, New City
+                            Light Road, Surat – 395017</li>
                         <li><i class="fas fa-phone"></i> +91-90331 86905</li>
                         <li><i class="fas fa-envelope"></i>info@travelcation.co.in</li>
                         <li><i class="fas fa-clock"></i> Mon-Sat: 11:00 AM - 8:00 PM</li>
@@ -1002,14 +1106,15 @@ $page_title = "Exclusive Offers & Deals - ExploreWorld Travel";
                     <h3 class="footer-title">Newsletter</h3>
                     <p class="mb-3 text-white-50">Subscribe to receive exclusive travel deals and updates.</p>
                     <div class="input-group">
-                        <input type="email" class="form-control bg-dark text-white border-secondary" placeholder="Your email address">
+                        <input type="email" class="form-control bg-dark text-white border-secondary"
+                            placeholder="Your email address">
                         <button class="btn btn-primary" type="button">
                             <i class="fas fa-paper-plane"></i>
                         </button>
                     </div>
                 </div>
             </div>
-            
+
             <div class="copyright">
                 <p>&copy; 2026 Travelcation. All rights reserved.</p>
             </div>
@@ -1023,7 +1128,7 @@ $page_title = "Exclusive Offers & Deals - ExploreWorld Travel";
         const cta = document.getElementById("topCta");
         const navbar = document.querySelector(".navbar");
         const headerHeight = document.querySelector('.page-header')?.offsetHeight || 300;
-        
+
         window.addEventListener("scroll", () => {
             if (window.scrollY > headerHeight - 100) {
                 cta.classList.add("hidden");
@@ -1037,18 +1142,18 @@ $page_title = "Exclusive Offers & Deals - ExploreWorld Travel";
         // Page transitions
         document.addEventListener("DOMContentLoaded", () => {
             document.body.classList.add("page-loaded");
-            
+
             document.querySelectorAll("a[href]").forEach(link => {
                 const url = link.getAttribute("href");
                 if (!url || url.startsWith("#") || url.startsWith("javascript") || link.target === "_blank") return;
-                
-                link.addEventListener("click", function(e) {
+
+                link.addEventListener("click", function (e) {
                     e.preventDefault();
                     document.body.classList.remove("page-loaded");
                     document.body.classList.add("page-exit");
-                    
-                    setTimeout(() => { 
-                        window.location.href = url; 
+
+                    setTimeout(() => {
+                        window.location.href = url;
                     }, 300);
                 });
             });
@@ -1063,7 +1168,7 @@ $page_title = "Exclusive Offers & Deals - ExploreWorld Travel";
         function playVideo(videoId) {
             const video = document.getElementById(videoId);
             const playIcon = document.getElementById(videoId + '_playIcon');
-            
+
             if (video.paused) {
                 video.play();
                 playIcon.className = 'fas fa-stop';
@@ -1076,7 +1181,7 @@ $page_title = "Exclusive Offers & Deals - ExploreWorld Travel";
         function pauseVideo(videoId) {
             const video = document.getElementById(videoId);
             const playIcon = document.getElementById(videoId + '_playIcon');
-            
+
             video.pause();
             playIcon.className = 'fas fa-play';
         }
@@ -1093,7 +1198,7 @@ $page_title = "Exclusive Offers & Deals - ExploreWorld Travel";
 
         // Pause all videos when another starts playing
         document.querySelectorAll('video').forEach(video => {
-            video.addEventListener('play', function() {
+            video.addEventListener('play', function () {
                 document.querySelectorAll('video').forEach(otherVideo => {
                     if (otherVideo !== this) {
                         otherVideo.pause();
@@ -1110,14 +1215,14 @@ $page_title = "Exclusive Offers & Deals - ExploreWorld Travel";
 
         // Show modal if there were errors (to keep form visible)
         <?php if (!$modal_enquiry_success && $modal_enquiry_error): ?>
-        document.addEventListener('DOMContentLoaded', function() {
-            var enquiryModal = new bootstrap.Modal(document.getElementById('enquiryModal'));
-            enquiryModal.show();
-        });
+            document.addEventListener('DOMContentLoaded', function () {
+                var enquiryModal = new bootstrap.Modal(document.getElementById('enquiryModal'));
+                enquiryModal.show();
+            });
         <?php endif; ?>
 
         // Set minimum date for travel date inputs
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const today = new Date().toISOString().split('T')[0];
             document.querySelectorAll('input[type="date"]').forEach(input => {
                 if (!input.value) {
@@ -1126,10 +1231,17 @@ $page_title = "Exclusive Offers & Deals - ExploreWorld Travel";
             });
         });
     </script>
-     <!-- Optional JavaScript -->
+    <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 </body>
+
 </html>

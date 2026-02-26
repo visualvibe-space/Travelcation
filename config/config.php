@@ -1,6 +1,6 @@
 <?php
 
-$host = "localhost";
+$host = "82.25.121.83";
 $dbname = "u677332555_travelcation";
 $username = "u677332555_travel_user701";
 $password = "Travelcation@7906546";

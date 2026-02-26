@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/config/config.php';
+require_once __DIR__ . '/svgs.php';
 // Start session if not already started
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -2870,7 +2871,7 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
         /* ================= PAGE HEADER ================= */
         .page-header {
             background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-            padding: 140px 0 80px;
+            padding: 180px 0 80px;
             text-align: center;
             color: white;
             position: relative;
@@ -3615,7 +3616,6 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
                 border-end-end-radius: 0 !important;
             }
         }
-        
     </style>
 </head>
 
@@ -3717,7 +3717,14 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero-section" id="home">
+    <section class="hero-section has-plane-deco" id="home">
+        <!-- Decorative airplane wireframes (SVGRepo) -->
+        <div class="deco-plane-wrap deco-plane-left" style="filter:invert(1); opacity:0.25;">
+            <?= $svg_airplane ?>
+        </div>
+        <div class="deco-plane-wrap deco-plane-right" style="filter:invert(1); opacity:0.22;">
+            <?= $svg_airplane ?>
+        </div>
         <!-- Background Carousel -->
         <div class="hero-background">
             <?php if (count($carousel_images) > 0): ?>
@@ -3849,7 +3856,11 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
 
 
     <!-- Hotels Section -->
-    <section class="py-5" id="hotels">
+    <section class="py-5" id="hotels" style="position:relative; overflow:hidden;">
+        <!-- BG airplane watermark (SVGRepo) -->
+        <div class="bg-plane-watermark bg-plane-bl" style="opacity:0.12;">
+            <?= $svg_airplane ?>
+        </div>
         <div class="container">
 
             <div class="text-center mb-5">
@@ -3939,7 +3950,15 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
     <!-- =======================
     Packages Section
   ======================= -->
-    <section class="py-5" id="packages">
+    <section class="py-5 has-plane-deco" id="packages" style="position:relative; overflow:hidden;">
+        <!-- BG airplane watermark (SVGRepo) -->
+        <div class="bg-plane-watermark bg-plane-tl" style="opacity:0.12;">
+            <?= $svg_airplane_alt ?>
+        </div>
+        <!-- Suitcase Right (SVGRepo outline) -->
+        <div class="suitcase-deco suitcase-right" style="top:38%; right:-25px;">
+            <?= $svg_suitcase ?>
+        </div>
         <div class="container">
 
             <!-- Section heading -->
@@ -4031,7 +4050,15 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
     <!-- =======================
       Other Services Section with Interactive Cards
       ======================= -->
-    <section class="py-5 bg-light" id="other-services">
+    <section class="py-5 bg-light" id="other-services" style="position:relative; overflow:hidden;">
+        <!-- BG airplane watermark (SVGRepo) -->
+        <div class="bg-plane-watermark bg-plane-br" style="opacity:0.12;">
+            <?= $svg_airplane ?>
+        </div>
+        <!-- Suitcase left pop-out (SVGRepo outline) -->
+        <div class="suitcase-deco suitcase-left" style="top:30%; left:-25px;">
+            <?= $svg_suitcase ?>
+        </div>
         <div class="container">
 
             <!-- Section heading -->
@@ -4396,7 +4423,15 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
     <!-- =======================
     WHY CHOOSE US SECTION (Static)
 ======================= -->
-    <section class="about-section">
+    <section class="about-section" style="position:relative; overflow:hidden;">
+        <!-- BG airplane watermark (SVGRepo) -->
+        <div class="bg-plane-watermark bg-plane-tr" style="opacity:0.12;">
+            <?= $svg_airplane_alt ?>
+        </div>
+        <!-- Suitcase bottom right pop-out (SVGRepo outline) -->
+        <div class="suitcase-deco suitcase-bottom-right" style="right:-25px; bottom:8%;">
+            <?= $svg_suitcase ?>
+        </div>
         <div class="container">
             <div class="row g-5 align-items-center">
                 <div class="col-lg-6" data-aos="fade-right">
@@ -5154,11 +5189,17 @@ $avg_rating = $ratingStats['avg_rating'] ? number_format($ratingStats['avg_ratin
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-          <!-- Optional JavaScript -->
+    <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>

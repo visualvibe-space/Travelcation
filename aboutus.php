@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/config/config.php';
+require_once __DIR__ . '/svgs.php';
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -123,18 +124,23 @@ $page_title = "About Us - ExploreWorld Travel";
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $page_title ?></title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" type="image/png" sizes="32x32" href="uploads/lg-tra (1).png">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
     <style>
         /* Your existing styles remain exactly the same */
         :root {
@@ -149,10 +155,10 @@ $page_title = "About Us - ExploreWorld Travel";
             --success-color: #38A169;
             --white: #FFFFFF;
 
-            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
-            --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
-            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
-            --shadow-xl: 0 20px 25px rgba(0,0,0,0.1);
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
             --navbar-height: 72px;
         }
 
@@ -163,8 +169,14 @@ $page_title = "About Us - ExploreWorld Travel";
             opacity: 0;
             transition: opacity 0.4s ease-in-out;
         }
-        body.page-loaded { opacity: 1; }
-        body.page-exit { opacity: 0; }
+
+        body.page-loaded {
+            opacity: 1;
+        }
+
+        body.page-exit {
+            opacity: 0;
+        }
 
         /* Navbar */
         .navbar {
@@ -277,7 +289,7 @@ $page_title = "About Us - ExploreWorld Travel";
         /* Page Header */
         .page-header {
             background: linear-gradient(135deg, var(--primary-color), var(--dark-color));
-            padding: calc(var(--navbar-height) + 40px + 2rem) 0 4rem;
+            padding: calc(var(--navbar-height) + 40px + 6rem) 0 4rem;
             color: var(--white);
             text-align: center;
             position: relative;
@@ -288,7 +300,7 @@ $page_title = "About Us - ExploreWorld Travel";
             font-family: Inter, sans-serif;
             font-size: 3.5rem;
             font-weight: 700;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .page-header .breadcrumb {
@@ -298,7 +310,7 @@ $page_title = "About Us - ExploreWorld Travel";
 
         .page-header .breadcrumb-item,
         .page-header .breadcrumb-item a {
-            color: rgba(255,255,255,0.8);
+            color: rgba(255, 255, 255, 0.8);
             text-decoration: none;
         }
 
@@ -307,8 +319,13 @@ $page_title = "About Us - ExploreWorld Travel";
         }
 
         /* About Sections */
-        .about-section { padding: 5rem 0; }
-        .about-section:nth-child(even) { background: var(--light-color); }
+        .about-section {
+            padding: 5rem 0;
+        }
+
+        .about-section:nth-child(even) {
+            background: var(--light-color);
+        }
 
         .section-title {
             font-size: 2.75rem;
@@ -361,7 +378,7 @@ $page_title = "About Us - ExploreWorld Travel";
         .service-card-mini .icon-circle {
             width: 70px;
             height: 70px;
-            background: rgba(242,140,40,0.1);
+            background: rgba(242, 140, 40, 0.1);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -419,7 +436,7 @@ $page_title = "About Us - ExploreWorld Travel";
         .contact-icon {
             width: 50px;
             height: 50px;
-            background: rgba(242,140,40,0.1);
+            background: rgba(242, 140, 40, 0.1);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -531,7 +548,7 @@ $page_title = "About Us - ExploreWorld Travel";
         .social-link {
             width: 40px;
             height: 40px;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -547,7 +564,7 @@ $page_title = "About Us - ExploreWorld Travel";
         }
 
         .copyright {
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             margin-top: 3rem;
             padding-top: 1.5rem;
             text-align: center;
@@ -630,27 +647,32 @@ $page_title = "About Us - ExploreWorld Travel";
 
         /* Responsive */
         @media (max-width: 768px) {
-            .page-header h1 { font-size: 2.5rem; }
-            .section-title { font-size: 2rem; }
-            
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
             .map-section {
                 padding: 3rem 0;
             }
-            
+
             .map-container {
                 margin: 0 -10px;
                 border-radius: 15px !important;
             }
-            
+
             .map-container iframe {
                 border-radius: 10px;
             }
-            
+
             .icon-circle {
                 width: 50px !important;
                 height: 50px !important;
             }
-            
+
             .icon-circle i {
                 font-size: 1.2rem !important;
             }
@@ -660,25 +682,113 @@ $page_title = "About Us - ExploreWorld Travel";
             .map-section .col-md-4 {
                 margin-bottom: 1rem;
             }
-            
+
             .map-container {
                 margin: 0;
                 padding: 5px !important;
             }
-            
+
             .btn-lg {
                 display: block;
                 width: 100%;
                 margin-right: 0 !important;
             }
-            
+
             .btn-outline {
                 margin-top: 0.5rem;
             }
         }
-        
+
+        @media (max-width: 768px) {
+            .suitcase-deco {
+                display: none;
+            }
+        }
+
+        .bg-plane-watermark {
+            position: absolute;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .bg-plane-watermark svg {
+            width: 420px;
+            height: auto;
+        }
+
+        .bg-plane-tl {
+            top: -40px;
+            left: -60px;
+        }
+
+        .bg-plane-tr {
+            top: -40px;
+            right: -60px;
+            transform: scaleX(-1);
+        }
+
+        .bg-plane-bl {
+            bottom: -40px;
+            left: -60px;
+        }
+
+        .bg-plane-br {
+            bottom: -40px;
+            right: -60px;
+            transform: scaleX(-1);
+        }
+
+        .suitcase-deco {
+            position: absolute;
+            pointer-events: none;
+            z-index: 3;
+            width: 140px;
+        }
+
+        .suitcase-right {
+            right: -35px;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: suitcaseBounce 4s ease-in-out infinite;
+        }
+
+        .suitcase-left {
+            left: -35px;
+            top: 45%;
+            transform: translateY(-50%);
+            animation: suitcaseBounce 4.5s ease-in-out infinite 0.5s;
+        }
+
+        .suitcase-deco svg {
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(3px 6px 12px rgba(0, 0, 0, 0.15));
+        }
+
+        @keyframes suitcaseBounce {
+
+            0%,
+            100% {
+                transform: translateY(-50%) rotate(-3deg);
+            }
+
+            50% {
+                transform: translateY(calc(-50% - 12px)) rotate(3deg);
+            }
+        }
+
+        @media (max-width:992px) {
+            .suitcase-deco {
+                width: 100px;
+            }
+
+            .bg-plane-watermark svg {
+                width: 280px;
+            }
+        }
     </style>
 </head>
+
 <body>
     <!-- Top CTA Header -->
     <div class="top-cta" id="topCta">
@@ -688,48 +798,51 @@ $page_title = "About Us - ExploreWorld Travel";
         </div>
     </div>
 
-   <!-- Navigation Bar -->
-   <nav class="navbar navbar-expand-lg navbar-light fixed-top">
-          <div class="container">
-              <a class="navbar-brand" href="index.php">
-                  <img src="uploads/lg-tra (1).png" alt="ExploreWorld Travel" class="img-fluid" style="width: 120px; height: 120px;">
-              </a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                  <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarNav">
-                  <ul class="navbar-nav ms-auto">
-                      <li class="nav-item">
-                          <a class="nav-link " href="home.php">Home</a>
-                      </li>
-                      <li class="nav-item">
-                          <a class="nav-link active" href="aboutus.php">About</a>
-                      </li>
-                      <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink123" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Explore
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.php">
+                <img src="uploads/lg-tra (1).png" alt="ExploreWorld Travel" class="img-fluid"
+                    style="width: 120px; height: 120px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link " href="home.php">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="aboutus.php">About</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink123"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Explore
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink123">
-                        <a class="dropdown-item" href="home.php#packages">Packages</a>
-                        <a class="dropdown-item" href="home.php#hotels">Hotels</a>
-                        <a class="dropdown-item" href="offers.php">Exclusive Offers</a>
-                        <a class="dropdown-item" href="alldestinations.php">Destinations</a>
+                            <a class="dropdown-item" href="home.php#packages">Packages</a>
+                            <a class="dropdown-item" href="home.php#hotels">Hotels</a>
+                            <a class="dropdown-item" href="offers.php">Exclusive Offers</a>
+                            <a class="dropdown-item" href="alldestinations.php">Destinations</a>
                         </div>
                     </li>
-                      
-                      <li class="nav-item">
-                          <a class="nav-link" href="home.php#contact-section">Contact</a>
-                      </li>
-                      <li class="nav-item">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="home.php#contact-section">Contact</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="submit_feedback.php">Submit Feedback</a>
                     </li>
-                  </ul>
-                  <button class="btn btn-primary ms-lg-3 mt-3 mt-lg-0" data-bs-toggle="modal" data-bs-target="#enquiryModal">
-                      <i class="fas fa-paper-plane me-2"></i>Quick Enquiry
-                  </button>
-              </div>
-          </div>
-      </nav>
+                </ul>
+                <button class="btn btn-primary ms-lg-3 mt-3 mt-lg-0" data-bs-toggle="modal"
+                    data-bs-target="#enquiryModal">
+                    <i class="fas fa-paper-plane me-2"></i>Quick Enquiry
+                </button>
+            </div>
+        </div>
+    </nav>
 
     <!-- Page Header -->
     <section class="page-header">
@@ -745,21 +858,36 @@ $page_title = "About Us - ExploreWorld Travel";
     </section>
 
     <!-- Welcome & Introduction -->
-    <section class="about-section">
+    <section class="about-section" style="position:relative;overflow:hidden;">
+        <!-- BG airplane watermark -->
+        <div class="bg-plane-watermark bg-plane-tr" style="opacity:0.12;">
+            <?= $svg_airplane ?>
+        </div>
+        <!-- Suitcase left -->
+        <div class="suitcase-deco suitcase-left" style="top:40%; left:-25px;">
+            <?= $svg_suitcase ?>
+        </div>
         <div class="container">
             <div class="row align-items-center g-5">
                 <div class="col-lg-6">
                     <h2 class="section-title"><i class="fas fa-smile"></i> Welcome to Travelcation</h2>
-                    <p class="lead" style="color: var(--accent-color); font-weight: 600;">Your trusted travel partner since 2012.</p>
-                    <p style="font-size: 1.1rem;">With years of experience in the travel industry, we specialize in providing complete travel solutions designed to make your journey smooth, memorable, and stress-free.</p>
-                    <p style="font-size: 1.1rem;">At Travelcation, we believe that travel is not just about reaching a destination, but about creating unforgettable experiences. Whether you are planning a holiday, business trip, or international travel, we offer end-to-end services to take care of everything — from planning to documentation.</p>
+                    <p class="lead" style="color: var(--accent-color); font-weight: 600;">Your trusted travel partner
+                        since 2012.</p>
+                    <p style="font-size: 1.1rem;">With years of experience in the travel industry, we specialize in
+                        providing complete travel solutions designed to make your journey smooth, memorable, and
+                        stress-free.</p>
+                    <p style="font-size: 1.1rem;">At Travelcation, we believe that travel is not just about reaching a
+                        destination, but about creating unforgettable experiences. Whether you are planning a holiday,
+                        business trip, or international travel, we offer end-to-end services to take care of everything
+                        — from planning to documentation.</p>
                     <div class="d-flex gap-3 mt-4">
                         <div><i class="fas fa-check-circle text-success me-2"></i> 12+ Years Experience</div>
                         <div><i class="fas fa-check-circle text-success me-2"></i> 5000+ Happy Travellers</div>
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <img src="uploads/lg-tra (1).png" alt="Travelcation Team" class="img-fluid rounded-4 shadow-lg" style="height:550px;width:550px;">
+                    <img src="uploads/lg-tra (1).png" alt="Travelcation Team" class="img-fluid rounded-4 shadow-lg"
+                        style="height:550px;width:550px;">
                 </div>
             </div>
         </div>
@@ -785,7 +913,8 @@ $page_title = "About Us - ExploreWorld Travel";
                             <li><i class="fas fa-calendar-alt"></i> Festival & Special Offers</li>
                             <li><i class="fas fa-pencil-alt"></i> Customized Trips</li>
                         </ul>
-                        <p class="mt-3 small text-muted">Whether you prefer group tours or individual travel planning, we provide flexible options for both.</p>
+                        <p class="mt-3 small text-muted">Whether you prefer group tours or individual travel planning,
+                            we provide flexible options for both.</p>
                     </div>
                 </div>
                 <!-- Hotel & Travel Booking -->
@@ -798,7 +927,8 @@ $page_title = "About Us - ExploreWorld Travel";
                             <li><i class="fas fa-plane"></i> Flight Ticket Booking</li>
                             <li><i class="fas fa-train"></i> Train Ticket Booking</li>
                         </ul>
-                        <p class="mt-3 small text-muted">We ensure comfortable stays and smooth travel arrangements for every trip.</p>
+                        <p class="mt-3 small text-muted">We ensure comfortable stays and smooth travel arrangements for
+                            every trip.</p>
                     </div>
                 </div>
                 <!-- Passport Services -->
@@ -811,7 +941,8 @@ $page_title = "About Us - ExploreWorld Travel";
                             <li><i class="fas fa-sync-alt"></i> Passport Renewal</li>
                             <li><i class="fas fa-edit"></i> Corrections & Updates</li>
                         </ul>
-                        <p class="mt-3 small text-muted">Our team simplifies the entire process and ensures quick and hassle-free service.</p>
+                        <p class="mt-3 small text-muted">Our team simplifies the entire process and ensures quick and
+                            hassle-free service.</p>
                     </div>
                 </div>
                 <!-- Visa Services -->
@@ -824,7 +955,8 @@ $page_title = "About Us - ExploreWorld Travel";
                             <li><i class="fas fa-redo-alt"></i> Visa Renewal & Extension</li>
                             <li><i class="fas fa-folder-open"></i> Documentation & Processing</li>
                         </ul>
-                        <p class="mt-3 small text-muted">We help you navigate visa procedures with ease and confidence.</p>
+                        <p class="mt-3 small text-muted">We help you navigate visa procedures with ease and confidence.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -848,11 +980,13 @@ $page_title = "About Us - ExploreWorld Travel";
                         </div>
                         <div class="d-flex">
                             <div style="min-width: 40px;"><i class="fas fa-check-circle text-success fs-4"></i></div>
-                            <div><strong>Complete travel solutions under one roof</strong> — packages, hotels, flights, passport, visa.</div>
+                            <div><strong>Complete travel solutions under one roof</strong> — packages, hotels, flights,
+                                passport, visa.</div>
                         </div>
                         <div class="d-flex">
                             <div style="min-width: 40px;"><i class="fas fa-check-circle text-success fs-4"></i></div>
-                            <div><strong>Customized packages for individuals and groups</strong> — we tailor to your needs.</div>
+                            <div><strong>Customized packages for individuals and groups</strong> — we tailor to your
+                                needs.</div>
                         </div>
                         <div class="d-flex">
                             <div style="min-width: 40px;"><i class="fas fa-check-circle text-success fs-4"></i></div>
@@ -860,7 +994,8 @@ $page_title = "About Us - ExploreWorld Travel";
                         </div>
                         <div class="d-flex">
                             <div style="min-width: 40px;"><i class="fas fa-check-circle text-success fs-4"></i></div>
-                            <div><strong>Expert support for passport & visa processes</strong> — hassle-free documentation.</div>
+                            <div><strong>Expert support for passport & visa processes</strong> — hassle-free
+                                documentation.</div>
                         </div>
                         <div class="d-flex">
                             <div style="min-width: 40px;"><i class="fas fa-check-circle text-success fs-4"></i></div>
@@ -870,8 +1005,9 @@ $page_title = "About Us - ExploreWorld Travel";
                 </div>
                 <div class="col-lg-6">
                     <div class="contact-card">
-                        <h3 class="mb-4" style="color: var(--primary-color);"><i class="fas fa-address-card me-2"></i>Connect With Us</h3>
-                        
+                        <h3 class="mb-4" style="color: var(--primary-color);"><i
+                                class="fas fa-address-card me-2"></i>Connect With Us</h3>
+
                         <div class="contact-detail-item">
                             <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
                             <div class="contact-text">
@@ -884,7 +1020,8 @@ $page_title = "About Us - ExploreWorld Travel";
                             <div class="contact-icon"><i class="fas fa-phone-alt"></i></div>
                             <div class="contact-text">
                                 <h5>Phone</h5>
-                                <p><a href="tel:+919033186905" style="color: var(--text-color); text-decoration: none;">+91-90331 86905</a></p>
+                                <p><a href="tel:+919033186905"
+                                        style="color: var(--text-color); text-decoration: none;">+91-90331 86905</a></p>
                             </div>
                         </div>
 
@@ -892,7 +1029,9 @@ $page_title = "About Us - ExploreWorld Travel";
                             <div class="contact-icon"><i class="fas fa-envelope"></i></div>
                             <div class="contact-text">
                                 <h5>Email</h5>
-                                <p><a href="mailto:travelcation.co.in" style="color: var(--text-color); text-decoration: none;">travelcation.co.in</a></p>
+                                <p><a href="mailto:travelcation.co.in"
+                                        style="color: var(--text-color); text-decoration: none;">travelcation.co.in</a>
+                                </p>
                             </div>
                         </div>
 
@@ -900,7 +1039,9 @@ $page_title = "About Us - ExploreWorld Travel";
                             <div class="contact-icon"><i class="fas fa-globe"></i></div>
                             <div class="contact-text">
                                 <h5>Website</h5>
-                                <p><a href="https://travelcation.co.in" target="_blank" style="color: var(--text-color); text-decoration: none;">travelcation.co.in</a></p>
+                                <p><a href="https://travelcation.co.in" target="_blank"
+                                        style="color: var(--text-color); text-decoration: none;">travelcation.co.in</a>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -913,7 +1054,8 @@ $page_title = "About Us - ExploreWorld Travel";
     <section style="background: var(--accent-color); color: white; padding: 3rem 0; text-align: center;">
         <div class="container">
             <i class="fas fa-quote-left fa-3x mb-3" style="opacity: 0.5;"></i>
-            <h3 style="font-family: Inter, sans-serif; font-size: 2rem; font-weight: bold">We don't just plan trips — we manage your entire travel journey from start to finish.</h3>
+            <h3 style="font-family: Inter, sans-serif; font-size: 2rem; font-weight: bold">We don't just plan trips — we
+                manage your entire travel journey from start to finish.</h3>
             <p class="mt-3 fs-5">Let us turn your travel dreams into reality ✈️🌍</p>
         </div>
     </section>
@@ -928,14 +1070,14 @@ $page_title = "About Us - ExploreWorld Travel";
 
             <div class="row justify-content-center">
                 <div class="col-12">
-                    <div class="map-container" style="position: relative; overflow: hidden; border-radius: 20px; box-shadow: var(--shadow-xl); background: white; padding: 10px;">
-                        <div style="position: relative; width: 100%; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px;">
+                    <div class="map-container"
+                        style="position: relative; overflow: hidden; border-radius: 20px; box-shadow: var(--shadow-xl); background: white; padding: 10px;">
+                        <div
+                            style="position: relative; width: 100%; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px;">
                             <iframe
                                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3536.986712233326!2d72.79851049999999!3d21.1482659!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be0535482a6d31d%3A0x168767862d155ac5!2sOberon%20Business%20Complex!5e1!3m2!1sen!2sin!4v1771697007199!5m2!1sen!2sin"
                                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"
-                                allowfullscreen=""
-                                loading="lazy"
-                                referrerpolicy="no-referrer-when-downgrade"
+                                allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
                                 title="Travelcation Office at Oberon Business Complex, Surat">
                             </iframe>
                         </div>
@@ -945,17 +1087,22 @@ $page_title = "About Us - ExploreWorld Travel";
 
             <div class="row mt-4">
                 <div class="col-md-4">
-                    <div class="text-center p-3 h-100" style="background: white; border-radius: 15px; box-shadow: var(--shadow-md);">
-                        <div class="icon-circle mx-auto mb-3" style="width: 60px; height: 60px; background: rgba(242,140,40,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                    <div class="text-center p-3 h-100"
+                        style="background: white; border-radius: 15px; box-shadow: var(--shadow-md);">
+                        <div class="icon-circle mx-auto mb-3"
+                            style="width: 60px; height: 60px; background: rgba(242,140,40,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
                             <i class="fas fa-map-pin" style="font-size: 1.5rem; color: var(--secondary-color);"></i>
                         </div>
                         <h5 style="color: var(--primary-color); font-weight: 600;">Exact Location</h5>
-                        <p class="mb-0 text-muted" style="font-size: 0.95rem;">214, Oberon Business Complex<br>Opp. Mercedes-Benz Showroom</p>
+                        <p class="mb-0 text-muted" style="font-size: 0.95rem;">214, Oberon Business Complex<br>Opp.
+                            Mercedes-Benz Showroom</p>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="text-center p-3 h-100" style="background: white; border-radius: 15px; box-shadow: var(--shadow-md);">
-                        <div class="icon-circle mx-auto mb-3" style="width: 60px; height: 60px; background: rgba(242,140,40,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                    <div class="text-center p-3 h-100"
+                        style="background: white; border-radius: 15px; box-shadow: var(--shadow-md);">
+                        <div class="icon-circle mx-auto mb-3"
+                            style="width: 60px; height: 60px; background: rgba(242,140,40,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
                             <i class="fas fa-road" style="font-size: 1.5rem; color: var(--secondary-color);"></i>
                         </div>
                         <h5 style="color: var(--primary-color); font-weight: 600;">Landmark</h5>
@@ -963,8 +1110,10 @@ $page_title = "About Us - ExploreWorld Travel";
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="text-center p-3 h-100" style="background: white; border-radius: 15px; box-shadow: var(--shadow-md);">
-                        <div class="icon-circle mx-auto mb-3" style="width: 60px; height: 60px; background: rgba(242,140,40,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                    <div class="text-center p-3 h-100"
+                        style="background: white; border-radius: 15px; box-shadow: var(--shadow-md);">
+                        <div class="icon-circle mx-auto mb-3"
+                            style="width: 60px; height: 60px; background: rgba(242,140,40,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
                             <i class="fas fa-clock" style="font-size: 1.5rem; color: var(--secondary-color);"></i>
                         </div>
                         <h5 style="color: var(--primary-color); font-weight: 600;">Office Hours</h5>
@@ -974,7 +1123,8 @@ $page_title = "About Us - ExploreWorld Travel";
             </div>
 
             <div class="text-center mt-5">
-                <a href="https://www.google.com/maps/dir/?api=1&destination=Oberon+Business+Complex+Surat" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg me-3 mb-2">
+                <a href="https://www.google.com/maps/dir/?api=1&destination=Oberon+Business+Complex+Surat"
+                    target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg me-3 mb-2">
                     <i class="fas fa-directions me-2"></i>Get Directions
                 </a>
                 <a href="contact.php" class="btn btn-outline btn-lg mb-2">
@@ -984,14 +1134,15 @@ $page_title = "About Us - ExploreWorld Travel";
         </div>
     </section>
 
-   
-      <!-- Footer -->
-      <footer id="contact">
+
+    <!-- Footer -->
+    <footer id="contact">
         <div class="container">
             <div class="row g-4">
                 <div class="col-lg-4 col-md-6">
                     <h3 class="footer-title">Travelcation</h3>
-                    <p class="mb-3 text-white-50">Your trusted partner for creating unforgettable travel experiences with personalized service and expert guidance.</p>
+                    <p class="mb-3 text-white-50">Your trusted partner for creating unforgettable travel experiences
+                        with personalized service and expert guidance.</p>
                     <div class="social-links">
                         <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
@@ -999,7 +1150,7 @@ $page_title = "About Us - ExploreWorld Travel";
                         <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
-                
+
                 <div class="col-lg-2 col-md-6">
                     <h3 class="footer-title">Quick Links</h3>
                     <ul class="footer-links">
@@ -1010,29 +1161,31 @@ $page_title = "About Us - ExploreWorld Travel";
                         <li><a href="home.php#contact"><i class="fas fa-chevron-right"></i> Contact</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="col-lg-3 col-md-6">
                     <h3 class="footer-title">Contact Info</h3>
                     <ul class="contact-info">
-                        <li><i class="fas fa-map-marker-alt"></i> 214, Oberon, Opp. Mercedes-Benz Showroom, New City Light Road, Surat – 395017</li>
+                        <li><i class="fas fa-map-marker-alt"></i> 214, Oberon, Opp. Mercedes-Benz Showroom, New City
+                            Light Road, Surat – 395017</li>
                         <li><i class="fas fa-phone"></i> +91-90331 86905</li>
                         <li><i class="fas fa-envelope"></i>info@travelcation.co.in</li>
                         <li><i class="fas fa-clock"></i> Mon-Sat: 11:00 AM - 8:00 PM</li>
                     </ul>
                 </div>
-                
+
                 <div class="col-lg-3 col-md-6">
                     <h3 class="footer-title">Newsletter</h3>
                     <p class="mb-3 text-white-50">Subscribe to receive exclusive travel deals and updates.</p>
                     <div class="input-group">
-                        <input type="email" class="form-control bg-dark text-white border-secondary" placeholder="Your email address">
+                        <input type="email" class="form-control bg-dark text-white border-secondary"
+                            placeholder="Your email address">
                         <button class="btn btn-primary" type="button">
                             <i class="fas fa-paper-plane"></i>
                         </button>
                     </div>
                 </div>
             </div>
-            
+
             <div class="copyright">
                 <p>&copy; 2026 Travelcation. All rights reserved.</p>
             </div>
@@ -1040,15 +1193,18 @@ $page_title = "About Us - ExploreWorld Travel";
     </footer>
 
     <!-- Enquiry Modal with PHP Form Handling -->
-    <div class="modal fade enquiry-modal" id="enquiryModal" tabindex="-1" aria-labelledby="enquiryModalLabel" aria-hidden="true">
+    <div class="modal fade enquiry-modal" id="enquiryModal" tabindex="-1" aria-labelledby="enquiryModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="enquiryModalLabel"><i class="fas fa-paper-plane me-2"></i> Travel Enquiry Form</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title" id="enquiryModalLabel"><i class="fas fa-paper-plane me-2"></i> Travel
+                        Enquiry Form</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    
+
                     <!-- Success Message -->
                     <?php if ($modal_enquiry_success): ?>
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -1057,7 +1213,7 @@ $page_title = "About Us - ExploreWorld Travel";
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     <?php endif; ?>
-                    
+
                     <!-- Error Message -->
                     <?php if (!$modal_enquiry_success && $modal_enquiry_error): ?>
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -1066,86 +1222,68 @@ $page_title = "About Us - ExploreWorld Travel";
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     <?php endif; ?>
-                    
+
                     <!-- Enquiry Form -->
                     <form method="POST" action="<?= htmlspecialchars($_SERVER['PHP_SELF']) ?>" id="enquiryForm">
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label for="modal_full_name" class="form-label">Full Name *</label>
-                                <input type="text" 
-                                       class="form-control" 
-                                       id="modal_full_name" 
-                                       name="modal_full_name" 
-                                       value="<?= htmlspecialchars($_POST['modal_full_name'] ?? '') ?>"
-                                       required>
+                                <input type="text" class="form-control" id="modal_full_name" name="modal_full_name"
+                                    value="<?= htmlspecialchars($_POST['modal_full_name'] ?? '') ?>" required>
                             </div>
-                            
+
                             <div class="col-md-6">
                                 <label for="modal_email" class="form-label">Email Address *</label>
-                                <input type="email" 
-                                       class="form-control" 
-                                       id="modal_email" 
-                                       name="modal_email" 
-                                       value="<?= htmlspecialchars($_POST['modal_email'] ?? '') ?>"
-                                       required>
+                                <input type="email" class="form-control" id="modal_email" name="modal_email"
+                                    value="<?= htmlspecialchars($_POST['modal_email'] ?? '') ?>" required>
                             </div>
-                            
+
                             <div class="col-md-6">
                                 <label for="modal_phone" class="form-label">Phone Number *</label>
-                                <input type="tel" 
-                                       class="form-control" 
-                                       id="modal_phone" 
-                                       name="modal_phone" 
-                                       value="<?= htmlspecialchars($_POST['modal_phone'] ?? '') ?>"
-                                       placeholder="e.g., 9033186905"
-                                       required>
+                                <input type="tel" class="form-control" id="modal_phone" name="modal_phone"
+                                    value="<?= htmlspecialchars($_POST['modal_phone'] ?? '') ?>"
+                                    placeholder="e.g., 9033186905" required>
                             </div>
-                            
+
                             <div class="col-md-6">
                                 <label for="modal_package" class="form-label">Package Interested In</label>
-                                <input type="text" 
-                                       class="form-control" 
-                                       id="modal_package" 
-                                       name="modal_package" 
-                                       value="<?= htmlspecialchars($_POST['modal_package'] ?? '') ?>"
-                                       placeholder="Enter package name (optional)">
+                                <input type="text" class="form-control" id="modal_package" name="modal_package"
+                                    value="<?= htmlspecialchars($_POST['modal_package'] ?? '') ?>"
+                                    placeholder="Enter package name (optional)">
                             </div>
-                            
+
                             <div class="col-md-6">
                                 <label for="modal_travel_date" class="form-label">Travel Date *</label>
-                                <input type="date" 
-                                       class="form-control" 
-                                       id="modal_travel_date" 
-                                       name="modal_travel_date" 
-                                       value="<?= htmlspecialchars($_POST['modal_travel_date'] ?? '') ?>"
-                                       min="<?= date('Y-m-d', strtotime('+1 day')) ?>" 
-                                       required>
+                                <input type="date" class="form-control" id="modal_travel_date" name="modal_travel_date"
+                                    value="<?= htmlspecialchars($_POST['modal_travel_date'] ?? '') ?>"
+                                    min="<?= date('Y-m-d', strtotime('+1 day')) ?>" required>
                             </div>
-                            
+
                             <div class="col-md-6">
                                 <label for="modal_travelers" class="form-label">Number of Travelers *</label>
                                 <select class="form-select" id="modal_travelers" name="modal_travelers" required>
                                     <option value="">Select</option>
-                                    <option value="1" <?= (($_POST['modal_travelers'] ?? '') == '1') ? 'selected' : '' ?>>1 Traveler</option>
-                                    <option value="2" <?= (($_POST['modal_travelers'] ?? '') == '2') ? 'selected' : '' ?>>2 Travelers</option>
-                                    <option value="3" <?= (($_POST['modal_travelers'] ?? '') == '3') ? 'selected' : '' ?>>3 Travelers</option>
-                                    <option value="4" <?= (($_POST['modal_travelers'] ?? '') == '4') ? 'selected' : '' ?>>4 Travelers</option>
+                                    <option value="1" <?= (($_POST['modal_travelers'] ?? '') == '1') ? 'selected' : '' ?>>1
+                                        Traveler</option>
+                                    <option value="2" <?= (($_POST['modal_travelers'] ?? '') == '2') ? 'selected' : '' ?>>2
+                                        Travelers</option>
+                                    <option value="3" <?= (($_POST['modal_travelers'] ?? '') == '3') ? 'selected' : '' ?>>3
+                                        Travelers</option>
+                                    <option value="4" <?= (($_POST['modal_travelers'] ?? '') == '4') ? 'selected' : '' ?>>4
+                                        Travelers</option>
                                     <option value="5+" <?= (($_POST['modal_travelers'] ?? '') == '5+') ? 'selected' : '' ?>>5+ Travelers</option>
                                 </select>
                             </div>
-                            
+
                             <div class="col-12">
                                 <label for="modal_message" class="form-label">Additional Requirements</label>
-                                <textarea class="form-control" 
-                                          id="modal_message" 
-                                          name="modal_message" 
-                                          rows="4" 
-                                          placeholder="Please share any specific requirements or questions..."><?= htmlspecialchars($_POST['modal_message'] ?? '') ?></textarea>
+                                <textarea class="form-control" id="modal_message" name="modal_message" rows="4"
+                                    placeholder="Please share any specific requirements or questions..."><?= htmlspecialchars($_POST['modal_message'] ?? '') ?></textarea>
                             </div>
                         </div>
-                        
+
                         <input type="hidden" name="source" value="aboutus">
-                        
+
                         <div class="d-grid mt-4">
                             <button type="submit" name="submit_modal_enquiry" class="btn btn-primary btn-lg">
                                 <i class="fas fa-paper-plane me-2"></i>Submit Enquiry
@@ -1164,7 +1302,7 @@ $page_title = "About Us - ExploreWorld Travel";
         const cta = document.getElementById("topCta");
         const navbar = document.querySelector(".navbar");
         const headerHeight = document.querySelector('.page-header')?.offsetHeight || 300;
-        
+
         window.addEventListener("scroll", () => {
             if (window.scrollY > headerHeight - 100) {
                 cta.classList.add("hidden");
@@ -1178,18 +1316,18 @@ $page_title = "About Us - ExploreWorld Travel";
         // Page transitions
         document.addEventListener("DOMContentLoaded", () => {
             document.body.classList.add("page-loaded");
-            
+
             document.querySelectorAll("a[href]").forEach(link => {
                 const url = link.getAttribute("href");
                 if (!url || url.startsWith("#") || url.startsWith("javascript") || link.target === "_blank") return;
-                
-                link.addEventListener("click", function(e) {
+
+                link.addEventListener("click", function (e) {
                     e.preventDefault();
                     document.body.classList.remove("page-loaded");
                     document.body.classList.add("page-exit");
-                    
-                    setTimeout(() => { 
-                        window.location.href = url; 
+
+                    setTimeout(() => {
+                        window.location.href = url;
                     }, 300);
                 });
             });
@@ -1209,36 +1347,36 @@ $page_title = "About Us - ExploreWorld Travel";
         }, 5000);
 
         // Map touch handling for mobile
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const mapContainer = document.querySelector('.map-container');
             const mapIframe = document.querySelector('.map-container iframe');
-            
+
             if (mapContainer && mapIframe) {
                 let touchStartY;
-                
-                mapContainer.addEventListener('touchstart', function(e) {
+
+                mapContainer.addEventListener('touchstart', function (e) {
                     touchStartY = e.touches[0].clientY;
                 }, { passive: true });
-                
-                mapContainer.addEventListener('touchmove', function(e) {
+
+                mapContainer.addEventListener('touchmove', function (e) {
                     if (!touchStartY) return;
-                    
+
                     const touchY = e.touches[0].clientY;
                     const diffY = Math.abs(touchY - touchStartY);
-                    
+
                     if (diffY > 10) {
                         mapIframe.style.pointerEvents = 'none';
                     }
                 }, { passive: true });
-                
-                mapContainer.addEventListener('touchend', function() {
+
+                mapContainer.addEventListener('touchend', function () {
                     setTimeout(() => {
                         mapIframe.style.pointerEvents = 'auto';
                     }, 100);
                     touchStartY = null;
                 });
-                
-                mapContainer.addEventListener('dblclick', function() {
+
+                mapContainer.addEventListener('dblclick', function () {
                     mapIframe.style.pointerEvents = 'auto';
                 });
             }
@@ -1246,16 +1384,23 @@ $page_title = "About Us - ExploreWorld Travel";
 
         // Show modal if there were errors (to keep form visible)
         <?php if (!$modal_enquiry_success && $modal_enquiry_error): ?>
-        document.addEventListener('DOMContentLoaded', function() {
-            var enquiryModal = new bootstrap.Modal(document.getElementById('enquiryModal'));
-            enquiryModal.show();
-        });
+            document.addEventListener('DOMContentLoaded', function () {
+                var enquiryModal = new bootstrap.Modal(document.getElementById('enquiryModal'));
+                enquiryModal.show();
+            });
         <?php endif; ?>
     </script>
-     <!-- Optional JavaScript -->
+    <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 </body>
+
 </html>
